@@ -1,6 +1,7 @@
 {
     "name": "bennothommo/packager",
     "description": "Run Composer commands within a PHP application",
+    "keywords": ["packager", "composer", "php"],
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -18,6 +19,22 @@
         "symfony/process": "^4.3.4 || ^5.0 || ^6.0"
     },
     "require-dev": {
+        "phpunit/phpunit": "^8.5.15 || ^9.5.4",
         "symfony/phpunit-bridge": "^4.3.4 || ^5.0 || ^6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "BennoThommo\\Packager\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "BennoThommo\\Packager\\Tests\\": "tests/"
+        }
+    },
+    "prefer-stable": true,
+    "minimum-stability": "dev",
+    "config": {
+        "sort-packages": true
     }
 }
