@@ -127,17 +127,8 @@ class Composer
      */
     public function setHomeDir(string $path, bool $autoCreate = false)
     {
-        var_dump($path);
-        var_dump(is_dir($path));
-        var_dump(file_exists($path));
-        die();
-
         if (!is_dir($path)) {
-            var_dump($autoCreate);
-
             if ($autoCreate) {
-                print_r($path);
-                die();
                 $this->createHomeDir($path);
             } else {
                 throw new \BennoThommo\Packager\Exceptions\HomeDirException(
