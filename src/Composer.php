@@ -215,6 +215,8 @@ class Composer
     /**
      * Include dev dependencies when installing or updating.
      *
+     * By default, dev dependencies are included when installing or updating.
+     *
      * @return static
      */
     public function includeDev()
@@ -231,6 +233,102 @@ class Composer
     public function excludeDev()
     {
         $this->includeDev = false;
+        return $this;
+    }
+
+    /**
+     * Gets the name for the config file, where the Composer package configuration is stored.
+     *
+     * By default, this is "composer.json".
+     *
+     * @return string
+     */
+    public function getConfigFile()
+    {
+        return $this->configFile;
+    }
+
+    /**
+     * Sets the name for the config file, where the Composer package configuration is stored.
+     *
+     * @param string $configFile Config file name.
+     * @return static
+     */
+    public function setConfigFile(string $configFile)
+    {
+        $this->configFile = $configFile;
+        return $this;
+    }
+
+    /**
+     * Gets the name for the vendor package directory.
+     *
+     * By default, this is "vendor".
+     *
+     * @return string
+     */
+    public function getVendorDir()
+    {
+        return $this->vendorDir;
+    }
+
+    /**
+     * Sets the name for the vendor package directory.
+     *
+     * @param string $vendorDir Vendor directory name.
+     * @return static
+     */
+    public function setVendorDir(string $vendorDir)
+    {
+        $this->vendorDir = $vendorDir;
+        return $this;
+    }
+
+    /**
+     * Gets the timeout for a Composer command.
+     *
+     * The timeout is recorded as seconds. By default, this is 300 (5 minutes).
+     *
+     * @return int
+     */
+    public function getTimeout()
+    {
+        return $this->timeout;
+    }
+
+    /**
+     * Sets the timeout for a Composer command.
+     *
+     * @param int $timeout Timeout, in seconds.
+     * @return static
+     */
+    public function setTimeout(int $timeout)
+    {
+        $this->timeout = $timeout;
+        return $this;
+    }
+
+    /**
+     * Gets the memory limit for a Composer command.
+     *
+     * The memory limit is recorded as MBytes. By default, this is 1536 (1.5 GBytes)
+     *
+     * @return int
+     */
+    public function getMemoryLimit()
+    {
+        return $this->memoryLimit;
+    }
+
+    /**
+     * Sets the memory limit for a Composer command.
+     *
+     * @param int $memoryLimit Memory limit, in megabytes.
+     * @return static
+     */
+    public function setMemoryLimit(int $memoryLimit)
+    {
+        $this->memoryLimit = $memoryLimit;
         return $this;
     }
 }
