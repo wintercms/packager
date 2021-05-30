@@ -1,57 +1,104 @@
 <?php namespace BennoThommo\Packager\Commands\Traits;
 
+use Composer\Console\Application;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\BufferedOutput;
+
 trait RunsComposer
 {
     /**
-     * Runs a Composer command programatically.
-     *
-     * Returns the output as an array of output lines.
-     *
-     * @param ArrayInput $input The command for the Composer app.
-     * @return array
+     * @var Application Composer application.
      */
-    protected function runCommand(ArrayInput $input)
+    protected $composerApp;
+
+    /**
+     * @var array An array of environment variables previous to setting up the app.
+     */
+    protected $preComposerEnv = [];
+
+    /**
+     * Sets up the environment and creates the Composer application.
+     *
+     * @return void
+     */
+    protected function setUpComposerApp(): void
     {
-        if (is_null($this->homeDir)) {
-            throw new ApplicationException('No Composer home path specified');
+        ini_set('memory_limit', $this->getComposer()->getMemoryLimit());
+
+        // Save pre-environment
+        $this->preComposerEnv = [];
+        foreach (array_keys($this->composerEnvVars()) as $envVar) {
+            $this->preComposerEnv[$envVar] = getenv($envVar) ?: null;
         }
-        if (is_null($this->workingDir)) {
-            throw new ApplicationException('No working directory specified');
+
+        // Set environment
+        foreach ($this->composerEnvVars() as $envVar => $envValue) {
+            if (is_string($envValue)) {
+                putenv("$envVar={$this->getComposer()->$envValue()}");
+            } else {
+                putenv("$envVar=$envValue");
+            }
         }
 
-        // Set memory limit to 1.5GB as per Composer's recommendations
-        // (https://getcomposer.org/doc/articles/troubleshooting.md#memory-limit-errors)
-        ini_set('memory_limit', '1.5G');
+        // Create application
+        $this->composerApp = new Application();
+        $this->composerApp->setAutoExit(false);
+        $this->composerApp->setCatchExceptions(false);
+    }
 
-        // Swap out environment variables
-        $composerHome = getenv('COMPOSER_HOME') ?: null;
-        $interactive = getenv('COMPOSER_NO_INTERACTION') ?: null;
-        $debugWarn = getenv('COMPOSER_DISABLE_XDEBUG_WARN') ?: null;
-        putenv('COMPOSER_HOME=' . $this->homeDir);
-        putenv('COMPOSER_NO_INTERACTION=1');
-        putenv('COMPOSER_DISABLE_XDEBUG_WARN=1');
-
-        // Set up Composer application
-        $app = new Application();
-        $app->setAutoExit(false);
-        $app->setCatchExceptions(false);
-
+    protected function runComposerCommand(): array
+    {
         $output = new BufferedOutput();
 
+        // Set arguments
+        $arguments = [
+            'command' => $this->getCommandName(),
+        ];
+
+        if ($this->requiresWorkDir()) {
+            $arguments['--working-dir'] = $this->getComposer()->getWorkDir();
+        }
+
+        $arguments = array_merge($arguments, $this->arguments());
+
         // Run Composer command
-        $code = $app->run($input, $output);
+        $input = new ArrayInput($arguments);
+        $code = $this->composerApp->run($input, $output);
 
-        // Restore environment variables
-        if (!is_null($composerHome)) {
-            putenv('COMPOSER_HOME=' . $composerHome);
-        }
-        if (!is_null($interactive)) {
-            putenv('COMPOSER_NO_INTERACTION=' . $interactive);
-        }
-        if (!is_null($debugWarn)) {
-            putenv('COMPOSER_DISABLE_XDEBUG_WARN=' . $debugWarn);
-        }
+        return [
+            $code => $code,
+            $output => explode(PHP_EOL, trim($output->fetch())),
+        ];
+    }
 
-        return explode(PHP_EOL, trim($output->fetch()));
+    /**
+     * Restores the environment and removes the Composer application from memory.
+     *
+     * @return void
+     */
+    protected function tearDownComposerApp(): void
+    {
+        $this->composerApp = null;
+
+        // Reset environment
+        foreach ($this->preComposerEnv as $envVar => $envValue) {
+            if (!is_null($envVar)) {
+                putenv("$envVar=$envValue");
+            } else {
+                putenv("$envVar");
+            }
+        }
+    }
+
+    protected function composerEnvVars(): array
+    {
+        return [
+            'COMPOSER' => 'getConfigFile',
+            'COMPOSER_DISABLE_XDEBUG_WARN' => 1,
+            'COMPOSER_HOME' => 'getHomeDir',
+            'COMPOSER_NO_INTERACTION' => 1,
+            'COMPOSER_MEMORY_LIMIT' => 'getMemoryLimit',
+            'COMPOSER_PROCESS_TIMEOUT' => 'getTimeout',
+        ];
     }
 }

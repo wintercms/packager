@@ -2,22 +2,19 @@
 
 declare(strict_types=1);
 
-namespace BennoThommo\Packager\Tests;
+namespace BennoThommo\Packager\Tests\Cases;
 
 use BennoThommo\Packager\Composer;
-use PHPUnit\Framework\TestCase;
+use BennoThommo\Packager\Tests\ComposerTestCase;
 
 /**
  * @testdox A Composer instance
  * @coversDefaultClass \BennoThommo\Packager\Composer
  */
-class ComposerTest extends TestCase
+final class ComposerTest extends ComposerTestCase
 {
     /** @var Composer */
     protected $composer;
-
-    /** @var string */
-    protected $homeDir;
 
     /**
      * @before
@@ -25,28 +22,6 @@ class ComposerTest extends TestCase
     public function createComposerClass(): void
     {
         $this->composer = new Composer();
-    }
-
-    /**
-     * @before
-     */
-    public function setUpTestDirs(): void
-    {
-        $homeDir = dirname(__DIR__) . '/tmp/homeDir';
-        $workDir = dirname(__DIR__) . '/tmp/workDir';
-
-        if (is_dir($homeDir)) {
-            shell_exec('rm -rf ' . $homeDir);
-        }
-        if (is_dir($workDir)) {
-            shell_exec('rm -rf ' . $workDir);
-        }
-
-        mkdir($homeDir, 0755, true);
-        mkdir($workDir, 0755, true);
-
-        $this->homeDir = $homeDir;
-        $this->workDir = $workDir;
     }
 
     /**
@@ -183,16 +158,5 @@ class ComposerTest extends TestCase
         $this->assertSame($this->composer, $this->composer->setMemoryLimit(2048));
 
         $this->assertEquals(2048, $this->composer->getMemoryLimit());
-    }
-
-    /**
-     * @after
-     */
-    public function tearDownTestDirs(): void
-    {
-        if (is_dir($this->homeDir)) {
-            shell_exec('rm -rf ' . $this->homeDir);
-        }
-        clearstatcache(true, $this->homeDir);
     }
 }
