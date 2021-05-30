@@ -20,6 +20,11 @@ jobs:
       extensions: curl, fileinfo, openssl, zip
       key: bennothommo-packager-v1
     steps:
+      - name: Cancel previous incomplete runs
+        uses: styfle/cancel-workflow-action@0.8.0
+        with:
+          access_token: ${{ github.token }}
+
       - name: Checkout changes
         uses: actions/checkout@v2
 
@@ -64,4 +69,4 @@ jobs:
         run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
       - name: Run tests
-        run: composer run tests
+        run: composer run test
