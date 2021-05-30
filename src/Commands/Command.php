@@ -24,19 +24,19 @@ interface Command
      *
      * @return string
      */
-    protected function getCommandName(): string;
+    public function getCommandName(): string;
 
     /**
      * Provides if the given command requires the working directory to be available.
      *
      * @return bool True if it does, false if it does not.
      */
-    protected function requiresWorkDir(): bool;
+    public function requiresWorkDir(): bool;
 
     /**
      * Provides the arguments for the wrapped Composer command.
      *
      * @return array An array of arguments to provide the Composer application.
      */
-    protected function arguments(): array;
+    public function arguments(): array;
 }

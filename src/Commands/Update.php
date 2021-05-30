@@ -102,8 +102,18 @@ class Update implements Command
         return true;
     }
 
-    public function arguments(): ArrayInput
+    public function getCommandName(): string
     {
-        return new ArrayInput([]);
+        return 'update';
+    }
+
+    public function requiresWorkDir(): bool
+    {
+        return true;
+    }
+
+    public function arguments(): array
+    {
+        return [];
     }
 }

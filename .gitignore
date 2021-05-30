@@ -1,4 +1,6 @@
+# Composer ignore
 composer.phar
 composer.lock
 /vendor/
 /.phpunit.cache/
+/coverage/

@@ -11,7 +11,8 @@
         }
     ],
     "scripts": {
-        "test": "phpunit --testdox --colors=\"auto\""
+        "test": "phpunit --testdox --colors=\"auto\"",
+        "coverage": "XDEBUG_MODE=coverage phpunit --testdox --colors=\"auto\" --coverage-html=\"coverage\""
     },
     "require": {
         "php": "^7.2.9 || ^8.0",

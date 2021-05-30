@@ -28,7 +28,7 @@ class Version implements Command
     /**
      * @inheritDoc
      */
-    protected function getCommandName(): string
+    public function getCommandName(): string
     {
         return 'version';
     }
@@ -36,7 +36,7 @@ class Version implements Command
     /**
      * @inheritDoc
      */
-    protected function requiresWorkDir(): bool
+    public function requiresWorkDir(): bool
     {
         return false;
     }
@@ -44,7 +44,7 @@ class Version implements Command
     /**
      * @inheritDoc
      */
-    protected function arguments(): array
+    public function arguments(): array
     {
         return [];
     }
