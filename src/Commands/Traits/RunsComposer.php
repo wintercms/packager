@@ -48,12 +48,14 @@ trait RunsComposer
 
     protected function runComposerCommand(): array
     {
+        $this->setUpComposerApp();
+
         $output = new BufferedOutput();
 
         // Set arguments
-        $arguments = [
-            'command' => $this->getCommandName(),
-        ];
+        $arguments = (!empty($this->getCommandName()))
+            ? ['command' => $this->getCommandName()]
+            : [];
 
         if ($this->requiresWorkDir()) {
             $arguments['--working-dir'] = $this->getComposer()->getWorkDir();
@@ -65,9 +67,11 @@ trait RunsComposer
         $input = new ArrayInput($arguments);
         $code = $this->composerApp->run($input, $output);
 
+        $this->tearDownComposerApp();
+
         return [
-            $code => $code,
-            $output => explode(PHP_EOL, trim($output->fetch())),
+            'code' => $code,
+            'output' => explode(PHP_EOL, trim($output->fetch())),
         ];
     }
 

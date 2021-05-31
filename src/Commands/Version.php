@@ -3,7 +3,7 @@
 use BennoThommo\Packager\Commands\Traits\RunsComposer;
 use BennoThommo\Packager\Exceptions\CommandException;
 
-class Version implements Command
+class Version extends BaseCommand
 {
     use RunsComposer;
 
@@ -16,7 +16,7 @@ class Version implements Command
         }
 
         // Find version line
-        foreach ($output as $line) {
+        foreach ($output['output'] as $line) {
             if (preg_match('/^Composer ([0-9\.]+)/i', $line, $matches)) {
                 return $matches[1];
             }
@@ -30,7 +30,7 @@ class Version implements Command
      */
     public function getCommandName(): string
     {
-        return 'version';
+        return '';
     }
 
     /**
@@ -46,6 +46,8 @@ class Version implements Command
      */
     public function arguments(): array
     {
-        return [];
+        return [
+            '--version'
+        ];
     }
 }

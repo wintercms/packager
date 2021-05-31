@@ -2,7 +2,7 @@
 
 use Symfony\Component\Console\Input\ArrayInput;
 
-class Update implements Command
+class Update extends BaseCommand
 {
     public function execute(): bool
     {
