@@ -1,4 +1,6 @@
-<?php namespace BennoThommo\Packager\Exceptions;
+<?php
+
+namespace BennoThommo\Packager\Exceptions;
 
 class HomeDirException extends PackagerException
 {

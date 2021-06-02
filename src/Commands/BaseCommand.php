@@ -1,4 +1,6 @@
-<?php namespace BennoThommo\Packager\Commands;
+<?php
+
+namespace BennoThommo\Packager\Commands;
 
 use BennoThommo\Packager\Composer;
 

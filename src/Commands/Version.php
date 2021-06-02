@@ -1,4 +1,6 @@
-<?php namespace BennoThommo\Packager\Commands;
+<?php
+
+namespace BennoThommo\Packager\Commands;
 
 use BennoThommo\Packager\Commands\Traits\RunsComposer;
 use BennoThommo\Packager\Exceptions\CommandException;

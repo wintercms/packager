@@ -1,4 +1,6 @@
-<?php namespace BennoThommo\Packager\Commands;
+<?php
+
+namespace BennoThommo\Packager\Commands;
 
 use Symfony\Component\Console\Input\ArrayInput;
 

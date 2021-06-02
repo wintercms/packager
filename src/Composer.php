@@ -1,4 +1,6 @@
-<?php namespace BennoThommo\Packager;
+<?php
+
+namespace BennoThommo\Packager;
 
 use BennoThommo\Packager\Commands\Command;
 use Throwable;

@@ -1,4 +1,6 @@
-<?php namespace BennoThommo\Packager\Exceptions;
+<?php
+
+namespace BennoThommo\Packager\Exceptions;
 
 use Exception;
 
