@@ -6,6 +6,15 @@ use Composer\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
+/**
+ * Runs Composer commands.
+ *
+ * This trait creates and runs Composer commands directly within PHP. After execution, it tears down the application
+ * and reverts the state.
+ *
+ * @author Ben Thomson
+ * @since 0.1.0
+ */
 trait RunsComposer
 {
     /**
@@ -48,6 +57,14 @@ trait RunsComposer
         $this->composerApp->setCatchExceptions(false);
     }
 
+    /**
+     * Run a Composer command directly in PHP.
+     *
+     * This method creates the Composer application, sets the necessary environment variables, then executes the
+     * command and returns the execution code and output of the Composer application after restoring the state.
+     *
+     * @return array the execution code, and any output from the Composer application.
+     */
     protected function runComposerCommand(): array
     {
         $this->setUpComposerApp();
@@ -96,6 +113,14 @@ trait RunsComposer
         }
     }
 
+    /**
+     * Defined environment variables.
+     *
+     * The keys of this array are the environment variables, and the values are - in the case of a string - a callback
+     * to the Composer instance, or - in the case of other values - the value to be used for the environment variable.
+     *
+     * @return array
+     */
     protected function composerEnvVars(): array
     {
         return [

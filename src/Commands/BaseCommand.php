@@ -4,6 +4,14 @@ namespace BennoThommo\Packager\Commands;
 
 use BennoThommo\Packager\Composer;
 
+/**
+ * Base Command class.
+ *
+ * Commands should extend this one to meet the specification for commands.
+ *
+ * @author Ben Thomson
+ * @since 0.1.0
+ */
 abstract class BaseCommand implements Command
 {
     /**
