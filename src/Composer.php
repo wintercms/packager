@@ -1,5 +1,6 @@
 <?php namespace BennoThommo\Packager;
 
+use BennoThommo\Packager\Commands\Command;
 use Throwable;
 
 /**
@@ -329,6 +330,29 @@ class Composer
     public function setMemoryLimit(int $memoryLimit)
     {
         $this->memoryLimit = $memoryLimit;
+        return $this;
+    }
+
+    /**
+     * Gets registered commands.
+     *
+     * @return array
+     */
+    public function getCommands(): array
+    {
+        return $this->commands;
+    }
+
+    /**
+     * Sets a command.
+     *
+     * @param string $command
+     * @param Command $commandClass
+     * @return static
+     */
+    public function setCommand(string $command, Command $commandClass)
+    {
+        $this->commands[$command] = $commandClass;
         return $this;
     }
 }
