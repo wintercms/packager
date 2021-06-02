@@ -4,10 +4,23 @@ namespace BennoThommo\Packager\Commands;
 
 use BennoThommo\Packager\Commands\Traits\RunsComposer;
 use BennoThommo\Packager\Exceptions\CommandException;
+use BennoThommo\Packager\Parser\VersionParser;
 
 class Version extends BaseCommand
 {
     use RunsComposer;
+
+    /**
+     * @var string The detail to return. Valid values: "version", "date", "dateTime", "all"
+     */
+    protected $detail = 'version';
+
+    public function handle(string $detail = 'version')
+    {
+        $this->detail = (in_array($detail, ['version', 'date', 'dateTime', 'all']))
+            ? $detail
+            : 'version';
+    }
 
     public function execute()
     {
@@ -17,14 +30,23 @@ class Version extends BaseCommand
             throw new CommandException('Unable to retrieve the Composer version.');
         }
 
-        // Find version line
-        foreach ($output['output'] as $line) {
-            if (preg_match('/^Composer ([0-9\.]+)/i', $line, $matches)) {
-                return $matches[1];
-            }
+        $parser = new VersionParser;
+        $version = $parser->parse($output['output']);
+
+        if (!$version) {
+            throw new CommandException('Unable to retrieve the Composer version.');
         }
 
-        throw new CommandException('Unable to retrieve the Composer version.');
+        switch ($this->detail) {
+            case 'version':
+                return $version['version'];
+            case 'date':
+                return $version['date'];
+            case 'dateTime':
+                return $version['date'] . ' ' . $version['time'];
+            default:
+                return $version;
+        }
     }
 
     /**
