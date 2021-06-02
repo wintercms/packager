@@ -7,7 +7,7 @@ class Version extends BaseCommand
 {
     use RunsComposer;
 
-    public function execute(): bool
+    public function execute()
     {
         $output = $this->runComposerCommand();
 

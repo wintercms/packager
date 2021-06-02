@@ -1,7 +1,5 @@
 <?php namespace BennoThommo\Packager\Commands;
 
-use Symfony\Component\Console\Input\ArrayInput;
-
 /**
  * Command.
  *
@@ -15,9 +13,9 @@ interface Command
     /**
      * Executes the command with the given options.
      *
-     * @return boolean If the command is successfully run.
+     * @return mixed The output of the command.
      */
-    public function execute(): bool;
+    public function execute();
 
     /**
      * Provides the command name for Composer.

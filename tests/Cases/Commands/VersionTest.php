@@ -37,8 +37,6 @@ final class VersionTest extends ComposerTestCase
         // Get installed Composer version
         $composerDeps = include dirname(dirname(dirname(__DIR__))) . '/vendor/composer/installed.php';
         $installedVersion = $composerDeps['versions']['composer/composer']['pretty_version'];
-        var_dump($this->composer->version());
-        var_dump($installedVersion);
 ;
         $this->assertTrue(Comparator::equalTo($this->composer->version(), $installedVersion));
     }
