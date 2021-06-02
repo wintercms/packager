@@ -4,25 +4,25 @@ declare(strict_types=1);
 
 namespace BennoThommo\Packager\Tests\Cases;
 
-use BennoThommo\Packager\Composer;
+use BennoThommo\Packager\Commands\Version;
 use BennoThommo\Packager\Tests\ComposerTestCase;
-use Composer\Semver\Comparator;
-
 /**
  * @testdox The Version command
  * @coversDefaultClass \BennoThommo\Packager\Commands\Version
  */
 final class VersionTest extends ComposerTestCase
 {
-    /** @var Composer */
-    protected $composer;
-
     /**
      * @before
      */
-    public function createComposerClass(): void
+    public function mockVersionOutput(): void
     {
-        $this->composer = new Composer();
+        $this->mockCommandOutput(
+            'version',
+            Version::class,
+            0,
+            'Composer version 2.0.12 2021-04-01 10:14:59'
+        );
     }
 
     /**
@@ -32,12 +32,6 @@ final class VersionTest extends ComposerTestCase
      */
     public function itCanGetTheVersionOfComposer(): void
     {
-        $this->composer->setWorkDir($this->homeDir);
-
-        // Get installed Composer version
-        $composerDeps = include dirname(dirname(dirname(__DIR__))) . '/vendor/composer/installed.php';
-        $installedVersion = $composerDeps['versions']['composer/composer']['pretty_version'];
-;
-        $this->assertTrue(Comparator::equalTo($this->composer->version(), $installedVersion));
+        $this->assertEquals('2.0.12', $this->composer->version());
     }
 }

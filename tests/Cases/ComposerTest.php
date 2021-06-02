@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace BennoThommo\Packager\Tests\Cases;
 
-use BennoThommo\Packager\Composer;
 use BennoThommo\Packager\Tests\ComposerTestCase;
 
 /**
@@ -13,17 +12,6 @@ use BennoThommo\Packager\Tests\ComposerTestCase;
  */
 final class ComposerTest extends ComposerTestCase
 {
-    /** @var Composer */
-    protected $composer;
-
-    /**
-     * @before
-     */
-    public function createComposerClass(): void
-    {
-        $this->composer = new Composer();
-    }
-
     /**
      * @test
      * @testdox can set and get the home directory.
