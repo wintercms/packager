@@ -104,7 +104,7 @@ class Composer
 
         // Allow for command handling
         if (method_exists($command, 'handle') && is_callable([$command, 'handle'])) {
-            call_user_func([$command, 'handle'], $arguments);
+            call_user_func_array([$command, 'handle'], $arguments);
         }
 
         // Execute the command
