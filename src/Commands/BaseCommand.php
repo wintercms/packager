@@ -140,10 +140,10 @@ abstract class BaseCommand implements Command
         }
 
         $arguments = array_merge($arguments, $this->arguments());
+        $input = new ArrayInput($arguments);
 
         // Run Composer command
         try {
-            $input = new ArrayInput($arguments);
             $code = $this->composerApp->run($input, $output);
 
             $return = [
@@ -156,6 +156,9 @@ abstract class BaseCommand implements Command
                 'output' => explode(PHP_EOL, $e->getMessage()),
                 'exception' => $e,
             ];
+        } finally {
+            // Restores the error handler away from Composer's in-built error handler
+            restore_error_handler();
         }
 
         $this->tearDownComposerApp();
