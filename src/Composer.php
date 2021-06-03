@@ -100,10 +100,22 @@ class Composer
         }
 
         // Create a command instance.
-        $command = new $this->commands[$name]($this);
+        if (is_string($this->commands[$name])) {
+            $command = new $this->commands[$name]($this);
+        } elseif (is_object($this->commands[$name]) && $this->commands[$name] instanceof Command) {
+            $command = $this->commands[$name];
+        } else {
+            throw new \BennoThommo\Packager\Exceptions\CommandException(
+                sprintf(
+                    'The handler for command "%s" is not an instance of "%s"',
+                    $name,
+                    Command::class
+                )
+            );
+        }
 
         // Allow for command handling
-        if (method_exists($command, 'handle') && is_callable([$command, 'handle'])) {
+        if (method_exists($command, 'handle')) {
             call_user_func_array([$command, 'handle'], $arguments);
         }
 
