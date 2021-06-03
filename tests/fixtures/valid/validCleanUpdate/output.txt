@@ -1,0 +1,274 @@
+Loading composer repositories with package information
+Updating dependencies
+Lock file operations: 106 installs, 0 updates, 0 removals
+  - Locking composer/installers (dev-main ae03311)
+  - Locking composer/semver (3.2.5)
+  - Locking dms/phpunit-arraysubset-asserts (v0.2.1)
+  - Locking doctrine/cache (1.11.3)
+  - Locking doctrine/dbal (2.13.1)
+  - Locking doctrine/deprecations (v0.5.3)
+  - Locking doctrine/event-manager (1.1.1)
+  - Locking doctrine/inflector (2.0.3)
+  - Locking doctrine/instantiator (1.4.0)
+  - Locking doctrine/lexer (1.2.1)
+  - Locking dragonmantank/cron-expression (v2.3.1)
+  - Locking egulias/email-validator (2.1.25)
+  - Locking erusev/parsedown (1.7.4)
+  - Locking erusev/parsedown-extra (0.8.1)
+  - Locking fakerphp/faker (v1.14.1)
+  - Locking hamcrest/hamcrest-php (v2.0.1)
+  - Locking laravel/framework (v6.20.27)
+  - Locking laravel/tinker (v2.6.1)
+  - Locking league/commonmark (1.6.2)
+  - Locking league/csv (9.7.1)
+  - Locking league/flysystem (1.1.3)
+  - Locking league/mime-type-detection (1.7.0)
+  - Locking linkorb/jsmin-php (1.0.0)
+  - Locking mockery/mockery (1.4.3)
+  - Locking monolog/monolog (2.2.0)
+  - Locking myclabs/deep-copy (1.10.2)
+  - Locking nesbot/carbon (2.48.1)
+  - Locking nikic/php-parser (v4.10.5)
+  - Locking opis/closure (3.6.2)
+  - Locking paragonie/random_compat (v2.0.20)
+  - Locking phar-io/manifest (2.0.1)
+  - Locking phar-io/version (3.1.0)
+  - Locking php-parallel-lint/php-parallel-lint (v1.3.0)
+  - Locking phpdocumentor/reflection-common (2.2.0)
+  - Locking phpdocumentor/reflection-docblock (5.2.2)
+  - Locking phpdocumentor/type-resolver (1.4.0)
+  - Locking phpoption/phpoption (1.7.5)
+  - Locking phpspec/prophecy (1.13.0)
+  - Locking phpunit/php-code-coverage (9.2.6)
+  - Locking phpunit/php-file-iterator (3.0.5)
+  - Locking phpunit/php-invoker (3.1.1)
+  - Locking phpunit/php-text-template (2.0.4)
+  - Locking phpunit/php-timer (5.0.3)
+  - Locking phpunit/phpunit (9.5.4)
+  - Locking psr/container (1.1.1)
+  - Locking psr/log (1.1.4)
+  - Locking psr/simple-cache (1.0.1)
+  - Locking psy/psysh (v0.10.8)
+  - Locking ramsey/uuid (3.9.3)
+  - Locking scssphp/scssphp (v1.5.2)
+  - Locking sebastian/cli-parser (1.0.1)
+  - Locking sebastian/code-unit (1.0.8)
+  - Locking sebastian/code-unit-reverse-lookup (2.0.3)
+  - Locking sebastian/comparator (4.0.6)
+  - Locking sebastian/complexity (2.0.2)
+  - Locking sebastian/diff (4.0.4)
+  - Locking sebastian/environment (5.1.3)
+  - Locking sebastian/exporter (4.0.3)
+  - Locking sebastian/global-state (5.0.2)
+  - Locking sebastian/lines-of-code (1.0.3)
+  - Locking sebastian/object-enumerator (4.0.4)
+  - Locking sebastian/object-reflector (2.0.4)
+  - Locking sebastian/recursion-context (4.0.4)
+  - Locking sebastian/resource-operations (3.0.3)
+  - Locking sebastian/type (2.3.1)
+  - Locking sebastian/version (3.0.2)
+  - Locking squizlabs/php_codesniffer (3.6.0)
+  - Locking swiftmailer/swiftmailer (v6.2.7)
+  - Locking symfony/console (v4.4.25)
+  - Locking symfony/css-selector (v5.3.0)
+  - Locking symfony/debug (v4.4.25)
+  - Locking symfony/deprecation-contracts (v2.4.0)
+  - Locking symfony/error-handler (v4.4.25)
+  - Locking symfony/event-dispatcher (v4.4.25)
+  - Locking symfony/event-dispatcher-contracts (v1.1.9)
+  - Locking symfony/finder (v4.4.25)
+  - Locking symfony/http-client-contracts (v2.4.0)
+  - Locking symfony/http-foundation (v4.4.25)
+  - Locking symfony/http-kernel (v4.4.25)
+  - Locking symfony/mime (v5.3.0)
+  - Locking symfony/polyfill-ctype (v1.23.0)
+  - Locking symfony/polyfill-iconv (v1.23.0)
+  - Locking symfony/polyfill-intl-idn (v1.23.0)
+  - Locking symfony/polyfill-intl-normalizer (v1.23.0)
+  - Locking symfony/polyfill-mbstring (v1.23.0)
+  - Locking symfony/polyfill-php72 (v1.23.0)
+  - Locking symfony/polyfill-php73 (v1.23.0)
+  - Locking symfony/polyfill-php80 (v1.23.0)
+  - Locking symfony/process (v4.4.25)
+  - Locking symfony/routing (v4.4.25)
+  - Locking symfony/service-contracts (v2.4.0)
+  - Locking symfony/translation (v4.4.25)
+  - Locking symfony/translation-contracts (v2.4.0)
+  - Locking symfony/var-dumper (v4.4.25)
+  - Locking symfony/yaml (v3.4.47)
+  - Locking theseer/tokenizer (1.2.0)
+  - Locking tijsverkoyen/css-to-inline-styles (2.2.3)
+  - Locking twig/twig (v2.14.6)
+  - Locking vlucas/phpdotenv (v3.6.8)
+  - Locking webmozart/assert (1.10.0)
+  - Locking wikimedia/composer-merge-plugin (v2.0.1)
+  - Locking wikimedia/less.php (v3.1.0)
+  - Locking winter/storm (dev-develop 0a729ee)
+  - Locking winter/wn-backend-module (dev-develop 2f45d5a)
+  - Locking winter/wn-cms-module (dev-develop 33fd0a1)
+  - Locking winter/wn-system-module (dev-develop a281880)
+Writing lock file
+Installing dependencies from lock file (including require-dev)
+Package operations: 106 installs, 0 updates, 0 removals
+  - Syncing composer/installers (dev-main ae03311) into cache
+  - Downloading doctrine/cache (1.11.3)
+  - Downloading dragonmantank/cron-expression (v2.3.1)
+  - Downloading symfony/polyfill-php72 (v1.23.0)
+  - Downloading symfony/var-dumper (v4.4.25)
+  - Downloading symfony/console (v4.4.25)
+  - Downloading symfony/polyfill-intl-idn (v1.23.0)
+  - Downloading symfony/polyfill-iconv (v1.23.0)
+  - Downloading symfony/debug (v4.4.25)
+  - Downloading symfony/finder (v4.4.25)
+  - Downloading symfony/mime (v5.3.0)
+  - Downloading symfony/http-foundation (v4.4.25)
+  - Downloading symfony/event-dispatcher (v4.4.25)
+  - Downloading symfony/error-handler (v4.4.25)
+  - Downloading symfony/http-kernel (v4.4.25)
+  - Downloading symfony/process (v4.4.25)
+  - Downloading symfony/routing (v4.4.25)
+  - Downloading symfony/translation (v4.4.25)
+  - Downloading symfony/css-selector (v5.3.0)
+  - Downloading symfony/yaml (v3.4.47)
+  - Downloading scssphp/scssphp (v1.5.2)
+  - Downloading nesbot/carbon (2.48.1)
+  - Syncing winter/storm (dev-develop 0a729ee) into cache
+  - Syncing winter/wn-backend-module (dev-develop 2f45d5a) into cache
+  - Syncing winter/wn-cms-module (dev-develop 33fd0a1) into cache
+  - Syncing winter/wn-system-module (dev-develop a281880) into cache
+  - Installing wikimedia/composer-merge-plugin (v2.0.1): Extracting archive
+  - Installing composer/installers (dev-main ae03311): Cloning ae03311f45 from cache
+  - Installing sebastian/version (3.0.2): Extracting archive
+  - Installing sebastian/type (2.3.1): Extracting archive
+  - Installing sebastian/resource-operations (3.0.3): Extracting archive
+  - Installing sebastian/recursion-context (4.0.4): Extracting archive
+  - Installing sebastian/object-reflector (2.0.4): Extracting archive
+  - Installing sebastian/object-enumerator (4.0.4): Extracting archive
+  - Installing sebastian/global-state (5.0.2): Extracting archive
+  - Installing sebastian/exporter (4.0.3): Extracting archive
+  - Installing sebastian/environment (5.1.3): Extracting archive
+  - Installing sebastian/diff (4.0.4): Extracting archive
+  - Installing sebastian/comparator (4.0.6): Extracting archive
+  - Installing sebastian/code-unit (1.0.8): Extracting archive
+  - Installing sebastian/cli-parser (1.0.1): Extracting archive
+  - Installing phpunit/php-timer (5.0.3): Extracting archive
+  - Installing phpunit/php-text-template (2.0.4): Extracting archive
+  - Installing phpunit/php-invoker (3.1.1): Extracting archive
+  - Installing phpunit/php-file-iterator (3.0.5): Extracting archive
+  - Installing theseer/tokenizer (1.2.0): Extracting archive
+  - Installing nikic/php-parser (v4.10.5): Extracting archive
+  - Installing sebastian/lines-of-code (1.0.3): Extracting archive
+  - Installing sebastian/complexity (2.0.2): Extracting archive
+  - Installing sebastian/code-unit-reverse-lookup (2.0.3): Extracting archive
+  - Installing phpunit/php-code-coverage (9.2.6): Extracting archive
+  - Installing symfony/polyfill-ctype (v1.23.0): Extracting archive
+  - Installing webmozart/assert (1.10.0): Extracting archive
+  - Installing phpdocumentor/reflection-common (2.2.0): Extracting archive
+  - Installing phpdocumentor/type-resolver (1.4.0): Extracting archive
+  - Installing phpdocumentor/reflection-docblock (5.2.2): Extracting archive
+  - Installing doctrine/instantiator (1.4.0): Extracting archive
+  - Installing phpspec/prophecy (1.13.0): Extracting archive
+  - Installing phar-io/version (3.1.0): Extracting archive
+  - Installing phar-io/manifest (2.0.1): Extracting archive
+  - Installing myclabs/deep-copy (1.10.2): Extracting archive
+  - Installing phpunit/phpunit (9.5.4): Extracting archive
+  - Installing dms/phpunit-arraysubset-asserts (v0.2.1): Extracting archive
+  - Installing doctrine/cache (1.11.3): Extracting archive
+  - Installing doctrine/deprecations (v0.5.3): Extracting archive
+  - Installing doctrine/event-manager (1.1.1): Extracting archive
+  - Installing doctrine/inflector (2.0.3): Extracting archive
+  - Installing doctrine/lexer (1.2.1): Extracting archive
+  - Installing dragonmantank/cron-expression (v2.3.1): Extracting archive
+  - Installing erusev/parsedown (1.7.4): Extracting archive
+  - Installing symfony/deprecation-contracts (v2.4.0): Extracting archive
+  - Installing psr/container (1.1.1): Extracting archive
+  - Installing fakerphp/faker (v1.14.1): Extracting archive
+  - Installing league/commonmark (1.6.2): Extracting archive
+  - Installing league/mime-type-detection (1.7.0): Extracting archive
+  - Installing league/flysystem (1.1.3): Extracting archive
+  - Installing hamcrest/hamcrest-php (v2.0.1): Extracting archive
+  - Installing mockery/mockery (1.4.3): Extracting archive
+  - Installing psr/log (1.1.4): Extracting archive
+  - Installing monolog/monolog (2.2.0): Extracting archive
+  - Installing opis/closure (3.6.2): Extracting archive
+  - Installing php-parallel-lint/php-parallel-lint (v1.3.0): Extracting archive
+  - Installing psr/simple-cache (1.0.1): Extracting archive
+  - Installing symfony/polyfill-php80 (v1.23.0): Extracting archive
+  - Installing symfony/polyfill-php72 (v1.23.0): Extracting archive
+  - Installing symfony/polyfill-mbstring (v1.23.0): Extracting archive
+  - Installing symfony/var-dumper (v4.4.25): Extracting archive
+  - Installing symfony/service-contracts (v2.4.0): Extracting archive
+  - Installing symfony/polyfill-php73 (v1.23.0): Extracting archive
+  - Installing symfony/console (v4.4.25): Extracting archive
+  - Installing psy/psysh (v0.10.8): Extracting archive
+  - Installing paragonie/random_compat (v2.0.20): Extracting archive
+  - Installing ramsey/uuid (3.9.3): Extracting archive
+  - Installing squizlabs/php_codesniffer (3.6.0): Extracting archive
+  - Installing symfony/polyfill-intl-normalizer (v1.23.0): Extracting archive
+  - Installing symfony/polyfill-intl-idn (v1.23.0): Extracting archive
+  - Installing symfony/polyfill-iconv (v1.23.0): Extracting archive
+  - Installing egulias/email-validator (2.1.25): Extracting archive
+  - Installing swiftmailer/swiftmailer (v6.2.7): Extracting archive
+  - Installing symfony/debug (v4.4.25): Extracting archive
+  - Installing symfony/event-dispatcher-contracts (v1.1.9): Extracting archive
+  - Installing symfony/finder (v4.4.25): Extracting archive
+  - Installing symfony/mime (v5.3.0): Extracting archive
+  - Installing symfony/http-foundation (v4.4.25): Extracting archive
+  - Installing symfony/http-client-contracts (v2.4.0): Extracting archive
+  - Installing symfony/event-dispatcher (v4.4.25): Extracting archive
+  - Installing symfony/error-handler (v4.4.25): Extracting archive
+  - Installing symfony/http-kernel (v4.4.25): Extracting archive
+  - Installing symfony/process (v4.4.25): Extracting archive
+  - Installing symfony/routing (v4.4.25): Extracting archive
+  - Installing symfony/translation-contracts (v2.4.0): Extracting archive
+  - Installing symfony/translation (v4.4.25): Extracting archive
+  - Installing symfony/css-selector (v5.3.0): Extracting archive
+  - Installing tijsverkoyen/css-to-inline-styles (2.2.3): Extracting archive
+  - Installing phpoption/phpoption (1.7.5): Extracting archive
+  - Installing vlucas/phpdotenv (v3.6.8): Extracting archive
+  - Installing wikimedia/less.php (v3.1.0): Extracting archive
+  - Installing twig/twig (v2.14.6): Extracting archive
+  - Installing symfony/yaml (v3.4.47): Extracting archive
+  - Installing scssphp/scssphp (v1.5.2): Extracting archive
+  - Installing nesbot/carbon (2.48.1): Extracting archive
+  - Installing linkorb/jsmin-php (1.0.0): Extracting archive
+  - Installing league/csv (9.7.1): Extracting archive
+  - Installing laravel/framework (v6.20.27): Extracting archive
+  - Installing laravel/tinker (v2.6.1): Extracting archive
+  - Installing erusev/parsedown-extra (0.8.1): Extracting archive
+  - Installing doctrine/dbal (2.13.1): Extracting archive
+  - Installing winter/storm (dev-develop 0a729ee): Cloning 0a729eeb38 from cache
+  - Installing winter/wn-backend-module (dev-develop 2f45d5a): Cloning 2f45d5a6a2 from cache
+  - Installing winter/wn-cms-module (dev-develop 33fd0a1): Cloning 33fd0a1c78 from cache
+  - Installing composer/semver (3.2.5): Extracting archive
+  - Installing winter/wn-system-module (dev-develop a281880): Cloning a28188055f from cache
+70 package suggestions were added by new dependencies, use `composer suggest` to see details.
+Generating autoload files
+75 packages you are using are looking for funding.
+Use the `composer fund` command to find out more!
+
+Running composer update to apply merge settings
+Loading composer repositories with package information
+Updating dependencies
+Nothing to modify in lock file
+Installing dependencies from lock file (including require-dev)
+Package operations: 0 installs, 0 updates, 0 removals
+Generating autoload files
+75 packages you are using are looking for funding.
+Use the `composer fund` command to find out more!
+> php artisan winter:version
+*** Detecting Winter CMS build...
+*** No database detected - skipping setting the build number.
+*** Detected a modified version of Winter CMS build 1.1.3.
+> php artisan package:discover
+Discovered Package: laravel/tinker
+Discovered Package: nesbot/carbon
+Package manifest generated successfully.
+> php artisan winter:version
+*** Detecting Winter CMS build...
+*** No database detected - skipping setting the build number.
+*** Detected a modified version of Winter CMS build 1.1.3.
+> php artisan package:discover
+Discovered Package: laravel/tinker
+Discovered Package: nesbot/carbon
+Package manifest generated successfully.

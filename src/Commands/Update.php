@@ -3,11 +3,59 @@
 namespace BennoThommo\Packager\Commands;
 
 use BennoThommo\Packager\Exceptions\ComposerJsonException;
+use BennoThommo\Packager\Parser\InstallOutputParser;
 
 class Update extends BaseCommand
 {
-    public function execute(): bool
+    /**
+     * @var boolean Whether to do a lockfile-only update
+     */
+    protected $lockFileOnly = false;
+
+    /**
+     * @var boolean Include "require-dev" dependencies in the update.
+     */
+    protected $includeDev = true;
+
+    /**
+     * @var boolean Whether this command has already been executed
+     */
+    protected $executed = false;
+
+    /**
+     * @var string Raw output from Composer
+     */
+    protected $rawOutput;
+
+    /**
+     * Handle options before execution.
+     *
+     * @param boolean $includeDev Include "require-dev" dependencies in the update.
+     * @param boolean $lockFileOnly Do a lockfile update only, do not install dependencies.
+     * @return void
+     */
+    public function handle(bool $includeDev = true, bool $lockFileOnly = false)
     {
+        if ($this->executed) {
+            return;
+        }
+
+        $this->includeDev = $includeDev;
+        $this->lockFileOnly = $lockFileOnly;
+    }
+
+    /**
+     * Executes the command with the given options.
+     *
+     * @return static
+     */
+    public function execute()
+    {
+        if ($this->executed) {
+            return;
+        }
+
+        $this->executed = true;
         $output = $this->runComposerCommand();
 
         if ($output['code'] !== 0) {
@@ -20,6 +68,11 @@ class Update extends BaseCommand
                 );
             }
         }
+
+        $this->rawOutput = $output['output'];
+
+        $parser = new InstallOutputParser;
+        $parsed = $parser->parse($this->rawOutput);
 
         // Retrieve changes from update
         // $result = [
@@ -37,7 +90,7 @@ class Update extends BaseCommand
         //     throw $exception;
         // }
 
-        return true;
+        return $this;
     }
 
     public function getCommandName(): string
@@ -54,10 +107,14 @@ class Update extends BaseCommand
     {
         $arguments = [];
 
-        if ($this->getComposer()->getIncludeDev()) {
+        if ($this->includeDev) {
             $arguments['--dev'] = true;
         } else {
             $arguments['--no-dev'] = true;
+        }
+
+        if ($this->lockFileOnly) {
+            $arguments['--no-install'] = true;
         }
 
         return $arguments;

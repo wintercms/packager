@@ -26,11 +26,6 @@ class Composer
     protected $workDir;
 
     /**
-     * @var bool Include "require-dev" dependencies in any install or update.
-     */
-    protected $includeDev = true;
-
-    /**
      * @var string The name of the JSON configuration file.
      */
     protected $configFile = 'composer.json';
@@ -214,40 +209,6 @@ class Composer
     public function setWorkDir(string $path)
     {
         $this->workDir = $path;
-        return $this;
-    }
-
-    /**
-     * Gets whether to include dev dependencies on install or update.
-     *
-     * @return bool
-     */
-    public function getIncludeDev(): bool
-    {
-        return $this->includeDev;
-    }
-
-    /**
-     * Include dev dependencies when installing or updating.
-     *
-     * By default, dev dependencies are included when installing or updating.
-     *
-     * @return static
-     */
-    public function includeDev()
-    {
-        $this->includeDev = true;
-        return $this;
-    }
-
-    /**
-     * Exclude dev dependencies when installing or updating.
-     *
-     * @return static
-     */
-    public function excludeDev()
-    {
-        $this->includeDev = false;
         return $this;
     }
 
