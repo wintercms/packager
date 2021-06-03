@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace BennoThommo\Packager\Tests;
 
-use Mockery;
 use BennoThommo\Packager\Composer;
-use Mockery\Adapter\Phpunit\MockeryTestCase;
+use PHPUnit\Framework\TestCase;
 
-class ComposerTestCase extends MockeryTestCase
+class ComposerTestCase extends TestCase
 {
     /** @var string */
     protected $homeDir;
@@ -22,7 +21,7 @@ class ComposerTestCase extends MockeryTestCase
     /**
      * @before
      */
-    public function setUpTestDirs(string $composerJsonPath = null): void
+    public function setUpTestDirs(): void
     {
         $homeDir = __DIR__ . '/tmp/homeDir';
         $workDir = __DIR__ . '/tmp/workDir';
@@ -61,16 +60,18 @@ class ComposerTestCase extends MockeryTestCase
     protected function mockCommandOutput(string $command, string $commandClass, int $code = 0, string $output = ''): void
     {
         // Mock the command and replace the "runCommand" method
-        $mockCommand = Mockery::mock($commandClass, [$this->composer])
-            ->shouldAllowMockingProtectedMethods()
-            ->makePartial();
+        $mockCommand = $this->getMockBuilder($commandClass)
+            ->setConstructorArgs([
+                $this->composer
+            ])
+            ->onlyMethods(['runComposerCommand'])
+            ->getMock();
 
         $mockCommand
-            ->shouldReceive([
-                'runComposerCommand' => [
-                    'code' => $code,
-                    'output' => explode(PHP_EOL, $output),
-                ]
+            ->method('runComposerCommand')
+            ->willReturn([
+                'code' => $code,
+                'output' => explode(PHP_EOL, $output),
             ]);
 
         $this->composer->setCommand($command, $mockCommand);
