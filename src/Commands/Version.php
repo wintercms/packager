@@ -2,14 +2,11 @@
 
 namespace BennoThommo\Packager\Commands;
 
-use BennoThommo\Packager\Commands\Traits\RunsComposer;
 use BennoThommo\Packager\Exceptions\CommandException;
 use BennoThommo\Packager\Parser\VersionParser;
 
 class Version extends BaseCommand
 {
-    use RunsComposer;
-
     /**
      * @var string The detail to return. Valid values: "version", "date", "dateTime", "all"
      */
