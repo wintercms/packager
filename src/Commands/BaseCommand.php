@@ -3,6 +3,7 @@
 namespace BennoThommo\Packager\Commands;
 
 use BennoThommo\Packager\Composer;
+use BennoThommo\Packager\Exceptions\WorkDirException;
 use Composer\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
@@ -120,21 +121,46 @@ abstract class BaseCommand implements Command
             : [];
 
         if ($this->requiresWorkDir()) {
-            $arguments['--working-dir'] = $this->getComposer()->getWorkDir();
+            $workDir = $this->getComposer()->getWorkDir();
+
+            if (empty($workDir)) {
+                throw new WorkDirException('No working directory specified.');
+            }
+
+            if (!is_dir($workDir)) {
+                throw new WorkDirException(
+                    sprintf(
+                        'Working directory "%s" is missing',
+                        $workDir
+                    )
+                );
+            }
+
+            $arguments['--working-dir'] = $workDir;
         }
 
         $arguments = array_merge($arguments, $this->arguments());
 
         // Run Composer command
-        $input = new ArrayInput($arguments);
-        $code = $this->composerApp->run($input, $output);
+        try {
+            $input = new ArrayInput($arguments);
+            $code = $this->composerApp->run($input, $output);
+
+            $return = [
+                'code' => $code,
+                'output' => explode(PHP_EOL, trim($output->fetch())),
+            ];
+        } catch (\Exception $e) {
+            $return = [
+                'code' => 1,
+                'output' => explode(PHP_EOL, $e->getMessage()),
+                'exception' => $e,
+            ];
+        }
 
         $this->tearDownComposerApp();
 
-        return [
-            'code' => $code,
-            'output' => explode(PHP_EOL, trim($output->fetch())),
-        ];
+        return $return;
     }
 
     /**
