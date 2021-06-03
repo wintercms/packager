@@ -3,7 +3,7 @@
 namespace BennoThommo\Packager\Commands;
 
 use BennoThommo\Packager\Exceptions\CommandException;
-use BennoThommo\Packager\Parser\VersionParser;
+use BennoThommo\Packager\Parser\VersionOutputParser;
 
 class Version extends BaseCommand
 {
@@ -27,7 +27,7 @@ class Version extends BaseCommand
             throw new CommandException('Unable to retrieve the Composer version.');
         }
 
-        $parser = new VersionParser;
+        $parser = new VersionOutputParser;
         $version = $parser->parse($output['output']);
 
         if (!$version) {

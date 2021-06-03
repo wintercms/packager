@@ -8,7 +8,7 @@ namespace BennoThommo\Packager\Parser;
  * @author Ben Thomson
  * @since 0.1.0
  */
-class VersionParser implements Parser
+class VersionOutputParser implements Parser
 {
     /**
      * @inheritDoc
