@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace BennoThommo\Packager\Tests;
 
+use Mockery;
 use BennoThommo\Packager\Composer;
-use PHPUnit\Framework\TestCase;
+use Mockery\Adapter\Phpunit\MockeryTestCase;
 
-class ComposerTestCase extends TestCase
+class ComposerTestCase extends MockeryTestCase
 {
     /** @var string */
     protected $homeDir;
@@ -21,39 +22,9 @@ class ComposerTestCase extends TestCase
     /**
      * @before
      */
-    public function createComposerMock(): void
+    public function createComposer(): void
     {
         $this->composer = new Composer();
-    }
-
-    /**
-     * Mocks a Composer application output.
-     *
-     * @param string $command
-     * @param string $commandClass
-     * @param integer $code
-     * @param string $output
-     * @return void
-     */
-    public function mockCommandOutput(string $command, string $commandClass, int $code = 0, string $output = ''): void
-    {
-        // Mock the command and replace the "runCommand" method
-        $mockCommand = $this
-            ->getMockBuilder($commandClass)
-            ->setConstructorArgs([
-                $this->composer
-            ])
-            ->onlyMethods(['runComposerCommand'])
-            ->getMock();
-
-        $mockCommand
-            ->method('runComposerCommand')
-            ->willReturn([
-                'code' => $code,
-                'output' => explode(PHP_EOL, $output),
-            ]);
-
-        $this->composer->setCommand($command, $mockCommand);
     }
 
     /**
@@ -76,6 +47,33 @@ class ComposerTestCase extends TestCase
 
         $this->homeDir = $homeDir;
         $this->workDir = $workDir;
+    }
+
+    /**
+     * Mocks a Composer application output.
+     *
+     * @param string $command
+     * @param string $commandClass
+     * @param integer $code
+     * @param string $output
+     * @return void
+     */
+    protected function mockCommandOutput(string $command, string $commandClass, int $code = 0, string $output = ''): void
+    {
+        // Mock the command and replace the "runCommand" method
+        $mockCommand = Mockery::mock($commandClass, [$this->composer])
+            ->shouldAllowMockingProtectedMethods()
+            ->makePartial();
+
+        $mockCommand
+            ->shouldReceive([
+                'runComposerCommand' => [
+                    'code' => $code,
+                    'output' => explode(PHP_EOL, $output),
+                ]
+            ]);
+
+        $this->composer->setCommand($command, $mockCommand);
     }
 
     /**

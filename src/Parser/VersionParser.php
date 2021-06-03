@@ -16,7 +16,7 @@ class VersionParser implements Parser
     public function parse(array $output)
     {
         if (preg_match(
-            '/^Composer ([^ ]+) ([0-9]{4}\-[0-9]{2}\-[0-9]{2}) ([0-9]{2}:[0-9]{2}:[0-9]{2})$/',
+            '/^Composer version ([^ ]+) ([0-9]{4}\-[0-9]{2}\-[0-9]{2}) ([0-9]{2}:[0-9]{2}:[0-9]{2})$/',
             trim(implode(PHP_EOL, $output)),
             $matches
         ) !== 1) {
