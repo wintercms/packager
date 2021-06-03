@@ -22,15 +22,7 @@ class ComposerTestCase extends MockeryTestCase
     /**
      * @before
      */
-    public function createComposer(): void
-    {
-        $this->composer = new Composer();
-    }
-
-    /**
-     * @before
-     */
-    public function setUpTestDirs(): void
+    public function setUpTestDirs(string $composerJsonPath = null): void
     {
         $homeDir = __DIR__ . '/tmp/homeDir';
         $workDir = __DIR__ . '/tmp/workDir';
@@ -47,6 +39,14 @@ class ComposerTestCase extends MockeryTestCase
 
         $this->homeDir = $homeDir;
         $this->workDir = $workDir;
+    }
+
+    /**
+     * @before
+     */
+    public function createComposer(): void
+    {
+        $this->composer = new Composer();
     }
 
     /**
@@ -74,6 +74,30 @@ class ComposerTestCase extends MockeryTestCase
             ]);
 
         $this->composer->setCommand($command, $mockCommand);
+    }
+
+    /**
+     * Copies files and directories to the temp work path.
+     *
+     * @param string $path
+     * @return void
+     */
+    protected function copyToWorkDir(string $path): void
+    {
+        if (is_file($path)) {
+            $info = pathinfo($path);
+            @copy($path, $this->workDir . '/' . $info['basename']);
+        }
+    }
+
+    /**
+     * Returns the base path to the tests directory.
+     *
+     * @return string
+     */
+    protected function testBasePath(): string
+    {
+        return __DIR__;
     }
 
     /**
