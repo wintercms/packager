@@ -109,6 +109,10 @@ class ComposerTestCase extends TestCase
         if (is_dir($this->homeDir)) {
             shell_exec('rm -rf ' . $this->homeDir);
         }
+        if (is_dir($this->workDir)) {
+            shell_exec('rm -rf ' . $this->workDir);
+        }
         clearstatcache(true, $this->homeDir);
+        clearstatcache(true, $this->workDir);
     }
 }
