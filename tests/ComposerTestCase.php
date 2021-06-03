@@ -32,8 +32,8 @@ class ComposerTestCase extends MockeryTestCase
      */
     public function setUpTestDirs(): void
     {
-        $homeDir = dirname(__DIR__) . '/tmp/homeDir';
-        $workDir = dirname(__DIR__) . '/tmp/workDir';
+        $homeDir = __DIR__ . '/tmp/homeDir';
+        $workDir = __DIR__ . '/tmp/workDir';
 
         if (is_dir($homeDir)) {
             shell_exec('rm -rf ' . $homeDir);
