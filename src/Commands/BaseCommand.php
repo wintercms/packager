@@ -156,7 +156,7 @@ abstract class BaseCommand implements Command
                 'output' => explode(PHP_EOL, $e->getMessage()),
                 'exception' => $e,
             ];
-        } finally {
+
             // Restores the error handler away from Composer's in-built error handler
             restore_error_handler();
         }
