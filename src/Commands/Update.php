@@ -28,6 +28,25 @@ class Update extends BaseCommand
     protected $rawOutput;
 
     /**
+     * @var bool Was the update successful
+     */
+    protected $successful;
+
+    /**
+     * @var array Array of packages installed, updated or removed
+     */
+    protected $packages = [
+        'installed' => [],
+        'updated' => [],
+        'removed' => [],
+    ];
+
+    /**
+     * @var array Array of problems during update.
+     */
+    protected $problems = [];
+
+    /**
      * Handle options before execution.
      *
      * @param boolean $includeDev Include "require-dev" dependencies in the update.
@@ -74,23 +93,46 @@ class Update extends BaseCommand
         $parser = new InstallOutputParser;
         $parsed = $parser->parse($this->rawOutput);
 
-        // Retrieve changes from update
-        // $result = [
-        //     'installed' => [],
-        //     'updated' => [],
-        //     'removed' => [],
-        // ];
-        // $parser = new VersionParser();
-
-        // // Throw exception on conflict
-        // if ($conflicts) {
-        //     $exception = new PackageConflictException();
-        //     $exception->setProblems($problems);
-
-        //     throw $exception;
-        // }
+        $this->successful = !$parsed['conflicts'];
+        $this->packages = $parsed['packages'];
+        $this->problems = $parsed['problems'];
 
         return $this;
+    }
+
+    public function isSuccessful()
+    {
+        return $this->successful === true;
+    }
+
+    public function getInstalled()
+    {
+        return $this->packages['installed'];
+    }
+
+    public function getInstalledCount()
+    {
+        return count($this->getInstalled());
+    }
+
+    public function getUpdated()
+    {
+        return $this->packages['updated'];
+    }
+
+    public function getUpdatedCount()
+    {
+        return count($this->getUpdated());
+    }
+
+    public function getRemoved()
+    {
+        return $this->packages['removed'];
+    }
+
+    public function getRemovedCount()
+    {
+        return count($this->getRemoved());
     }
 
     public function getCommandName(): string
