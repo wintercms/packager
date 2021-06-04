@@ -72,24 +72,6 @@ final class ComposerTest extends ComposerTestCase
 
     /**
      * @test
-     * @testdox can include and exclude dev dependencies.
-     * @covers ::getIncludeDev
-     * @covers ::includeDev
-     * @covers ::excludeDev
-     */
-    public function itCanIncludeAndExcludeDevDependencies(): void
-    {
-        $this->assertSame($this->composer, $this->composer->excludeDev());
-
-        $this->assertFalse($this->composer->getIncludeDev());
-
-        $this->assertSame($this->composer, $this->composer->includeDev());
-
-        $this->assertTrue($this->composer->getIncludeDev());
-    }
-
-    /**
-     * @test
      * @testdox can set and get a name for the configuration file.
      * @covers ::getConfigFile
      * @covers ::setConfigFile
