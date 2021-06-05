@@ -115,6 +115,11 @@ final class UpdateTest extends ComposerTestCase
                         'composer/installers' => '1.11.0',
                         'winter/wn-twitter-plugin' => '2.0.0',
                     ],
+                    'config' => [
+                        'platform' => [
+                            'php' => '7.4.20',
+                        ],
+                    ],
                 ],
                 JSON_PRETTY_PRINT | JSON_NUMERIC_CHECK
             )
