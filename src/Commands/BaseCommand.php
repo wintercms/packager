@@ -78,6 +78,8 @@ abstract class BaseCommand implements Command
      */
     protected function setUpComposerApp(): void
     {
+        // Since the app is running within a normal PHP execution, we should set the max limits in the current process
+        set_time_limit($this->getComposer()->getTimeout());
         ini_set('memory_limit', $this->getComposer()->getMemoryLimit());
 
         // Save pre-environment
