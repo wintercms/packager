@@ -33,11 +33,20 @@ class Update extends BaseCommand
     protected $successful;
 
     /**
-     * @var array Array of packages installed, updated or removed
+     * @var array Array of packages installed, upgraded or removed
      */
     protected $packages = [
         'installed' => [],
-        'updated' => [],
+        'upgraded' => [],
+        'removed' => [],
+    ];
+
+    /**
+     * @var array Array of packages locked, upgraded or removed in lock file
+     */
+    protected $lockFile = [
+        'locked' => [],
+        'upgraded' => [],
         'removed' => [],
     ];
 
@@ -94,6 +103,7 @@ class Update extends BaseCommand
         $parsed = $parser->parse($this->rawOutput);
 
         $this->successful = !$parsed['conflicts'];
+        $this->lockFile = $parsed['lockFile'];
         $this->packages = $parsed['packages'];
         $this->problems = $parsed['problems'];
 
@@ -115,14 +125,14 @@ class Update extends BaseCommand
         return count($this->getInstalled());
     }
 
-    public function getUpdated()
+    public function getUpgraded()
     {
-        return $this->packages['updated'];
+        return $this->packages['upgraded'];
     }
 
-    public function getUpdatedCount()
+    public function getUpgradedCount()
     {
-        return count($this->getUpdated());
+        return count($this->getUpgraded());
     }
 
     public function getRemoved()
@@ -133,6 +143,36 @@ class Update extends BaseCommand
     public function getRemovedCount()
     {
         return count($this->getRemoved());
+    }
+
+    public function getLockInstalled()
+    {
+        return $this->lockFile['locked'];
+    }
+
+    public function getLockInstalledCount()
+    {
+        return count($this->getLockInstalled());
+    }
+
+    public function getLockUpgraded()
+    {
+        return $this->lockFile['upgraded'];
+    }
+
+    public function getLockUpgradedCount()
+    {
+        return count($this->getLockUpgraded());
+    }
+
+    public function getLockRemoved()
+    {
+        return $this->lockFile['removed'];
+    }
+
+    public function getLockRemovedCount()
+    {
+        return count($this->getLockRemoved());
     }
 
     public function getCommandName(): string

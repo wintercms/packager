@@ -9,11 +9,16 @@ class InstallOutputParser implements Parser
     public function parse(array $output)
     {
         $parser = new VersionParser;
-        $packageOperations = false;
+        $section = null;
         $conflicts = false;
+        $lockFile = [
+            'locked' => [],
+            'upgraded' => [],
+            'removed' => [],
+        ];
         $packages = [
             'installed' => [],
-            'updated' => [],
+            'upgraded' => [],
             'removed' => [],
         ];
         $problems = [];
@@ -21,51 +26,65 @@ class InstallOutputParser implements Parser
         $currentProblem = [];
 
         foreach ($output as $line) {
+            if (strpos($line, 'Lock file operations:') === 0) {
+                $section = 'lock';
+            }
             if (strpos($line, 'Package operations:') === 0) {
-                $packageOperations = true;
+                $section = 'packages';
             }
 
             if (strpos($line, 'Your requirements could not be resolved') === 0) {
                 $conflicts = true;
             }
 
-            if ($packageOperations && !$conflicts) {
+            if (in_array($section, ['lock', 'packages']) && !$conflicts) {
                 $line = trim($line);
 
-                if (strpos($line, '- Installing') === 0) {
-                    preg_match(
-                        '/^\- Installing ([a-z0-9]([_.-]?[a-z0-9]+)*\/[a-z0-9](([_.]?|-{0,2})[a-z0-9]+)*) \(([^\)]+)\)/i',
-                        $line,
-                        $matches
-                    );
+                // Parse action
+                if (!preg_match(
+                    '/^\- ([A-Z][a-z]+) ([a-z0-9]([_.-]?[a-z0-9]+)*\/[a-z0-9](([_.]?|-{0,2})[a-z0-9]+)*) \(([^\)]+)\)/i',
+                    $line,
+                    $matches
+                )) {
+                    continue;
+                }
 
-                    $package = $matches[1];
-                    $version = $parser->normalize($matches[5]);
+                $action = strtolower($matches[1]);
+                $package = $matches[2];
+                $version = $matches[6];
 
-                    $packages['installed'][$package] = $version;
-                } elseif (strpos($line, '- Upgrading') === 0) {
-                    preg_match(
-                        '/^\- Upgrading ([a-z0-9]([_.-]?[a-z0-9]+)*\/[a-z0-9](([_.]?|-{0,2})[a-z0-9]+)*) \(([^\)]+)\)/i',
-                        $line,
-                        $matches
-                    );
-
-                    $package = $matches[1];
-                    [$oldVersion, $newVersion] = explode(' => ', $matches[5]);
-                    $oldVersion = $parser->normalize($oldVersion);
-                    $newVersion = $parser->normalize($newVersion);
-
-                    $packages['updated'][$package] = [$oldVersion, $newVersion];
-                } elseif (strpos($line, '- Removing') === 0) {
-                    preg_match(
-                        '/^\- Removing ([a-z0-9]([_.-]?[a-z0-9]+)*\/[a-z0-9](([_.]?|-{0,2})[a-z0-9]+)*)/i',
-                        $line,
-                        $matches
-                    );
-
-                    $package = $matches[1];
-
-                    $packages['removed'][] = $package;
+                if ($section === 'lock') {
+                    switch ($action) {
+                        case 'locking':
+                            $lockFile['locked'][$package] = $parser->normalize($version);
+                            break;
+                        case 'upgrading':
+                            [$oldVersion, $newVersion] = explode(' => ', $version);
+                            $lockFile['upgraded'][$package] = [
+                                $parser->normalize($oldVersion),
+                                $parser->normalize($newVersion)
+                            ];
+                            break;
+                        case 'removing':
+                            $lockFile['removed'][] = $package;
+                            break;
+                    }
+                } else {
+                    switch ($action) {
+                        case 'installing':
+                            $packages['installed'][$package] = $parser->normalize($version);
+                            break;
+                        case 'upgrading':
+                            [$oldVersion, $newVersion] = explode(' => ', $version);
+                            $packages['upgraded'][$package] = [
+                                $parser->normalize($oldVersion),
+                                $parser->normalize($newVersion)
+                            ];
+                            break;
+                        case 'removing':
+                            $packages['removed'][] = $package;
+                            break;
+                    }
                 }
             }
 
@@ -87,6 +106,7 @@ class InstallOutputParser implements Parser
         return [
             'conflicts' => $conflicts,
             'problems' => $problems,
+            'lockFile' => $lockFile,
             'packages' => $packages,
         ];
     }
