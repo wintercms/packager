@@ -32,11 +32,11 @@ class InstallOutputParser implements Parser
             if (strpos($line, 'Package operations:') === 0) {
                 $section = 'packages';
             }
-
             if (strpos($line, 'Your requirements could not be resolved') === 0) {
                 $conflicts = true;
             }
 
+            // Parsed locked and/or modified packages, if no conflicts occurred
             if (in_array($section, ['lock', 'packages']) && !$conflicts) {
                 $line = trim($line);
 
@@ -88,6 +88,7 @@ class InstallOutputParser implements Parser
                 }
             }
 
+            // Parse problems when a conflict occurs
             if ($conflicts) {
                 if ($readingProblem) {
                     if (strpos($line, '    - ') === 0) {
@@ -101,6 +102,11 @@ class InstallOutputParser implements Parser
                     $currentProblem = [];
                 }
             }
+        }
+
+        // Cap off a problem if it's the last thing read
+        if ($readingProblem) {
+            $problems[] = implode(PHP_EOL, $currentProblem);
         }
 
         return [

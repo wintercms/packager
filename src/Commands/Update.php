@@ -5,6 +5,14 @@ namespace BennoThommo\Packager\Commands;
 use BennoThommo\Packager\Exceptions\ComposerJsonException;
 use BennoThommo\Packager\Parser\InstallOutputParser;
 
+/**
+ * Update command.
+ *
+ * Runs "composer update" within PHP.
+ *
+ * @author Ben Thomson
+ * @since 0.1.0
+ */
 class Update extends BaseCommand
 {
     /**
@@ -110,81 +118,181 @@ class Update extends BaseCommand
         return $this;
     }
 
-    public function isSuccessful()
+    /**
+     * Determines if the update was successful.
+     *
+     * @return boolean
+     */
+    public function isSuccessful(): bool
     {
         return $this->successful === true;
     }
 
-    public function getInstalled()
+    /**
+     * Returns installed packages.
+     *
+     * Packages are returned as an array, with the package name as the key, and the installed version as the value.
+     *
+     * @return array
+     */
+    public function getInstalled(): array
     {
         return $this->packages['installed'];
     }
 
-    public function getInstalledCount()
+    /**
+     * Returns the count of installed packages.
+     *
+     * @return int
+     */
+    public function getInstalledCount(): int
     {
         return count($this->getInstalled());
     }
 
-    public function getUpgraded()
+    /**
+     * Returns upgraded packages.
+     *
+     * Packages are returned as an array, with the package name as the key. The value is also an array with two values,
+     * the previously installed version and the version that the package was updated to.
+     *
+     * @return array
+     */
+    public function getUpgraded(): array
     {
         return $this->packages['upgraded'];
     }
 
-    public function getUpgradedCount()
+    /**
+     * Returns the count of upgraded packages.
+     *
+     * @return int
+     */
+    public function getUpgradedCount(): int
     {
         return count($this->getUpgraded());
     }
 
-    public function getRemoved()
+    /**
+     * Returns removed packages.
+     *
+     * Packages are returned as a simple array of package names that have been removed.
+     *
+     * @return array
+     */
+    public function getRemoved(): array
     {
         return $this->packages['removed'];
     }
 
-    public function getRemovedCount()
+    /**
+     * Returns the count of removed packages.
+     *
+     * @return int
+     */
+    public function getRemovedCount(): int
     {
         return count($this->getRemoved());
     }
 
-    public function getLockInstalled()
+    /**
+     * Returns locked packages in the lock file.
+     *
+     * Packages are returned as an array, with the package name as the key, and the installed version as the value.
+     *
+     * @return array
+     */
+    public function getLockInstalled(): array
     {
         return $this->lockFile['locked'];
     }
 
-    public function getLockInstalledCount()
+    /**
+     * Returns the count of locked packages in the lock file.
+     *
+     * @return int
+     */
+    public function getLockInstalledCount(): int
     {
         return count($this->getLockInstalled());
     }
 
-    public function getLockUpgraded()
+    /**
+     * Returns upgraded packages in the lock file.
+     *
+     * Packages are returned as an array, with the package name as the key. The value is also an array with two values,
+     * the previously installed version and the version that the package was updated to.
+     *
+     * @return array
+     */
+    public function getLockUpgraded(): array
     {
         return $this->lockFile['upgraded'];
     }
 
-    public function getLockUpgradedCount()
+    /**
+     * Returns the count of upgraded packages in the lock file.
+     *
+     * @return int
+     */
+    public function getLockUpgradedCount(): int
     {
         return count($this->getLockUpgraded());
     }
 
-    public function getLockRemoved()
+    /**
+     * Returns removed packages in the lock file.
+     *
+     * Packages are returned as a simple array of package names that have been removed.
+     *
+     * @return array
+     */
+    public function getLockRemoved(): array
     {
         return $this->lockFile['removed'];
     }
 
-    public function getLockRemovedCount()
+    /**
+     * Returns the count of removed packages in the lock file.
+     *
+     * @return int
+     */
+    public function getLockRemovedCount(): int
     {
         return count($this->getLockRemoved());
     }
 
+    /**
+     * Returns the problems encountered with the last update.
+     *
+     * The problems are returned as a simple array of strings.
+     *
+     * @return array
+     */
+    public function getProblems(): array
+    {
+        return $this->problems;
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getCommandName(): string
     {
         return 'update';
     }
 
+    /**
+     * @inheritDoc
+     */
     public function requiresWorkDir(): bool
     {
         return true;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function arguments(): array
     {
         $arguments = [];
