@@ -292,6 +292,56 @@ final class UpdateTest extends ComposerTestCase
 
         $this->assertContains('composer/ca-bundle', $update->getLockRemoved());
     }
+
+    /**
+     * @test
+     * @testdox run a (mocked) update and retrieve problems when a package is in conflict.
+     * @covers ::handle
+     * @covers ::execute
+     */
+    public function itCanGetProblemsDueToPackageConflict()
+    {
+        $this->copyToWorkDir($this->testBasePath() . '/fixtures/invalid/packageConflict/composer.json');
+
+        $update = $this->composer->update();
+
+        $this->assertCount(1, $update->getProblems());
+        $this->assertStringContainsString('conflicts with your root composer.json', $update->getProblems()[0]);
+    }
+
+    /**
+     * @test
+     * @testdox run a (mocked) update and retrieve problems when a PHP extension is missing.
+     * @covers ::handle
+     * @covers ::execute
+     */
+    public function itCanGetProblemsDueToMissingExtension()
+    {
+        $this->copyToWorkDir($this->testBasePath() . '/fixtures/invalid/missingExtension/composer.json');
+
+        $update = $this->composer->update();
+
+        $this->assertCount(1, $update->getProblems());
+        $this->assertStringContainsString('requires PHP extension', $update->getProblems()[0]);
+    }
+
+    /**
+     * @test
+     * @testdox run a (mocked) update and retrieve problems when the PHP version is incompatible.
+     * @covers ::handle
+     * @covers ::execute
+     */
+    public function itCanGetProblemsDueToInvalidPhpVersion()
+    {
+        $this->copyToWorkDir($this->testBasePath() . '/fixtures/invalid/incorrectPhpVersion/composer.json');
+
+        $update = $this->composer->update();
+
+        $this->assertCount(1, $update->getProblems());
+        $this->assertStringContainsString('your php version', $update->getProblems()[0]);
+        $this->assertStringContainsString('does not satisfy that requirement', $update->getProblems()[0]);
+    }
+
     /**
      * @test
      * @testdox fails when the "composer.json" file is in an invalid format.

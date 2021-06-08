@@ -1,0 +1,20 @@
+{
+    "name": "packager/incorrectphpversion",
+    "description": "Test case to test incorrect PHP version in Composer",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ben Thomson",
+            "email": "git@alfreido.com"
+        }
+    ],
+    "require": {
+        "winter/wn-twitter-plugin": "2.0.0"
+    },
+    "config": {
+        "platform": {
+            "php": "7.1.33"
+        }
+    }
+}

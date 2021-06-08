@@ -1,0 +1,16 @@
+{
+    "name": "packager/missingphpextension",
+    "description": "Test case to test missing PHP extension in Composer",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ben Thomson",
+            "email": "git@alfreido.com"
+        }
+    ],
+    "require": {
+        "ext-invalid": "*",
+        "winter/wn-twitter-plugin": "2.0.0"
+    }
+}

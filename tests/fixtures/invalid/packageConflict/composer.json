@@ -1,0 +1,16 @@
+{
+    "name": "packager/packageconflict",
+    "description": "Test case to test conflicts in Composer",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ben Thomson",
+            "email": "git@alfreido.com"
+        }
+    ],
+    "require": {
+        "winter/wn-twitter-plugin": "2.0.0",
+        "themattharris/tmhoauth": "0.7.5"
+    }
+}
