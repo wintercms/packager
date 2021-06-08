@@ -1,0 +1,21 @@
+{
+    "name": "packager/simple",
+    "description": "Simple Composer test",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ben Thomson",
+            "email": "git@alfreido.com"
+        }
+    ],
+    "require": {
+        "composer/semver": "1.7.1",
+        "composer/ca-bundle": "1.2.9"
+    },
+    "config": {
+        "platform": {
+            "php": "7.4.20"
+        }
+    }
+}
