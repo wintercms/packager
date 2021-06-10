@@ -49,7 +49,6 @@ class Composer
      * @var array A list of supported commands
      */
     protected $commands = [
-        'dumpautoload' => \BennoThommo\Packager\Commands\DumpAutoloader::class,
         'i' => \BennoThommo\Packager\Commands\Install::class,
         'install' => \BennoThommo\Packager\Commands\Install::class,
         'show' => \BennoThommo\Packager\Commands\Show::class,
