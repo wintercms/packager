@@ -50,7 +50,7 @@ $update = $composer->update();
 $show = $composer->show();
 ```
 
-More information on each of these commands can be found in the Wiki.
+Documentation on each command will be forthcoming soon.
 
 ## Security Implications
 
