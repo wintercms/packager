@@ -5,6 +5,14 @@ namespace BennoThommo\Packager\Commands;
 use BennoThommo\Packager\Exceptions\CommandException;
 use BennoThommo\Packager\Parser\VersionOutputParser;
 
+/**
+ * Version command.
+ *
+ * Runs "composer --version" within PHP.
+ *
+ * @author Ben Thomson
+ * @since 0.1.0
+ */
 class Version extends BaseCommand
 {
     /**
