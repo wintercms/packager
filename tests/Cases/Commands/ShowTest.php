@@ -46,7 +46,7 @@ final class ShowTest extends ComposerTestCase
 
     /**
      * @test
-     * @testdox show installed packages.
+     * @testdox show one installed package.
      * @covers ::handle
      * @covers ::execute
      */
@@ -57,6 +57,7 @@ final class ShowTest extends ComposerTestCase
         $this->composer->update();
         $result = $this->composer->show(null, 'composer/ca-bundle');
 
+        $this->assertIsArray($result);
         $this->assertEquals('composer/ca-bundle', $result['name']);
         $this->assertEquals('library', $result['type']);
     }

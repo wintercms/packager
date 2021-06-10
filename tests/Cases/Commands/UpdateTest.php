@@ -320,8 +320,6 @@ final class UpdateTest extends ComposerTestCase
         $this->copyToWorkDir($this->testBasePath() . '/fixtures/invalid/missingExtension/composer.json');
 
         $update = $this->composer->update();
-        print_r($update);
-        var_dump($update->getProblems());
 
         $this->assertCount(1, $update->getProblems());
         $this->assertStringContainsString('requires PHP extension', $update->getProblems()[0]);

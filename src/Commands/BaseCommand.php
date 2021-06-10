@@ -150,12 +150,12 @@ abstract class BaseCommand implements Command
 
             $return = [
                 'code' => $code,
-                'output' => explode(PHP_EOL, trim($output->fetch())),
+                'output' => preg_split('/(\n|\r\n)/', trim($output->fetch())),
             ];
         } catch (\Exception $e) {
             $return = [
                 'code' => 1,
-                'output' => explode(PHP_EOL, $e->getMessage()),
+                'output' => preg_split('/(\n|\r\n)/', $e->getMessage()),
                 'exception' => $e,
             ];
 
