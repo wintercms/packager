@@ -286,13 +286,13 @@ class Composer
     /**
      * Gets the memory limit for a Composer command.
      *
-     * The memory limit is recorded as MBytes. By default, this is 1536 (1.5 GBytes)
+     * The memory limit is recorded (and returned) as MBytes. By default, this is 1536 (1.5 GBytes)
      *
-     * @return int
+     * @return string
      */
     public function getMemoryLimit()
     {
-        return $this->memoryLimit;
+        return $this->memoryLimit . 'M';
     }
 
     /**

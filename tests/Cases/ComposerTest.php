@@ -123,10 +123,10 @@ final class ComposerTest extends ComposerTestCase
      */
     public function itCanSetAndGetMemoryLimit(): void
     {
-        $this->assertEquals(1536, $this->composer->getMemoryLimit());
+        $this->assertEquals('1536M', $this->composer->getMemoryLimit());
 
         $this->assertSame($this->composer, $this->composer->setMemoryLimit(2048));
 
-        $this->assertEquals(2048, $this->composer->getMemoryLimit());
+        $this->assertEquals('2048M', $this->composer->getMemoryLimit());
     }
 }
