@@ -27,10 +27,10 @@ class ComposerTestCase extends TestCase
         $workDir = __DIR__ . '/tmp/workDir';
 
         if (is_dir($homeDir)) {
-            shell_exec('rm -rf ' . $homeDir);
+            $this->rimraf($homeDir);
         }
         if (is_dir($workDir)) {
-            shell_exec('rm -rf ' . $workDir);
+            $this->rimraf($workDir);
         }
 
         mkdir($homeDir, 0755, true);
@@ -107,12 +107,36 @@ class ComposerTestCase extends TestCase
     public function tearDownTestDirs(): void
     {
         if (is_dir($this->homeDir)) {
-            shell_exec('rm -rf ' . $this->homeDir);
+            $this->rimraf($this->homeDir);
         }
         if (is_dir($this->workDir)) {
-            shell_exec('rm -rf ' . $this->workDir);
+            $this->rimraf($this->workDir);
         }
         clearstatcache(true, $this->homeDir);
         clearstatcache(true, $this->workDir);
+    }
+
+    /**
+     * PHP-based "rm -rf" command.
+     *
+     * Recursively removes a directory and all files and subdirectories within.
+     */
+    protected function rimraf(string $path): void
+    {
+        $dir = new \DirectoryIterator($path);
+
+        foreach ($dir as $item) {
+            if ($item->isDot()) {
+                continue;
+            }
+
+            if ($item->isDir()) {
+                $this->rimraf($item->getPathname());
+            }
+
+            @unlink($item->getPathname());
+        }
+
+        @rmdir($path);
     }
 }
