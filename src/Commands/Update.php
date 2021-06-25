@@ -16,6 +16,13 @@ use BennoThommo\Packager\Parser\InstallOutputParser;
 class Update extends BaseCommand
 {
     /**
+     * Package preference constants
+     */
+    const PREFER_NONE = 'none';
+    const PREFER_DIST = 'dist';
+    const PREFER_SOURCE = 'source';
+
+    /**
      * @var boolean Whether to do a lockfile-only update
      */
     protected $lockFileOnly = false;
@@ -24,6 +31,16 @@ class Update extends BaseCommand
      * @var boolean Include "require-dev" dependencies in the update.
      */
     protected $includeDev = true;
+
+    /**
+     * @var boolean Ignore platform requirements when updating.
+     */
+    protected $ignorePlatformReqs = false;
+
+    /**
+     * @var boolean Prefer dist releases of packages
+     */
+    protected $installPreference = [''];
 
     /**
      * @var boolean Whether this command has already been executed
@@ -70,14 +87,23 @@ class Update extends BaseCommand
      * @param boolean $lockFileOnly Do a lockfile update only, do not install dependencies.
      * @return void
      */
-    public function handle(bool $includeDev = true, bool $lockFileOnly = false)
-    {
+    public function handle(
+        bool $includeDev = true,
+        bool $lockFileOnly = false,
+        bool $ignorePlatformReqs = false,
+        string $installPreference = 'none'
+    ) {
         if ($this->executed) {
             return;
         }
 
         $this->includeDev = $includeDev;
         $this->lockFileOnly = $lockFileOnly;
+        $this->ignorePlatformReqs = $ignorePlatformReqs;
+
+        if (in_array($installPreference, [self::PREFER_NONE, self::PREFER_DIST, self::PREFER_SOURCE])) {
+            $this->installPreference = $installPreference;
+        }
     }
 
     /**
@@ -305,6 +331,14 @@ class Update extends BaseCommand
 
         if ($this->lockFileOnly) {
             $arguments['--no-install'] = true;
+        }
+
+        if ($this->ignorePlatformReqs) {
+            $arguments['--ignore-platform-reqs'] = true;
+        }
+
+        if (in_array($this->installPreference, [self::PREFER_DIST, self::PREFER_SOURCE])) {
+            $arguments['--prefer-' . $this->installPreference] = true;
         }
 
         return $arguments;
