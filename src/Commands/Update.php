@@ -85,6 +85,8 @@ class Update extends BaseCommand
      *
      * @param boolean $includeDev Include "require-dev" dependencies in the update.
      * @param boolean $lockFileOnly Do a lockfile update only, do not install dependencies.
+     * @param boolean $ignorePlatformReqs Ignore platform reqs when running the update.
+     * @param string $installPreference Set an install preference - must be one of "none", "dist", "source"
      * @return void
      */
     public function handle(
