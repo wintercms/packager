@@ -25,7 +25,7 @@ final class UpdateTest extends ComposerTestCase
 
     /**
      * @test
-     * @testdox run a (mocked) update and shows installed packages.
+     * @testdox can run a (mocked) update and shows installed packages.
      * @covers ::handle
      * @covers ::execute
      */
@@ -77,7 +77,7 @@ final class UpdateTest extends ComposerTestCase
 
     /**
      * @test
-     * @testdox run a (mocked) update, lock-file only, and shows locked packages.
+     * @testdox can run a (mocked) update, lock-file only, and shows locked packages.
      * @covers ::handle
      * @covers ::execute
      */
@@ -116,7 +116,7 @@ final class UpdateTest extends ComposerTestCase
 
     /**
      * @test
-     * @testdox run a (real) update and show an installed package.
+     * @testdox can run a (real) update and show an installed package.
      * @covers ::handle
      * @covers ::execute
      */
@@ -148,7 +148,7 @@ final class UpdateTest extends ComposerTestCase
 
     /**
      * @test
-     * @testdox run a (real) update and show updated and removed packages.
+     * @testdox can run a (real) update and show updated and removed packages.
      * @covers ::handle
      * @covers ::execute
      */
@@ -226,7 +226,7 @@ final class UpdateTest extends ComposerTestCase
 
     /**
      * @test
-     * @testdox run a (real) update, lock-file only, and show updated and removed packages.
+     * @testdox can run a (real) update, lock-file only, and show updated and removed packages.
      * @covers ::handle
      * @covers ::execute
      */
@@ -295,7 +295,7 @@ final class UpdateTest extends ComposerTestCase
 
     /**
      * @test
-     * @testdox run a (mocked) update and retrieve problems when a package is in conflict.
+     * @testdox can run a (mocked) update and retrieve problems when a package is in conflict.
      * @covers ::handle
      * @covers ::execute
      */
@@ -311,7 +311,7 @@ final class UpdateTest extends ComposerTestCase
 
     /**
      * @test
-     * @testdox run a (mocked) update and retrieve problems when a PHP extension is missing.
+     * @testdox can run a (mocked) update and retrieve problems when a PHP extension is missing.
      * @covers ::handle
      * @covers ::execute
      */
@@ -327,7 +327,7 @@ final class UpdateTest extends ComposerTestCase
 
     /**
      * @test
-     * @testdox run a (mocked) update and retrieve problems when the PHP version is incompatible.
+     * @testdox can run a (mocked) update and retrieve problems when the PHP version is incompatible.
      * @covers ::handle
      * @covers ::execute
      */

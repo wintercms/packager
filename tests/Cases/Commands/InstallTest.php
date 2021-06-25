@@ -24,7 +24,7 @@ final class InstallTest extends ComposerTestCase
 
     /**
      * @test
-     * @testdox run a (mocked) install and shows installed packages.
+     * @testdox can run a (mocked) install and shows installed packages.
      * @covers ::handle
      * @covers ::execute
      */
@@ -76,7 +76,7 @@ final class InstallTest extends ComposerTestCase
 
     /**
      * @test
-     * @testdox run a (real) install and show installed packages.
+     * @testdox can run a (real) install and show installed packages.
      * @covers ::handle
      * @covers ::execute
      */
@@ -108,7 +108,7 @@ final class InstallTest extends ComposerTestCase
 
     /**
      * @test
-     * @testdox run a (real) install with a lock file present and show installed packages.
+     * @testdox can run a (real) install with a lock file present and show installed packages.
      * @covers ::handle
      * @covers ::execute
      */

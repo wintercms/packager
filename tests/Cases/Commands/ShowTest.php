@@ -25,7 +25,7 @@ final class ShowTest extends ComposerTestCase
 
     /**
      * @test
-     * @testdox show installed packages.
+     * @testdox can show installed packages.
      * @covers ::handle
      * @covers ::execute
      */
@@ -46,7 +46,7 @@ final class ShowTest extends ComposerTestCase
 
     /**
      * @test
-     * @testdox show one installed package.
+     * @testdox can show one installed package.
      * @covers ::handle
      * @covers ::execute
      */
@@ -64,7 +64,7 @@ final class ShowTest extends ComposerTestCase
 
     /**
      * @test
-     * @testdox safely handle a missing package.
+     * @testdox can safely handle a missing package.
      * @covers ::handle
      * @covers ::execute
      */
@@ -80,7 +80,7 @@ final class ShowTest extends ComposerTestCase
 
     /**
      * @test
-     * @testdox show installed packages.
+     * @testdox can show installed packages.
      * @covers ::handle
      * @covers ::execute
      */
