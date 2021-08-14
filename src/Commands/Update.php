@@ -38,9 +38,14 @@ class Update extends BaseCommand
     protected $ignorePlatformReqs = false;
 
     /**
-     * @var boolean Prefer dist releases of packages
+     * @var string Prefer dist releases of packages
      */
-    protected $installPreference = [''];
+    protected $installPreference = 'none';
+
+    /**
+     * @var boolean Ignore scripts that run after Composer events.
+     */
+    protected $ignoreScripts = false;
 
     /**
      * @var boolean Whether this command has already been executed
@@ -87,13 +92,15 @@ class Update extends BaseCommand
      * @param boolean $lockFileOnly Do a lockfile update only, do not install dependencies.
      * @param boolean $ignorePlatformReqs Ignore platform reqs when running the update.
      * @param string $installPreference Set an install preference - must be one of "none", "dist", "source"
+     * @param boolean $ignoreScripts Ignores scripts that run after Composer events.
      * @return void
      */
     public function handle(
         bool $includeDev = true,
         bool $lockFileOnly = false,
         bool $ignorePlatformReqs = false,
-        string $installPreference = 'none'
+        string $installPreference = 'none',
+        bool $ignoreScripts = false
     ) {
         if ($this->executed) {
             return;
@@ -102,6 +109,7 @@ class Update extends BaseCommand
         $this->includeDev = $includeDev;
         $this->lockFileOnly = $lockFileOnly;
         $this->ignorePlatformReqs = $ignorePlatformReqs;
+        $this->ignoreScripts = $ignoreScripts;
 
         if (in_array($installPreference, [self::PREFER_NONE, self::PREFER_DIST, self::PREFER_SOURCE])) {
             $this->installPreference = $installPreference;
@@ -337,6 +345,10 @@ class Update extends BaseCommand
 
         if ($this->ignorePlatformReqs) {
             $arguments['--ignore-platform-reqs'] = true;
+        }
+
+        if ($this->ignoreScripts) {
+            $arguments['--no-scripts'] = true;
         }
 
         if (in_array($this->installPreference, [self::PREFER_DIST, self::PREFER_SOURCE])) {
