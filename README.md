@@ -52,6 +52,10 @@ $show = $composer->show();
 
 Documentation on each command will be forthcoming soon.
 
+## Limitations
+
+- Composer uses `symfony/process` under the hood for various actions. Most shared hosts will not allow this work, by blocking either the `proc_*` functions or the `pcntl` extension. If this is the case for your host, you will be unable to use scripts or some plugins.
+
 ## Security Implications
 
 Note that this library does introduce some security implications which you may need to consider before using.
