@@ -18,7 +18,7 @@ jobs:
     name: ${{ matrix.operatingSystem }} / PHP ${{ matrix.phpVersion }}
     env:
       extensions: curl, fileinfo, openssl, zip
-      key: bennothommo-packager-v1
+      key: winter-packager-v1
     steps:
       - name: Cancel previous incomplete runs
         uses: styfle/cancel-workflow-action@0.8.0

@@ -1,9 +1,9 @@
 <?php
 
-namespace BennoThommo\Packager\Commands;
+namespace Winter\Packager\Commands;
 
-use BennoThommo\Packager\Exceptions\ComposerJsonException;
-use BennoThommo\Packager\Parser\InstallOutputParser;
+use Winter\Packager\Exceptions\ComposerJsonException;
+use Winter\Packager\Parser\InstallOutputParser;
 
 /**
  * Update command.

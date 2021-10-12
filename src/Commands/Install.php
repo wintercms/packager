@@ -1,6 +1,6 @@
 <?php
 
-namespace BennoThommo\Packager\Commands;
+namespace Winter\Packager\Commands;
 
 /**
  * Install command.

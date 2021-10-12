@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace BennoThommo\Packager\Tests\Cases;
+namespace Winter\Packager\Tests\Cases;
 
-use BennoThommo\Packager\Commands\Install;
-use BennoThommo\Packager\Tests\ComposerTestCase;
+use Winter\Packager\Commands\Install;
+use Winter\Packager\Tests\ComposerTestCase;
 /**
  * @testdox The Install command
- * @coversDefaultClass \BennoThommo\Packager\Commands\Install
+ * @coversDefaultClass \Winter\Packager\Commands\Install
  */
 final class InstallTest extends ComposerTestCase
 {

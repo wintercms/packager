@@ -1,9 +1,9 @@
 <?php
 
-namespace BennoThommo\Packager\Commands;
+namespace Winter\Packager\Commands;
 
-use BennoThommo\Packager\Composer;
-use BennoThommo\Packager\Exceptions\WorkDirException;
+use Winter\Packager\Composer;
+use Winter\Packager\Exceptions\WorkDirException;
 use Composer\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;

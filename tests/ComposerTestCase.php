@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace BennoThommo\Packager\Tests;
+namespace Winter\Packager\Tests;
 
-use BennoThommo\Packager\Composer;
+use Winter\Packager\Composer;
 use PHPUnit\Framework\TestCase;
 
 class ComposerTestCase extends TestCase

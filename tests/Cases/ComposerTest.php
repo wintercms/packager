@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace BennoThommo\Packager\Tests\Cases;
+namespace Winter\Packager\Tests\Cases;
 
-use BennoThommo\Packager\Tests\ComposerTestCase;
+use Winter\Packager\Tests\ComposerTestCase;
 
 /**
  * @testdox A Composer instance
- * @coversDefaultClass \BennoThommo\Packager\Composer
+ * @coversDefaultClass \Winter\Packager\Composer
  */
 final class ComposerTest extends ComposerTestCase
 {
@@ -34,7 +34,7 @@ final class ComposerTest extends ComposerTestCase
      */
     public function itCannotSetANonExistentHomeDir(): void
     {
-        $this->expectException(\BennoThommo\Packager\Exceptions\HomeDirException::class);
+        $this->expectException(\Winter\Packager\Exceptions\HomeDirException::class);
 
         $this->tearDownTestDirs();
 

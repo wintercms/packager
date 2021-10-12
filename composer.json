@@ -1,5 +1,5 @@
 {
-    "name": "bennothommo/packager",
+    "name": "winter/packager",
     "description": "Run Composer commands within a PHP application",
     "keywords": ["packager", "composer", "php"],
     "type": "library",
@@ -7,7 +7,13 @@
     "authors": [
         {
             "name": "Ben Thomson",
-            "email": "git@alfreido.com"
+            "email": "git@alfreido.com",
+            "role": "Original author"
+        },
+        {
+            "name": "Winter CMS Maintainers",
+            "homepage": "https://wintercms.com",
+            "role": "Maintainer"
         }
     ],
     "scripts": {
@@ -29,13 +35,16 @@
     },
     "autoload": {
         "psr-4": {
-            "BennoThommo\\Packager\\": "src/"
+            "Winter\\Packager\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "BennoThommo\\Packager\\Tests\\": "tests/"
+            "Winter\\Packager\\Tests\\": "tests/"
         }
+    },
+    "replace": {
+        "bennothommo/packager": "self.version"
     },
     "prefer-stable": true,
     "minimum-stability": "dev",

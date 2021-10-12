@@ -16,7 +16,7 @@ This library therefore leverages the power of Composer in maintaining dependenci
 Install via Composer:
 
 ```
-composer require bennothommo\packager
+composer require winter\packager
 ```
 
 ## Usage
@@ -32,7 +32,7 @@ You can create a `Composer` instance in your PHP script and run these commands l
 
 ```php
 <?php
-use BennoThommo\Packager\Composer;
+use Winter\Packager\Composer;
 
 $composer = new Composer();
 $composer

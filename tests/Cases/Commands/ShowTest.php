@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace BennoThommo\Packager\Tests\Cases;
+namespace Winter\Packager\Tests\Cases;
 
-use BennoThommo\Packager\Exceptions\CommandException;
-use BennoThommo\Packager\Tests\ComposerTestCase;
+use Winter\Packager\Exceptions\CommandException;
+use Winter\Packager\Tests\ComposerTestCase;
 
 /**
  * @testdox The Show command
- * @coversDefaultClass \BennoThommo\Packager\Commands\Show
+ * @coversDefaultClass \Winter\Packager\Commands\Show
  */
 final class ShowTest extends ComposerTestCase
 {

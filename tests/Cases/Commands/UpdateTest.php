@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace BennoThommo\Packager\Tests\Cases;
+namespace Winter\Packager\Tests\Cases;
 
-use BennoThommo\Packager\Commands\Update;
-use BennoThommo\Packager\Exceptions\ComposerJsonException;
-use BennoThommo\Packager\Tests\ComposerTestCase;
+use Winter\Packager\Commands\Update;
+use Winter\Packager\Exceptions\ComposerJsonException;
+use Winter\Packager\Tests\ComposerTestCase;
 /**
  * @testdox The Update command
- * @coversDefaultClass \BennoThommo\Packager\Commands\Update
+ * @coversDefaultClass \Winter\Packager\Commands\Update
  */
 final class UpdateTest extends ComposerTestCase
 {

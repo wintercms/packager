@@ -1,6 +1,6 @@
 <?php
 
-namespace BennoThommo\Packager\Parser;
+namespace Winter\Packager\Parser;
 
 use Composer\Semver\VersionParser;
 

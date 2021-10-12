@@ -1,6 +1,6 @@
 <?php
 
-namespace BennoThommo\Packager\Exceptions;
+namespace Winter\Packager\Exceptions;
 
 use Exception;
 

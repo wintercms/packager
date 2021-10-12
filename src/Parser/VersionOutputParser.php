@@ -1,6 +1,6 @@
 <?php
 
-namespace BennoThommo\Packager\Parser;
+namespace Winter\Packager\Parser;
 
 /**
  * Parses the version string from "composer --version".

@@ -1,8 +1,8 @@
 <?php
 
-namespace BennoThommo\Packager;
+namespace Winter\Packager;
 
-use BennoThommo\Packager\Commands\Command;
+use Winter\Packager\Commands\Command;
 use Throwable;
 
 /**
@@ -49,11 +49,11 @@ class Composer
      * @var array A list of supported commands
      */
     protected $commands = [
-        'i' => \BennoThommo\Packager\Commands\Install::class,
-        'install' => \BennoThommo\Packager\Commands\Install::class,
-        'show' => \BennoThommo\Packager\Commands\Show::class,
-        'update' => \BennoThommo\Packager\Commands\Update::class,
-        'version' => \BennoThommo\Packager\Commands\Version::class,
+        'i' => \Winter\Packager\Commands\Install::class,
+        'install' => \Winter\Packager\Commands\Install::class,
+        'show' => \Winter\Packager\Commands\Show::class,
+        'update' => \Winter\Packager\Commands\Update::class,
+        'version' => \Winter\Packager\Commands\Version::class,
     ];
 
     /**
@@ -85,7 +85,7 @@ class Composer
         $name = strtolower($name);
 
         if (!array_key_exists($name, $this->commands)) {
-            throw new \BennoThommo\Packager\Exceptions\CommandException(
+            throw new \Winter\Packager\Exceptions\CommandException(
                 sprintf(
                     'Invalid command "%s"',
                     $name
@@ -99,7 +99,7 @@ class Composer
         } elseif (is_object($this->commands[$name]) && $this->commands[$name] instanceof Command) {
             $command = $this->commands[$name];
         } else {
-            throw new \BennoThommo\Packager\Exceptions\CommandException(
+            throw new \Winter\Packager\Exceptions\CommandException(
                 sprintf(
                     'The handler for command "%s" is not an instance of "%s"',
                     $name,
@@ -140,7 +140,7 @@ class Composer
             if ($autoCreate) {
                 $this->createHomeDir($path);
             } else {
-                throw new \BennoThommo\Packager\Exceptions\HomeDirException(
+                throw new \Winter\Packager\Exceptions\HomeDirException(
                     sprintf(
                         'The Composer home directory at path "%s" does not exist',
                         $path
@@ -150,7 +150,7 @@ class Composer
         }
 
         if (!is_writable($path)) {
-            throw new \BennoThommo\Packager\Exceptions\HomeDirException(
+            throw new \Winter\Packager\Exceptions\HomeDirException(
                 sprintf(
                     'The Composer home directory at path "%s" is not writable',
                     $path
@@ -177,7 +177,7 @@ class Composer
         try {
             mkdir($path, 0755, true);
         } catch (Throwable $e) {
-            throw new \BennoThommo\Packager\Exceptions\HomeDirException(
+            throw new \Winter\Packager\Exceptions\HomeDirException(
                 sprintf(
                     'Unable to create the Composer home directory at path "%s"',
                     $path

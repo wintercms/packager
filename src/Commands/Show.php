@@ -1,9 +1,9 @@
 <?php
 
-namespace BennoThommo\Packager\Commands;
+namespace Winter\Packager\Commands;
 
-use BennoThommo\Packager\Exceptions\CommandException;
-use BennoThommo\Packager\Parser\VersionOutputParser;
+use Winter\Packager\Exceptions\CommandException;
+use Winter\Packager\Parser\VersionOutputParser;
 
 /**
  * Show command.

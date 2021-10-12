@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace BennoThommo\Packager\Tests\Cases;
+namespace Winter\Packager\Tests\Cases;
 
-use BennoThommo\Packager\Commands\Version;
-use BennoThommo\Packager\Tests\ComposerTestCase;
+use Winter\Packager\Commands\Version;
+use Winter\Packager\Tests\ComposerTestCase;
 /**
  * @testdox The Version command
- * @coversDefaultClass \BennoThommo\Packager\Commands\Version
+ * @coversDefaultClass \Winter\Packager\Commands\Version
  */
 final class VersionTest extends ComposerTestCase
 {
