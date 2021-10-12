@@ -16,7 +16,7 @@ This library therefore leverages the power of Composer in maintaining dependenci
 Install via Composer:
 
 ```
-composer require winter\packager
+composer require winter/packager
 ```
 
 ## Usage
