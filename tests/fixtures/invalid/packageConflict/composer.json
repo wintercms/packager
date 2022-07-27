@@ -12,5 +12,8 @@
     "require": {
         "winter/wn-twitter-plugin": "2.0.0",
         "themattharris/tmhoauth": "0.7.5"
+    },
+    "config": {
+        "allow-plugins": true
     }
 }

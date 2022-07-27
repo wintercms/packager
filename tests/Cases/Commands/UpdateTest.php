@@ -180,6 +180,7 @@ final class UpdateTest extends ComposerTestCase
                         'winter/wn-twitter-plugin' => '2.0.0',
                     ],
                     'config' => [
+                        'allow-plugins' => true,
                         'platform' => [
                             'php' => '7.4.20',
                         ],
@@ -258,6 +259,7 @@ final class UpdateTest extends ComposerTestCase
                         'winter/wn-twitter-plugin' => '2.0.0',
                     ],
                     'config' => [
+                        'allow-plugins' => true,
                         'platform' => [
                             'php' => '7.4.20',
                         ],

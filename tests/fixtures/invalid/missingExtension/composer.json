@@ -12,5 +12,8 @@
     "require": {
         "ext-invalid": "*",
         "winter/wn-twitter-plugin": "2.0.0"
+    },
+    "config": {
+        "allow-plugins": true
     }
 }
