@@ -43,7 +43,7 @@ class Version extends BaseCommand
      *
      * @return array<string, string>|string
      */
-    public function execute(): array|string
+    public function execute()
     {
         $output = $this->runComposerCommand();
 
