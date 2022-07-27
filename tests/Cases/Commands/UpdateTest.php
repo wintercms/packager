@@ -7,6 +7,7 @@ namespace Winter\Packager\Tests\Cases;
 use Winter\Packager\Commands\Update;
 use Winter\Packager\Exceptions\ComposerJsonException;
 use Winter\Packager\Tests\ComposerTestCase;
+
 /**
  * @testdox The Update command
  * @coversDefaultClass \Winter\Packager\Commands\Update

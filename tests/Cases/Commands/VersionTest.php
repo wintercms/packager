@@ -6,6 +6,7 @@ namespace Winter\Packager\Tests\Cases;
 
 use Winter\Packager\Commands\Version;
 use Winter\Packager\Tests\ComposerTestCase;
+
 /**
  * @testdox The Version command
  * @coversDefaultClass \Winter\Packager\Commands\Version

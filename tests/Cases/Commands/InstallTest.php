@@ -6,6 +6,7 @@ namespace Winter\Packager\Tests\Cases;
 
 use Winter\Packager\Commands\Install;
 use Winter\Packager\Tests\ComposerTestCase;
+
 /**
  * @testdox The Install command
  * @coversDefaultClass \Winter\Packager\Commands\Install
