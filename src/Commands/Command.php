@@ -36,7 +36,7 @@ interface Command
     /**
      * Provides the arguments for the wrapped Composer command.
      *
-     * @return array An array of arguments to provide the Composer application.
+     * @return array<string|int,string|int|bool|null> An array of arguments to provide the Composer application.
      */
     public function arguments(): array;
 }

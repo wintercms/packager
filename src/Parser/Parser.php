@@ -18,7 +18,7 @@ interface Parser
      *
      * The Composer output is expected to be an array of lines.
      *
-     * @param array $output Output lines.
+     * @param string[] $output
      * @return mixed The parsed value.
      */
     public function parse(array $output);

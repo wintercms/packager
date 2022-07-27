@@ -46,7 +46,7 @@ class Composer
     protected $memoryLimit = 1536;
 
     /**
-     * @var array A list of supported commands
+     * @var array<string, string|Command> A list of supported commands
      */
     protected $commands = [
         'i' => \Winter\Packager\Commands\Install::class,
@@ -61,13 +61,11 @@ class Composer
      *
      * @param string $workingDir The working directory where the "composer.json" file is located.
      * @param string $homeDir The Composer home directory.
-     * @param bool $includeDev Whether to include dev dependencies for any install or update.
      */
-    public function __construct(string $workingDir = null, string $homeDir = null, bool $includeDev = true)
+    public function __construct(string $workingDir = null, string $homeDir = null)
     {
         $this->workDir = $workingDir;
         $this->homeDir = $homeDir;
-        $this->includeDev = $includeDev;
     }
 
     /**
@@ -76,7 +74,7 @@ class Composer
      * This will execute an allowed Composer command using a method call, ie. `->install()`.
      *
      * @param string $name
-     * @param array $arguments
+     * @param array<int|string, mixed> $arguments
      * @return mixed
      */
     public function __call($name, $arguments)
@@ -310,7 +308,7 @@ class Composer
     /**
      * Gets registered commands.
      *
-     * @return array
+     * @return array<string, string|Command>
      */
     public function getCommands(): array
     {

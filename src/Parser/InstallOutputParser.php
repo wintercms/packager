@@ -6,7 +6,13 @@ use Composer\Semver\VersionParser;
 
 class InstallOutputParser implements Parser
 {
-    public function parse(array $output)
+    /**
+     * Parses the output of the "install" command.
+     *
+     * @param string[] $output
+     * @return array<string, mixed>
+     */
+    public function parse(array $output): array
     {
         $parser = new VersionParser;
         $section = null;

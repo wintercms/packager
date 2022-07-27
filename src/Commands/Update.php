@@ -2,6 +2,7 @@
 
 namespace Winter\Packager\Commands;
 
+use Winter\Packager\Exceptions\ComposerExceptionHandler;
 use Winter\Packager\Exceptions\ComposerJsonException;
 use Winter\Packager\Parser\InstallOutputParser;
 
@@ -23,47 +24,47 @@ class Update extends BaseCommand
     const PREFER_SOURCE = 'source';
 
     /**
-     * @var boolean Whether to do a lockfile-only update
+     * Whether to do a lockfile-only update
      */
-    protected $lockFileOnly = false;
+    protected bool $lockFileOnly = false;
 
     /**
-     * @var boolean Include "require-dev" dependencies in the update.
+     * Include "require-dev" dependencies in the update.
      */
-    protected $includeDev = true;
+    protected bool $includeDev = true;
 
     /**
-     * @var boolean Ignore platform requirements when updating.
+     * Ignore platform requirements when updating.
      */
-    protected $ignorePlatformReqs = false;
+    protected bool $ignorePlatformReqs = false;
 
     /**
-     * @var string Prefer dist releases of packages
+     * Prefer dist releases of packages
      */
-    protected $installPreference = 'none';
+    protected string $installPreference = 'none';
 
     /**
-     * @var boolean Ignore scripts that run after Composer events.
+     * Ignore scripts that run after Composer events.
      */
-    protected $ignoreScripts = false;
+    protected bool $ignoreScripts = false;
 
     /**
-     * @var boolean Whether this command has already been executed
+     * Whether this command has already been executed
      */
-    protected $executed = false;
+    protected bool $executed = false;
 
     /**
-     * @var string Raw output from Composer
+     * @var array<int, string> Raw output from Composer
      */
-    protected $rawOutput;
+    protected ?array $rawOutput;
 
     /**
-     * @var bool Was the update successful
+     * Was the update successful?
      */
-    protected $successful;
+    protected ?bool $successful;
 
     /**
-     * @var array Array of packages installed, upgraded or removed
+     * @var array<string,array<string|int, string|array<int, string>>> Array of packages installed, upgraded or removed
      */
     protected $packages = [
         'installed' => [],
@@ -72,7 +73,8 @@ class Update extends BaseCommand
     ];
 
     /**
-     * @var array Array of packages locked, upgraded or removed in lock file
+     * @var array<string,array<string|int, string|array<int, string>>> Array of packages locked, upgraded or removed in
+     * lock file
      */
     protected $lockFile = [
         'locked' => [],
@@ -81,7 +83,7 @@ class Update extends BaseCommand
     ];
 
     /**
-     * @var array Array of problems during update.
+     * @var array<int, string> Array of problems during update.
      */
     protected $problems = [];
 
@@ -124,7 +126,7 @@ class Update extends BaseCommand
     public function execute()
     {
         if ($this->executed) {
-            return;
+            return $this;
         }
 
         $this->executed = true;
@@ -132,11 +134,11 @@ class Update extends BaseCommand
 
         if ($output['code'] !== 0) {
             if (isset($output['exception'])) {
-                throw new ComposerJsonException(
-                    sprintf(
-                        'Your %s file is invalid.',
-                        $this->getComposer()->getConfigFile()
-                    ), 0, $output['exception']
+                $exception = ComposerExceptionHandler::handle($output['exception'], $this);
+                throw new $exception['class'](
+                    $exception['message'],
+                    $exception['code'] ?? 0,
+                    $exception['previous'] ?? null
                 );
             }
         }
@@ -169,7 +171,7 @@ class Update extends BaseCommand
      *
      * Packages are returned as an array, with the package name as the key, and the installed version as the value.
      *
-     * @return array
+     * @return array<string, string>
      */
     public function getInstalled(): array
     {
@@ -192,7 +194,7 @@ class Update extends BaseCommand
      * Packages are returned as an array, with the package name as the key. The value is also an array with two values,
      * the previously installed version and the version that the package was updated to.
      *
-     * @return array
+     * @return array<string, array<int, string>>
      */
     public function getUpgraded(): array
     {
@@ -214,7 +216,7 @@ class Update extends BaseCommand
      *
      * Packages are returned as a simple array of package names that have been removed.
      *
-     * @return array
+     * @return array<int, string>
      */
     public function getRemoved(): array
     {
@@ -236,7 +238,7 @@ class Update extends BaseCommand
      *
      * Packages are returned as an array, with the package name as the key, and the installed version as the value.
      *
-     * @return array
+     * @return array<string, string>
      */
     public function getLockInstalled(): array
     {
@@ -259,7 +261,7 @@ class Update extends BaseCommand
      * Packages are returned as an array, with the package name as the key. The value is also an array with two values,
      * the previously installed version and the version that the package was updated to.
      *
-     * @return array
+     * @return array<string, array<int, string>>
      */
     public function getLockUpgraded(): array
     {
@@ -281,7 +283,7 @@ class Update extends BaseCommand
      *
      * Packages are returned as a simple array of package names that have been removed.
      *
-     * @return array
+     * @return array<int, string>
      */
     public function getLockRemoved(): array
     {
@@ -303,7 +305,7 @@ class Update extends BaseCommand
      *
      * The problems are returned as a simple array of strings.
      *
-     * @return array
+     * @return array<int, string>
      */
     public function getProblems(): array
     {

@@ -1,0 +1,7 @@
+parameters:
+    level: 6
+    paths:
+        - src
+    ignoreErrors:
+        - message: '#message has no type specified#'
+          path: src/Exceptions/*.php

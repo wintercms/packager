@@ -19,19 +19,19 @@ use Symfony\Component\Console\Output\BufferedOutput;
 abstract class BaseCommand implements Command
 {
     /**
-     * @var Composer Composer instance.
+     * Composer instance.
      */
-    protected $composer;
+    protected Composer $composer;
 
     /**
-     * @var Application Composer application.
+     * Composer application.
      */
-    protected $composerApp;
+    protected ?Application $composerApp;
 
     /**
-     * @var array An array of environment variables previous to setting up the app.
+     * @var array<string, string> An array of environment variables previous to setting up the app.
      */
-    protected $preComposerEnv = [];
+    protected array $preComposerEnv = [];
 
     /**
      * Constructor.
@@ -109,7 +109,7 @@ abstract class BaseCommand implements Command
      * This method creates the Composer application, sets the necessary environment variables, then executes the
      * command and returns the execution code and output of the Composer application after restoring the state.
      *
-     * @return array the execution code, and any output from the Composer application.
+     * @return array<string, mixed> the execution code, and any output from the Composer application.
      */
     protected function runComposerCommand(): array
     {
@@ -179,11 +179,7 @@ abstract class BaseCommand implements Command
 
         // Reset environment
         foreach ($this->preComposerEnv as $envVar => $envValue) {
-            if (!is_null($envVar)) {
-                putenv("$envVar=$envValue");
-            } else {
-                putenv("$envVar");
-            }
+            putenv("$envVar=$envValue");
         }
     }
 
@@ -193,7 +189,7 @@ abstract class BaseCommand implements Command
      * The keys of this array are the environment variables, and the values are - in the case of a string - a callback
      * to the Composer instance, or - in the case of other values - the value to be used for the environment variable.
      *
-     * @return array
+     * @return array<string,string|int>
      */
     protected function composerEnvVars(): array
     {

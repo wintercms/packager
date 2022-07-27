@@ -20,14 +20,30 @@ class Version extends BaseCommand
      */
     protected $detail = 'version';
 
-    public function handle(string $detail = 'version')
+    /**
+     * Command handler.
+     *
+     * Prepares the details of the Composer version.
+     *
+     * Detail can be one of the following:
+     *  - `all`: Get all details
+     *  - `version`: Get only the version number
+     *  - `date`: Get the build date
+     *  - `dateTime`: Get the build date and time
+     */
+    public function handle(string $detail = 'version'): void
     {
         $this->detail = (in_array($detail, ['version', 'date', 'dateTime', 'all']))
             ? $detail
             : 'version';
     }
 
-    public function execute()
+    /**
+     * @inheritDoc
+     *
+     * @return array<string, string>|string
+     */
+    public function execute(): array|string
     {
         $output = $this->runComposerCommand();
 

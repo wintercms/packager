@@ -3,7 +3,6 @@
 namespace Winter\Packager\Commands;
 
 use Winter\Packager\Exceptions\CommandException;
-use Winter\Packager\Parser\VersionOutputParser;
 
 /**
  * Show command.
@@ -16,21 +15,40 @@ use Winter\Packager\Parser\VersionOutputParser;
 class Show extends BaseCommand
 {
     /**
-     * @var string Mode to run the command against
+     * Mode to run the command against
      */
-    public $mode = 'installed';
+    public string $mode = 'installed';
 
     /**
-     * @var string Individual package to search
+     * Individual package to search
      */
-    public $package;
+    public ?string $package;
 
     /**
-     * @var string Exclude dev dependencies from search
+     * Exclude dev dependencies from search
      */
-    public $noDev;
+    public bool $noDev = false;
 
-    public function handle(?string $mode = 'installed', string $package = null, bool $noDev = false)
+    /**
+     * Command handler.
+     *
+     * The mode can be one of the following:
+     *  - `installed`: Show installed packages
+     *  - `locked`: Show locked packages
+     *  - `platform`: Show platform requirements
+     *  - `available`: Show all available packages
+     *  - `self`: Show the current package
+     *  - `path`: Show the package path
+     *  - `tree`: Show packages in a dependency tree
+     *  - `outdated`: Show only outdated packages
+     *  - `direct`: Show only direct dependencies
+     *
+     * @param string|null $mode
+     * @param string|null $package
+     * @param boolean $noDev
+     * @return void
+     */
+    public function handle(?string $mode = 'installed', string $package = null, bool $noDev = false): void
     {
         $mode = $mode ?? 'installed';
 
@@ -60,6 +78,9 @@ class Show extends BaseCommand
         $this->noDev = $noDev;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function execute()
     {
         $output = $this->runComposerCommand();
