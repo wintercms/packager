@@ -51,6 +51,7 @@ class Composer
     protected $commands = [
         'i' => \Winter\Packager\Commands\Install::class,
         'install' => \Winter\Packager\Commands\Install::class,
+        'search' => \Winter\Packager\Commands\Search::class,
         'show' => \Winter\Packager\Commands\Show::class,
         'update' => \Winter\Packager\Commands\Update::class,
         'version' => \Winter\Packager\Commands\Version::class,

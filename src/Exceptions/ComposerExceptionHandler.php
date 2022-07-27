@@ -9,14 +9,14 @@ use Winter\Packager\Commands\BaseCommand;
  * Handles a Composer exception and returns a corresponding Packager exception.
  *
  * @author Ben Thomson
- * @since 0.1.6
+ * @since 0.2.0
  */
 class ComposerExceptionHandler
 {
     /**
      * Handles a Composer exception and returns a corresponding Packager exception.
      *
-     * @param Throwable $exception
+     * @param \Throwable $exception
      * @param BaseCommand $command
      * @return array<string, mixed>
      */
