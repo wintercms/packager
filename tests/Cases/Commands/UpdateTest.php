@@ -371,7 +371,8 @@ final class UpdateTest extends ComposerTestCase
         $this->copyToWorkDir($this->testBasePath() . '/fixtures/valid/simple/composer.json');
 
         // call with dryRun = true
-        $update = $this->composer->update(true, false, false, 'none', false, true);
+        #$update = $this->composer->update(true, false, false, 'none', false, true);
+        $update = $this->composer->update(dryRun: true);
 
         // make sure no lock file gets created
         $this->assertFileDoesNotExist($this->workDir . '/composer.lock');
