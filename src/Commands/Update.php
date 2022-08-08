@@ -49,6 +49,11 @@ class Update extends BaseCommand
     protected bool $ignoreScripts = false;
 
     /**
+     * Use dry-run mode
+     */
+    protected bool $dryRun = false;
+
+    /**
      * Whether this command has already been executed
      */
     protected bool $executed = false;
@@ -146,6 +151,10 @@ class Update extends BaseCommand
         }
 
         $this->rawOutput = $output['output'];
+
+        if ($this->dryRun) {
+            return $this;
+        }
 
         $parser = new InstallOutputParser;
         $parsed = $parser->parse($this->rawOutput);

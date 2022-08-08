@@ -359,4 +359,29 @@ final class UpdateTest extends ComposerTestCase
 
         $this->composer->update();
     }
+
+    /**
+     * @test
+     * @testdox can run a (real) update with --dry-run option
+     * @covers ::handle
+     * @covers ::execute
+     */
+    public function itCanRunAnUpdateRealWithDryRun()
+    {
+        $this->copyToWorkDir($this->testBasePath() . '/fixtures/valid/simple/composer.json');
+
+        // call with dryRun = true
+        $update = $this->composer->update(true, false, false, 'none', false, true);
+
+        // make sure no lock file gets created
+        $this->assertFileDoesNotExist($this->workDir . '/composer.lock');
+
+        // make sure no vendor folder gets created
+        $this->assertDirectoryDoesNotExist($this->workDir . '/vendor');
+
+        $this->assertNotEmpty($update->getRawOutput());
+
+        $this->assertEquals(0, $update->getLockInstalledCount());
+        $this->assertEquals(0, $update->getInstalledCount());
+    }
 }
