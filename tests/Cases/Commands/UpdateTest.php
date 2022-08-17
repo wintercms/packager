@@ -381,7 +381,7 @@ final class UpdateTest extends ComposerTestCase
 
         $this->assertNotEmpty($update->getRawOutput());
 
-        $this->assertEquals(0, $update->getLockInstalledCount());
-        $this->assertEquals(0, $update->getInstalledCount());
+        $this->assertEquals(2, $update->getLockInstalledCount());
+        $this->assertEquals(2, $update->getInstalledCount());
     }
 }

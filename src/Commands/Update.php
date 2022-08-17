@@ -152,10 +152,6 @@ class Update extends BaseCommand
 
         $this->rawOutput = $output['output'];
 
-        if ($this->dryRun) {
-            return $this;
-        }
-
         $parser = new InstallOutputParser;
         $parsed = $parser->parse($this->rawOutput);
 
