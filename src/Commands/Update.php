@@ -49,6 +49,11 @@ class Update extends BaseCommand
     protected bool $ignoreScripts = false;
 
     /**
+     * Use dry-run mode
+     */
+    protected bool $dryRun = false;
+
+    /**
      * Whether this command has already been executed
      */
     protected bool $executed = false;
@@ -102,7 +107,8 @@ class Update extends BaseCommand
         bool $lockFileOnly = false,
         bool $ignorePlatformReqs = false,
         string $installPreference = 'none',
-        bool $ignoreScripts = false
+        bool $ignoreScripts = false,
+        bool $dryRun = false
     ) {
         if ($this->executed) {
             return;
@@ -112,6 +118,7 @@ class Update extends BaseCommand
         $this->lockFileOnly = $lockFileOnly;
         $this->ignorePlatformReqs = $ignorePlatformReqs;
         $this->ignoreScripts = $ignoreScripts;
+        $this->dryRun = $dryRun;
 
         if (in_array($installPreference, [self::PREFER_NONE, self::PREFER_DIST, self::PREFER_SOURCE])) {
             $this->installPreference = $installPreference;
@@ -164,6 +171,11 @@ class Update extends BaseCommand
     public function isSuccessful(): bool
     {
         return $this->successful === true;
+    }
+
+    public function getRawOutput(): array
+    {
+        return $this->rawOutput;
     }
 
     /**
@@ -334,6 +346,10 @@ class Update extends BaseCommand
     public function arguments(): array
     {
         $arguments = [];
+
+        if ($this->dryRun) {
+            $arguments['--dry-run'] = true;
+        }
 
         if ($this->includeDev) {
             $arguments['--dev'] = true;
