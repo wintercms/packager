@@ -78,7 +78,7 @@ final class SearchTest extends ComposerTestCase
      */
     public function itCanRunRealSearch(): void
     {
-        $search = $this->composer->search('winter', 'winter-module');
+        $search = $this->composer->search('winter/', 'winter-module');
 
         $this->assertArraySubset([
             [

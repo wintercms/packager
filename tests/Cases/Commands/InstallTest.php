@@ -50,7 +50,7 @@ final class InstallTest extends ComposerTestCase
 
         // Check a couple of packages in the lock file
         $this->assertArrayHasKey('winter/storm', $install->getLockInstalled());
-        $this->assertEquals('dev-develop 0a729ee', $install->getLockInstalled()['winter/storm']);
+        $this->assertEquals('dev-develop', $install->getLockInstalled()['winter/storm']);
 
         $this->assertArrayHasKey('symfony/yaml', $install->getLockInstalled());
         $this->assertEquals('3.4.47.0', $install->getLockInstalled()['symfony/yaml']);
@@ -61,9 +61,12 @@ final class InstallTest extends ComposerTestCase
         $this->assertArrayHasKey('league/flysystem', $install->getLockInstalled());
         $this->assertEquals('1.1.3.0', $install->getLockInstalled()['league/flysystem']);
 
+        $this->assertArrayHasKey('nesbot/carbon', $install->getLockInstalled());
+        $this->assertEquals('2.48.9999999.9999999-dev', $install->getLockInstalled()['nesbot/carbon']);
+
         // Check a couple of packages
         $this->assertArrayHasKey('winter/storm', $install->getInstalled());
-        $this->assertEquals('dev-develop 0a729ee', $install->getInstalled()['winter/storm']);
+        $this->assertEquals('dev-develop', $install->getInstalled()['winter/storm']);
 
         $this->assertArrayHasKey('symfony/yaml', $install->getInstalled());
         $this->assertEquals('3.4.47.0', $install->getInstalled()['symfony/yaml']);
@@ -73,6 +76,12 @@ final class InstallTest extends ComposerTestCase
 
         $this->assertArrayHasKey('league/flysystem', $install->getInstalled());
         $this->assertEquals('1.1.3.0', $install->getInstalled()['league/flysystem']);
+
+        $this->assertArrayHasKey('league/flysystem', $install->getInstalled());
+        $this->assertEquals('1.1.3.0', $install->getInstalled()['league/flysystem']);
+
+        $this->assertArrayHasKey('nesbot/carbon', $install->getInstalled());
+        $this->assertEquals('2.48.9999999.9999999-dev', $install->getInstalled()['nesbot/carbon']);
     }
 
     /**

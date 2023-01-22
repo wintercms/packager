@@ -48,7 +48,7 @@ class InstallOutputParser implements Parser
 
                 // Parse action
                 if (!preg_match(
-                    '/^\- ([A-Z][a-z]+) ([a-z0-9]([_.-]?[a-z0-9]+)*\/[a-z0-9](([_.]?|-{0,2})[a-z0-9]+)*) \(([^\)\s]+)\)/i',
+                    '/^\- ([A-Z][a-z]+) ([a-z0-9]([_.-]?[a-z0-9]+)*\/[a-z0-9](([_.]?|-{0,2})[a-z0-9]+)*) \(([^\=)]+)( => ([^\)]+))?\)/i',
                     $line,
                     $matches
                 )) {
@@ -57,7 +57,14 @@ class InstallOutputParser implements Parser
 
                 $action = strtolower($matches[1]);
                 $package = $matches[2];
-                $version = $matches[6];
+                $version = trim($matches[6]);
+                if (strpos($version, ' ') !== false) {
+                    $version = explode(' ', $version)[0];
+                }
+                $newVersion = isset($matches[8]) ? trim($matches[8]) : null;
+                if (isset($newVersion) && strpos($newVersion, ' ') !== false) {
+                    $newVersion = explode(' ', $newVersion)[0];
+                }
 
                 if ($section === 'lock') {
                     switch ($action) {
@@ -65,9 +72,8 @@ class InstallOutputParser implements Parser
                             $lockFile['locked'][$package] = $parser->normalize($version);
                             break;
                         case 'upgrading':
-                            [$oldVersion, $newVersion] = explode(' => ', $version);
                             $lockFile['upgraded'][$package] = [
-                                $parser->normalize($oldVersion),
+                                $parser->normalize($version),
                                 $parser->normalize($newVersion)
                             ];
                             break;
@@ -81,9 +87,8 @@ class InstallOutputParser implements Parser
                             $packages['installed'][$package] = $parser->normalize($version);
                             break;
                         case 'upgrading':
-                            [$oldVersion, $newVersion] = explode(' => ', $version);
                             $packages['upgraded'][$package] = [
-                                $parser->normalize($oldVersion),
+                                $parser->normalize($version),
                                 $parser->normalize($newVersion)
                             ];
                             break;

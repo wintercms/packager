@@ -51,7 +51,7 @@ final class UpdateTest extends ComposerTestCase
 
         // Check a couple of packages in the lock file
         $this->assertArrayHasKey('winter/storm', $update->getLockInstalled());
-        $this->assertEquals('dev-develop 0a729ee', $update->getLockInstalled()['winter/storm']);
+        $this->assertEquals('dev-develop', $update->getLockInstalled()['winter/storm']);
 
         $this->assertArrayHasKey('symfony/yaml', $update->getLockInstalled());
         $this->assertEquals('3.4.47.0', $update->getLockInstalled()['symfony/yaml']);
@@ -64,7 +64,7 @@ final class UpdateTest extends ComposerTestCase
 
         // Check a couple of packages
         $this->assertArrayHasKey('winter/storm', $update->getInstalled());
-        $this->assertEquals('dev-develop 0a729ee', $update->getInstalled()['winter/storm']);
+        $this->assertEquals('dev-develop', $update->getInstalled()['winter/storm']);
 
         $this->assertArrayHasKey('symfony/yaml', $update->getInstalled());
         $this->assertEquals('3.4.47.0', $update->getInstalled()['symfony/yaml']);
@@ -103,7 +103,7 @@ final class UpdateTest extends ComposerTestCase
 
         // Check a couple of packages
         $this->assertArrayHasKey('winter/storm', $update->getLockInstalled());
-        $this->assertEquals('dev-develop 0a729ee', $update->getLockInstalled()['winter/storm']);
+        $this->assertEquals('dev-develop', $update->getLockInstalled()['winter/storm']);
 
         $this->assertArrayHasKey('symfony/yaml', $update->getLockInstalled());
         $this->assertEquals('3.4.47.0', $update->getLockInstalled()['symfony/yaml']);

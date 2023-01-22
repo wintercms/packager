@@ -27,7 +27,7 @@ Lock file operations: 106 installs, 0 updates, 0 removals
   - Locking mockery/mockery (1.4.3)
   - Locking monolog/monolog (2.2.0)
   - Locking myclabs/deep-copy (1.10.2)
-  - Locking nesbot/carbon (2.48.1)
+  - Locking nesbot/carbon (2.48.x-dev 08f4bbf)
   - Locking nikic/php-parser (v4.10.5)
   - Locking opis/closure (3.6.2)
   - Locking paragonie/random_compat (v2.0.20)
@@ -131,7 +131,7 @@ Package operations: 106 installs, 0 updates, 0 removals
   - Downloading symfony/css-selector (v5.3.0)
   - Downloading symfony/yaml (v3.4.47)
   - Downloading scssphp/scssphp (v1.5.2)
-  - Downloading nesbot/carbon (2.48.1)
+  - Downloading nesbot/carbon (2.48.x-dev 08f4bbf)
   - Syncing winter/storm (dev-develop 0a729ee) into cache
   - Syncing winter/wn-backend-module (dev-develop 2f45d5a) into cache
   - Syncing winter/wn-cms-module (dev-develop 33fd0a1) into cache
@@ -230,7 +230,7 @@ Package operations: 106 installs, 0 updates, 0 removals
   - Installing twig/twig (v2.14.6): Extracting archive
   - Installing symfony/yaml (v3.4.47): Extracting archive
   - Installing scssphp/scssphp (v1.5.2): Extracting archive
-  - Installing nesbot/carbon (2.48.1): Extracting archive
+  - Installing nesbot/carbon (2.48.x-dev 08f4bbf): Extracting archive
   - Installing linkorb/jsmin-php (1.0.0): Extracting archive
   - Installing league/csv (9.7.1): Extracting archive
   - Installing laravel/framework (v6.20.27): Extracting archive
