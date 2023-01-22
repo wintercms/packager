@@ -48,7 +48,7 @@ class InstallOutputParser implements Parser
 
                 // Parse action
                 if (!preg_match(
-                    '/^\- ([A-Z][a-z]+) ([a-z0-9]([_.-]?[a-z0-9]+)*\/[a-z0-9](([_.]?|-{0,2})[a-z0-9]+)*) \(([^\)]+)\)/i',
+                    '/^\- ([A-Z][a-z]+) ([a-z0-9]([_.-]?[a-z0-9]+)*\/[a-z0-9](([_.]?|-{0,2})[a-z0-9]+)*) \(([^\)\s]+)\)/i',
                     $line,
                     $matches
                 )) {
