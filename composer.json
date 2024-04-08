@@ -22,11 +22,11 @@
         "coverage": "XDEBUG_MODE=coverage phpunit --testdox --colors=\"auto\" --coverage-html=\"coverage\""
     },
     "require": {
-        "php": "^7.4.0 || ^8.0",
+        "php": "^8.0",
         "ext-openssl": "*",
         "ext-zip": "*",
         "ext-zlib": "*",
-        "composer/composer": "^2.1.0",
+        "composer/composer": "^2.7.0",
         "symfony/process": "^4.3.4 || ^5.0 || ^6.0"
     },
     "require-dev": {

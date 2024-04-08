@@ -158,7 +158,7 @@ abstract class BaseCommand implements Command
                 'output' => preg_split('/(\n|\r\n)/', $e->getMessage()),
                 'exception' => $e,
             ];
-
+        } finally {
             // Restores the error handler away from Composer's in-built error handler
             restore_error_handler();
         }
@@ -200,6 +200,8 @@ abstract class BaseCommand implements Command
             'COMPOSER_NO_INTERACTION' => 1,
             'COMPOSER_MEMORY_LIMIT' => 'getMemoryLimit',
             'COMPOSER_PROCESS_TIMEOUT' => 'getTimeout',
+            'COMPOSER_FUND' => 0,
+            'COMPOSER_AUDIT_ABANDONED' => 'getAuditAbandoned',
         ];
     }
 }

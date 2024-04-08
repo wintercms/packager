@@ -46,6 +46,11 @@ class Composer
     protected $memoryLimit = 1536;
 
     /**
+     * The current behaviour for handling abandoned packages.
+     */
+    protected string $auditAbandoned = 'ignore';
+
+    /**
      * @var array<string, string|Command> A list of supported commands
      */
     protected $commands = [
@@ -131,9 +136,8 @@ class Composer
      *
      * @param string $path Path to the Composer home directory.
      * @param bool $autoCreate If true, automatically create the home directory if it is missing.
-     * @return static
      */
-    public function setHomeDir(string $path, bool $autoCreate = false)
+    public function setHomeDir(string $path, bool $autoCreate = false): static
     {
         if (!is_dir($path)) {
             if ($autoCreate) {
@@ -200,11 +204,8 @@ class Composer
      *
      * The working directory is the folder that contains the "composer.json" (or equivalent) config file, and the
      * vendor files to be used for a particular project.
-     *
-     * @param string $path
-     * @return static
      */
-    public function setWorkDir(string $path)
+    public function setWorkDir(string $path): static
     {
         $this->workDir = $path;
         return $this;
@@ -214,10 +215,8 @@ class Composer
      * Gets the name for the config file, where the Composer package configuration is stored.
      *
      * By default, this is "composer.json".
-     *
-     * @return string
      */
-    public function getConfigFile()
+    public function getConfigFile(): string
     {
         return $this->configFile;
     }
@@ -226,9 +225,8 @@ class Composer
      * Sets the name for the config file, where the Composer package configuration is stored.
      *
      * @param string $configFile Config file name.
-     * @return static
      */
-    public function setConfigFile(string $configFile)
+    public function setConfigFile(string $configFile): static
     {
         $this->configFile = $configFile;
         return $this;
@@ -238,10 +236,8 @@ class Composer
      * Gets the name for the vendor package directory.
      *
      * By default, this is "vendor".
-     *
-     * @return string
      */
-    public function getVendorDir()
+    public function getVendorDir(): string
     {
         return $this->vendorDir;
     }
@@ -250,9 +246,8 @@ class Composer
      * Sets the name for the vendor package directory.
      *
      * @param string $vendorDir Vendor directory name.
-     * @return static
      */
-    public function setVendorDir(string $vendorDir)
+    public function setVendorDir(string $vendorDir): static
     {
         $this->vendorDir = $vendorDir;
         return $this;
@@ -262,10 +257,8 @@ class Composer
      * Gets the timeout for a Composer command.
      *
      * The timeout is recorded as seconds. By default, this is 300 (5 minutes).
-     *
-     * @return int
      */
-    public function getTimeout()
+    public function getTimeout(): int
     {
         return $this->timeout;
     }
@@ -274,9 +267,8 @@ class Composer
      * Sets the timeout for a Composer command.
      *
      * @param int $timeout Timeout, in seconds.
-     * @return static
      */
-    public function setTimeout(int $timeout)
+    public function setTimeout(int $timeout): static
     {
         $this->timeout = $timeout;
         return $this;
@@ -286,10 +278,8 @@ class Composer
      * Gets the memory limit for a Composer command.
      *
      * The memory limit is recorded (and returned) as MBytes. By default, this is 1536 (1.5 GBytes)
-     *
-     * @return string
      */
-    public function getMemoryLimit()
+    public function getMemoryLimit(): string
     {
         return $this->memoryLimit . 'M';
     }
@@ -298,9 +288,8 @@ class Composer
      * Sets the memory limit for a Composer command.
      *
      * @param int $memoryLimit Memory limit, in megabytes.
-     * @return static
      */
-    public function setMemoryLimit(int $memoryLimit)
+    public function setMemoryLimit(int $memoryLimit): static
     {
         $this->memoryLimit = $memoryLimit;
         return $this;
@@ -318,14 +307,38 @@ class Composer
 
     /**
      * Sets a command.
-     *
-     * @param string $command
-     * @param Command $commandClass
-     * @return static
      */
-    public function setCommand(string $command, Command $commandClass)
+    public function setCommand(string $command, Command $commandClass): static
     {
         $this->commands[$command] = $commandClass;
         return $this;
+    }
+
+    /**
+     * Sets the behaviour for handling abandoned packages.
+     */
+    public function setAuditAbandoned(string $setting = 'ignore'): static
+    {
+        if (in_array(strtolower($setting), ['ignore', 'report', 'fail'])) {
+            throw new \Winter\Packager\Exceptions\CommandException(
+                sprintf(
+                    'Invalid setting for "audit-abandoned": "%s"',
+                    $setting
+                )
+            );
+        }
+
+        $this->auditAbandoned = strtolower($setting);
+        return $this;
+    }
+
+    /**
+     * Gets the behaviour for handling abandoned packages.
+     *
+     * @return string
+     */
+    public function getAuditAbandoned(): string
+    {
+        return $this->auditAbandoned;
     }
 }

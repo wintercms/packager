@@ -173,6 +173,11 @@ class Update extends BaseCommand
         return $this->successful === true;
     }
 
+    /**
+     * Gets raw output from Composer.
+     *
+     * @return array<int, string>
+     */
     public function getRawOutput(): array
     {
         return $this->rawOutput;
