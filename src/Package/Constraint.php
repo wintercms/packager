@@ -48,6 +48,7 @@ class Constraint
      */
     public static function package(string $package)
     {
+        /** @phpstan-ignore-next-line */
         return new static($package);
     }
 
@@ -58,6 +59,7 @@ class Constraint
      */
     public static function php()
     {
+        /** @phpstan-ignore-next-line */
         return new static('php');
     }
 
@@ -68,6 +70,7 @@ class Constraint
      */
     public static function extension(string $extension)
     {
+        /** @phpstan-ignore-next-line */
         return new static('ext-' . $extension);
     }
 
