@@ -2,12 +2,9 @@
 
 namespace Winter\Packager\Commands;
 
+use Winter\Packager\Composer;
 use Winter\Packager\Enums\VersionStatus;
 use Winter\Packager\Exceptions\CommandException;
-use Winter\Packager\Package\Collection;
-use Winter\Packager\Package\DetailedPackage;
-use Winter\Packager\Package\Package;
-use Winter\Packager\Package\VersionedPackage;
 
 /**
  * Show command.
@@ -115,7 +112,7 @@ class Show extends BaseCommand
                 [$namespace, $name] = $this->nameSplit($result['name']);
 
                 if (isset($result['version'])) {
-                    $packages[] = new VersionedPackage(
+                    $packages[] = Composer::newVersionedPackage(
                         $namespace,
                         $name,
                         $result['description'] ?? '',
@@ -124,7 +121,7 @@ class Show extends BaseCommand
                         VersionStatus::tryFrom($result['latest-status'] ?? '') ?? VersionStatus::UP_TO_DATE
                     );
                 } else {
-                    $packages[] = new Package(
+                    $packages[] = Composer::newPackage(
                         $namespace,
                         $name,
                         $result['description'] ?? '',
@@ -132,26 +129,26 @@ class Show extends BaseCommand
                 }
             }
 
-            return new Collection($packages);
+            return Composer::newCollection($packages);
         } elseif (is_null($this->package) && $this->mode === 'available') {
             // Convert entire available package list into a package collection
             foreach ($results['available'] as $result) {
                 [$namespace, $name] = $this->nameSplit($result['name']);
 
-                $packages[] = new Package(
+                $packages[] = Composer::newPackage(
                     $namespace,
                     $name,
                     $result['description'] ?? '',
                 );
             }
 
-            return new Collection($packages);
+            return Composer::newCollection($packages);
         } elseif ($this->mode === 'self') {
             $result = $results;
             [$namespace, $name] = $this->nameSplit($result['name']);
 
             // Return the current package
-            return new DetailedPackage(
+            return Composer::newDetailedPackage(
                 $namespace,
                 $name,
                 $result['description'] ?? '',
@@ -170,7 +167,7 @@ class Show extends BaseCommand
             $result = $results;
             [$namespace, $name] = $this->nameSplit($result['name']);
 
-            return new DetailedPackage(
+            return Composer::newDetailedPackage(
                 $namespace,
                 $name,
                 $result['description'] ?? '',

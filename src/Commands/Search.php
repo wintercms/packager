@@ -2,9 +2,8 @@
 
 namespace Winter\Packager\Commands;
 
+use Winter\Packager\Composer;
 use Winter\Packager\Exceptions\CommandException;
-use Winter\Packager\Package\Package;
-use Winter\Packager\Package\Collection;
 
 /**
  * Search command.
@@ -72,14 +71,14 @@ class Search extends BaseCommand
         foreach ($results as $result) {
             [$namespace, $name] = preg_split('/\//', $result['name'], 2);
 
-            $packages[] = new Package(
+            $packages[] = Composer::newPackage(
                 $namespace,
                 $name,
                 $result['description'] ?? ''
             );
         }
 
-        return new Collection($packages);
+        return Composer::newCollection($packages);
     }
 
     /**

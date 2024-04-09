@@ -4,6 +4,11 @@ namespace Winter\Packager;
 
 use Winter\Packager\Commands\Command;
 use Throwable;
+use Winter\Packager\Package\Collection;
+use Winter\Packager\Package\Constraint;
+use Winter\Packager\Package\DetailedPackage;
+use Winter\Packager\Package\Package;
+use Winter\Packager\Package\VersionedPackage;
 
 /**
  * Represents a Composer instance.
@@ -66,6 +71,18 @@ class Composer
         'show' => \Winter\Packager\Commands\Show::class,
         'update' => \Winter\Packager\Commands\Update::class,
         'version' => \Winter\Packager\Commands\Version::class,
+    ];
+
+    /**
+     * @var array<string, string> Map of classes to use for packages, constraints and collections. This allows for
+     * custom classes to be used for these objects, should a developer wish to extend the functionality.
+     */
+    protected static $packageClasses = [
+        'package' => \Winter\Packager\Package\Package::class,
+        'versionedPackage' => \Winter\Packager\Package\VersionedPackage::class,
+        'detailedPackage' => \Winter\Packager\Package\DetailedPackage::class,
+        'collection' => \Winter\Packager\Package\Collection::class,
+        'constraint' => \Winter\Packager\Package\Constraint::class,
     ];
 
     /**
@@ -346,5 +363,83 @@ class Composer
     public function getAuditAbandoned(): string
     {
         return $this->auditAbandoned;
+    }
+
+    /**
+     * Defines the classes to use for packages, constraints and collections.
+     *
+     * You may either overwrite a single type by providing both a `$type` and `$class` as a string, or change multiple
+     * by providing an array of types and classes.
+     *
+     * It is up to you to ensure that the classes you provide are compatible with the classes they are replacing - at
+     * the very least, you should extend the classes used by default.
+     *
+     * @param string|array<string, string> $type
+     * @param string|null $class
+     */
+    public static function setPackageClass(string|array $type, ?string $class = null): void
+    {
+        if (is_array($type)) {
+            foreach ($type as $t => $c) {
+                static::setPackageClass($t, $c);
+            }
+            return;
+        }
+
+        if (!array_key_exists($type, static::$packageClasses)) {
+            throw new \Exception(
+                sprintf(
+                    'Invalid package class type "%s"',
+                    $type
+                )
+            );
+        }
+
+        static::$packageClasses[$type] = $class;
+    }
+
+    /**
+     * Create a new package instance.
+     */
+    public static function newPackage(mixed ...$arguments): Package
+    {
+        $class = static::$packageClasses['package'];
+        return new $class(...$arguments);
+    }
+
+    /**
+     * Create a new versioned package instance.
+     */
+    public static function newVersionedPackage(mixed ...$arguments): VersionedPackage
+    {
+        $class = static::$packageClasses['versionedPackage'];
+        return new $class(...$arguments);
+    }
+
+    /**
+     * Create a new detailed package instance.
+     */
+    public static function newDetailedPackage(mixed ...$arguments): DetailedPackage
+    {
+        $class = static::$packageClasses['detailedPackage'];
+        return new $class(...$arguments);
+    }
+
+    /**
+     * Create a new package collection instance.
+     */
+    public static function newCollection(mixed ...$arguments): Collection
+    {
+        $class = static::$packageClasses['collection'];
+        return new $class(...$arguments);
+    }
+
+    /**
+     * Create a new constraint instance.
+     */
+    public static function newConstraint(mixed ...$arguments): Constraint
+    {
+        $class = static::$packageClasses['constraint'];
+        return new $class(...$arguments);
     }
 }
