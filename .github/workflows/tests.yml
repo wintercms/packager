@@ -22,7 +22,7 @@ jobs:
       key: winter-packager-v1
 
     concurrency:
-        group: ${{ github.workflow }}-${{ github.ref }}
+        group: ${{ github.workflow }}-${{ github.ref }}-${{ matrix.operatingSystem }}-${{ matrix.phpVersion }}
         cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
     steps:
