@@ -3,6 +3,7 @@
 namespace Winter\Packager\Commands;
 
 use Winter\Packager\Composer;
+use Winter\Packager\Enums\SearchLimitTo;
 use Winter\Packager\Exceptions\CommandException;
 
 /**
@@ -21,15 +22,13 @@ class Search extends BaseCommand
      * @param Composer $composer
      * @param string $query The search query to find packages.
      * @param string|null $type The type of package to search for.
-     * @param string|null $limitTo Limit the search parameters. This can be one of the following:
-     * - `name`: Search and return package names only
-     * - `vendor`: Search and return vendors only
+     * @param SearchLimitTo $limitTo Limit the returned results.
      */
     final public function __construct(
         Composer $composer,
         public string $query,
         public ?string $type = null,
-        public ?string $limitTo = null
+        public SearchLimitTo $limitTo = SearchLimitTo::ALL
     ) {
         parent::__construct($composer);
     }
@@ -88,9 +87,9 @@ class Search extends BaseCommand
             $arguments['--type'] = $this->type;
         }
 
-        if ($this->limitTo === 'name') {
+        if ($this->limitTo === SearchLimitTo::NAME_ONLY) {
             $arguments['--only-name'] = true;
-        } elseif ($this->limitTo === 'vendor') {
+        } elseif ($this->limitTo === SearchLimitTo::NAMESPACE_ONLY) {
             $arguments['--only-vendor'] = true;
         }
 

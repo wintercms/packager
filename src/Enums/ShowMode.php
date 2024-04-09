@@ -9,14 +9,41 @@ namespace Winter\Packager\Enums;
  */
 enum ShowMode: string
 {
+    /**
+     * Show only installed packages.
+     */
     case INSTALLED = 'installed';
+    /**
+     * Show packages contained in lock file.
+     */
     case LOCKED = 'locked';
+    /**
+     * Show only platform dependencies - ie. PHP version and extensions.
+     */
     case PLATFORM = 'platform';
+    /**
+     * Show available packages, including all uninstalled packages listed in Composer.
+     */
     case AVAILABLE = 'available';
+    /**
+     * Show the current package.
+     */
     case SELF = 'self';
+    /**
+     * Show the paths to all installed packages.
+     */
     case PATH = 'path';
+    /**
+     * Display package information in a dependency tree format.
+     */
     case TREE = 'tree';
+    /**
+     * Show packages that are outdated and have available updates.
+     */
     case OUTDATED = 'outdated';
+    /**
+     * Show only installed packages directly required by the current package (not dependencies of dependencies).
+     */
     case DIRECT = 'direct';
 
     /**
