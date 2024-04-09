@@ -12,6 +12,12 @@ use Throwable;
  *
  * @author Ben Thomson
  * @since 0.1.0
+ * @method \Winter\Packager\Commands\Install i(bool $includeDev = true, bool $lockFileOnly = false, bool $ignorePlatformReqs = false, string $installPreference = 'none', bool $ignoreScripts = false, bool $dryRun = false) Install command
+ * @method \Winter\Packager\Commands\Install install(bool $includeDev = true, bool $lockFileOnly = false, bool $ignorePlatformReqs = false, string $installPreference = 'none', bool $ignoreScripts = false, bool $dryRun = false) Install command
+ * @method \Winter\Packager\Package\Collection search() Search command
+ * @method \Winter\Packager\Package\Collection|\Winter\Packager\Package\Package|null show() Show command
+ * @method \Winter\Packager\Commands\Update update(bool $includeDev = true, bool $lockFileOnly = false, bool $ignorePlatformReqs = false, string $installPreference = 'none', bool $ignoreScripts = false, bool $dryRun = false) Update command
+ * @method string version(string $detail = 'version') Version command
  */
 class Composer
 {
