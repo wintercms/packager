@@ -3,6 +3,8 @@
 namespace Winter\Packager\Commands;
 
 use Winter\Packager\Exceptions\CommandException;
+use Winter\Packager\Package\Package;
+use Winter\Packager\Package\Collection;
 
 /**
  * Search command.
@@ -35,11 +37,6 @@ class Search extends BaseCommand
     public ?string $limitTo = null;
 
     /**
-     * @var array<int, mixed> The results returned from the query.
-     */
-    public array $results = [];
-
-    /**
      * Command handler.
      */
     public function handle(
@@ -69,9 +66,20 @@ class Search extends BaseCommand
             throw new CommandException(implode(PHP_EOL, $output['output']));
         }
 
-        $this->results = json_decode(implode(PHP_EOL, $output['output']), true);
+        $results = json_decode(implode(PHP_EOL, $output['output']), true);
+        $packages = [];
 
-        return $this;
+        foreach ($results as $result) {
+            [$namespace, $name] = preg_split('/\//', $result['name'], 2);
+
+            $packages[] = new Package(
+                $namespace,
+                $name,
+                $result['description'] ?? ''
+            );
+        }
+
+        return new Collection($packages);
     }
 
     /**
@@ -88,24 +96,6 @@ class Search extends BaseCommand
     public function requiresWorkDir(): bool
     {
         return false;
-    }
-
-    /**
-     * Returns the list of results found.
-     *
-     * @return array<int, mixed>
-     */
-    public function getResults(): array
-    {
-        return $this->results;
-    }
-
-    /**
-     * Returns the number of results found.
-     */
-    public function count(): int
-    {
-        return count($this->results);
     }
 
     /**

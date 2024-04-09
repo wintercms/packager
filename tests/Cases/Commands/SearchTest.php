@@ -52,20 +52,23 @@ final class SearchTest extends ComposerTestCase
             ], JSON_PRETTY_PRINT)
         );
 
-        $search = $this->composer->search('winter', 'winter-module');
+        $results = $this->composer->search('winter', 'winter-module');
 
-        $this->assertArraySubset([
-            [
-                'name' => 'winter/wn-system-module',
-            ],
-            [
-                'name' => 'winter/wn-cms-module',
-            ],
-            [
-                'name' => 'winter/wn-backend-module',
-            ],
-        ], $search->getResults());
-        $this->assertEquals(3, $search->count());
+        $this->assertEquals(3, $results->count());
+        $this->assertContainsOnlyInstancesOf(\Winter\Packager\Package\Package::class, $results);
+
+        // Check packages
+        $this->assertEquals('winter', $results['winter/wn-system-module']->getNamespace());
+        $this->assertEquals('wn-system-module', $results['winter/wn-system-module']->getName());
+        $this->assertEquals('System module for Winter CMS', $results['winter/wn-system-module']->getDescription());
+
+        $this->assertEquals('winter', $results['winter/wn-cms-module']->getNamespace());
+        $this->assertEquals('wn-cms-module', $results['winter/wn-cms-module']->getName());
+        $this->assertEquals('CMS module for Winter CMS', $results['winter/wn-cms-module']->getDescription());
+
+        $this->assertEquals('winter', $results['winter/wn-backend-module']->getNamespace());
+        $this->assertEquals('wn-backend-module', $results['winter/wn-backend-module']->getName());
+        $this->assertEquals('Backend module for Winter CMS', $results['winter/wn-backend-module']->getDescription());
     }
 
     /**
@@ -78,19 +81,21 @@ final class SearchTest extends ComposerTestCase
      */
     public function itCanRunRealSearch(): void
     {
-        $search = $this->composer->search('winter/', 'winter-module');
+        $results = $this->composer->search('winter/', 'winter-module');
 
-        $this->assertArraySubset([
-            [
-                'name' => 'winter/wn-system-module',
-            ],
-            [
-                'name' => 'winter/wn-cms-module',
-            ],
-            [
-                'name' => 'winter/wn-backend-module',
-            ],
-        ], $search->getResults());
-        $this->assertEquals(3, $search->count());
+        $this->assertContainsOnlyInstancesOf(\Winter\Packager\Package\Package::class, $results);
+
+        // Check packages
+        $this->assertEquals('winter', $results['winter/wn-system-module']->getNamespace());
+        $this->assertEquals('wn-system-module', $results['winter/wn-system-module']->getName());
+        $this->assertEquals('winter/wn-system-module', $results['winter/wn-system-module']->getPackageName());
+
+        $this->assertEquals('winter', $results['winter/wn-cms-module']->getNamespace());
+        $this->assertEquals('wn-cms-module', $results['winter/wn-cms-module']->getName());
+        $this->assertEquals('winter/wn-cms-module', $results['winter/wn-cms-module']->getPackageName());
+
+        $this->assertEquals('winter', $results['winter/wn-backend-module']->getNamespace());
+        $this->assertEquals('wn-backend-module', $results['winter/wn-backend-module']->getName());
+        $this->assertEquals('winter/wn-backend-module', $results['winter/wn-backend-module']->getPackageName());
     }
 }

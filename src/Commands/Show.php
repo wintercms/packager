@@ -2,7 +2,12 @@
 
 namespace Winter\Packager\Commands;
 
+use Winter\Packager\Enums\VersionStatus;
 use Winter\Packager\Exceptions\CommandException;
+use Winter\Packager\Package\Collection;
+use Winter\Packager\Package\DetailedPackage;
+use Winter\Packager\Package\Package;
+use Winter\Packager\Package\VersionedPackage;
 
 /**
  * Show command.
@@ -98,7 +103,91 @@ class Show extends BaseCommand
             }
         }
 
-        return json_decode(implode(PHP_EOL, $output['output']), true);
+        $results = json_decode(implode(PHP_EOL, $output['output']), true);
+        $packages = [];
+
+        if (is_null($this->package) && in_array($this->mode, ['installed', 'locked', 'platform', 'path', 'outdated', 'direct'])) {
+            // Convert packages in simple lists to a package collection
+            $key = (!in_array($this->mode, ['locked', 'platform'])) ? 'installed' : $this->mode;
+            $results = $results[$key];
+
+            foreach ($results as $result) {
+                [$namespace, $name] = $this->nameSplit($result['name']);
+
+                if (isset($result['version'])) {
+                    $packages[] = new VersionedPackage(
+                        $namespace,
+                        $name,
+                        $result['description'] ?? '',
+                        $result['version'],
+                        $result['latest'] ?? '',
+                        VersionStatus::tryFrom($result['latest-status'] ?? '') ?? VersionStatus::UP_TO_DATE
+                    );
+                } else {
+                    $packages[] = new Package(
+                        $namespace,
+                        $name,
+                        $result['description'] ?? '',
+                    );
+                }
+            }
+
+            return new Collection($packages);
+        } elseif (is_null($this->package) && $this->mode === 'available') {
+            // Convert entire available package list into a package collection
+            foreach ($results['available'] as $result) {
+                [$namespace, $name] = $this->nameSplit($result['name']);
+
+                $packages[] = new Package(
+                    $namespace,
+                    $name,
+                    $result['description'] ?? '',
+                );
+            }
+
+            return new Collection($packages);
+        } elseif ($this->mode === 'self') {
+            $result = $results;
+            [$namespace, $name] = $this->nameSplit($result['name']);
+
+            // Return the current package
+            return new DetailedPackage(
+                $namespace,
+                $name,
+                $result['description'] ?? '',
+                $result['type'] ?? 'library',
+                $result['keywords'] ?? [],
+                $result['homepage'] ?? '',
+                $result['authors'] ?? [],
+                $result['licenses'] ?? [],
+                $result['support'] ?? [],
+                $result['funding'] ?? [],
+                $result['requires'] ?? [],
+                $result['devRequires'] ?? [],
+                $result['extras'] ?? [],
+            );
+        } elseif (!is_null($this->package)) {
+            $result = $results;
+            [$namespace, $name] = $this->nameSplit($result['name']);
+
+            return new DetailedPackage(
+                $namespace,
+                $name,
+                $result['description'] ?? '',
+                $result['type'] ?? 'library',
+                $result['keywords'] ?? [],
+                $result['homepage'] ?? '',
+                $result['authors'] ?? [],
+                $result['licenses'] ?? [],
+                $result['support'] ?? [],
+                $result['funding'] ?? [],
+                $result['requires'] ?? [],
+                $result['devRequires'] ?? [],
+                $result['extras'] ?? [],
+            );
+        }
+
+        return null;
     }
 
     /**
@@ -139,5 +228,15 @@ class Show extends BaseCommand
         $arguments['--format'] = 'json';
 
         return $arguments;
+    }
+
+    /**
+     * Split package name from namespace.
+     *
+     * @return string[]
+     */
+    protected function nameSplit(string $name): array
+    {
+        return preg_split('/\//', $name, 2);
     }
 }

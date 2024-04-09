@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Winter\Packager\Tests\Cases;
 
+use Winter\Packager\Enums\VersionStatus;
 use Winter\Packager\Exceptions\CommandException;
 use Winter\Packager\Tests\ComposerTestCase;
 
@@ -34,14 +35,19 @@ final class ShowTest extends ComposerTestCase
         $this->copyToWorkDir($this->testBasePath() . '/fixtures/valid/simple/composer.json');
 
         $this->composer->update();
-        $result = $this->composer->show();
+        $results = $this->composer->show();
 
-        $this->assertIsArray($result);
-        $this->assertCount(2, $result['installed']);
-        $this->assertEquals('composer/ca-bundle', $result['installed'][0]['name']);
-        $this->assertEquals('1.2.9', $result['installed'][0]['version']);
-        $this->assertEquals('composer/semver', $result['installed'][1]['name']);
-        $this->assertEquals('1.7.1', $result['installed'][1]['version']);
+        $this->assertEquals(2, $results->count());
+        $this->assertContainsOnlyInstancesOf(\Winter\Packager\Package\Package::class, $results);
+
+        // Check packages
+        $this->assertEquals('composer', $results['composer/semver']->getNamespace());
+        $this->assertEquals('semver', $results['composer/semver']->getName());
+        $this->assertEquals('1.7.1', $results['composer/semver']->getVersion());
+
+        $this->assertEquals('composer', $results['composer/ca-bundle']->getNamespace());
+        $this->assertEquals('ca-bundle', $results['composer/ca-bundle']->getName());
+        $this->assertEquals('1.2.9', $results['composer/ca-bundle']->getVersion());
     }
 
     /**
@@ -55,11 +61,15 @@ final class ShowTest extends ComposerTestCase
         $this->copyToWorkDir($this->testBasePath() . '/fixtures/valid/simple/composer.json');
 
         $this->composer->update();
+
+        /** @var \Winter\Packager\Package\DetailedPackage */
         $result = $this->composer->show(null, 'composer/ca-bundle');
 
-        $this->assertIsArray($result);
-        $this->assertEquals('composer/ca-bundle', $result['name']);
-        $this->assertEquals('library', $result['type']);
+        $this->assertInstanceOf(\Winter\Packager\Package\Package::class, $result);
+        $this->assertEquals('composer', $result->getNamespace());
+        $this->assertEquals('ca-bundle', $result->getName());
+        $this->assertEquals('library', $result->getType());
+        $this->assertContains('cabundle', $result->getKeywords());
     }
 
     /**
@@ -89,12 +99,26 @@ final class ShowTest extends ComposerTestCase
         $this->copyToWorkDir($this->testBasePath() . '/fixtures/valid/simple/composer.json');
 
         $this->composer->update();
-        $result = $this->composer->show('outdated');
+        $results = $this->composer->show('outdated');
 
-        $this->assertIsArray($result);
-        $this->assertCount(2, $result['installed']);
+        $this->assertCount(2, $results);
+        $this->assertContainsOnlyInstancesOf(\Winter\Packager\Package\Package::class, $results);
 
-        $this->assertArrayHasKey('latest', $result['installed'][0]);
-        $this->assertArrayHasKey('latest-status', $result['installed'][0]);
+        // Check packages
+        /** @var \Winter\Packager\Package\VersionedPackage */
+        $package = $results['composer/semver'];
+        $this->assertEquals('composer', $package->getNamespace());
+        $this->assertEquals('semver', $package->getName());
+        $this->assertEquals('1.7.1', $package->getVersion());
+        $this->assertNotEmpty($package->getLatestVersion());
+        $this->assertEquals(VersionStatus::MAJOR_UPDATE, $package->getUpdateStatus());
+
+        /** @var \Winter\Packager\Package\VersionedPackage */
+        $package = $results['composer/ca-bundle'];
+        $this->assertEquals('composer', $package->getNamespace());
+        $this->assertEquals('ca-bundle', $package->getName());
+        $this->assertEquals('1.2.9', $package->getVersion());
+        $this->assertNotEmpty($package->getLatestVersion());
+        $this->assertEquals(VersionStatus::SEMVER_UPDATE, $package->getUpdateStatus());
     }
 }

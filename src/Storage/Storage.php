@@ -8,6 +8,8 @@ namespace Winter\Packager\Storage;
  * A storage object contains metadata for packages, and can either be ephemeral or persistent. This
  * is used to avoid repeated retrievals of package metadata from Composer.
  *
+ * In general, you should only store "detailed" packages in storage.
+ *
  * @author Ben Thomson
  * @since 0.3.0
  */
