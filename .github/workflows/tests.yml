@@ -10,18 +10,17 @@ jobs:
   unitTests:
     strategy:
       matrix:
-        operatingSystem: [ubuntu-latest, windows-latest]
         phpVersion: ['8.1', '8.2', '8.3']
       fail-fast: false
 
-    runs-on: ${{ matrix.operatingSystem }}
-    name: ${{ matrix.operatingSystem }} / PHP ${{ matrix.phpVersion }}
+    runs-on: ubuntu-latest
+    name: PHP ${{ matrix.phpVersion }}
     env:
       extensions: curl, fileinfo, openssl, zip
       key: winter-packager-v1
 
     concurrency:
-        group: ${{ github.workflow }}-${{ github.ref }}-${{ matrix.operatingSystem }}-${{ matrix.phpVersion }}
+        group: ${{ github.workflow }}-${{ github.ref }}-phpunit-${{ matrix.phpVersion }}
         cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
     steps:
