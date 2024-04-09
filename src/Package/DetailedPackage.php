@@ -2,6 +2,10 @@
 
 namespace Winter\Packager\Package;
 
+/**
+ * @author Ben Thomson <git@alfreido.com>
+ * @since 0.3.0
+ */
 class DetailedPackage extends Package
 {
     /**

@@ -6,6 +6,9 @@ namespace Winter\Packager\Enums;
  * Search limiting mode.
  *
  * This defines what information should be limited down to when searching packages with the `composer search` command.
+ *
+ * @author Ben Thomson
+ * @since 0.1.0
  */
 enum SearchLimitTo: string
 {

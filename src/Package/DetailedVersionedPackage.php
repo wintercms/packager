@@ -2,22 +2,51 @@
 
 namespace Winter\Packager\Package;
 
-use Composer\Semver\VersionParser;
+use Composer\Package\Version\VersionParser;
 use Winter\Packager\Enums\VersionStatus;
 
 /**
  * @author Ben Thomson <git@alfreido.com>
  * @since 0.3.0
  */
-class VersionedPackage extends Package
+class DetailedVersionedPackage extends Package
 {
     protected string $versionNormalized;
     protected string $latestVersionNormalized;
 
+    /**
+     * Constructor.
+     *
+     * @param array<int, string> $keywords
+     * @param array<int, array<string, string>> $authors
+     * @param array<int, array<string, string>> $licenses
+     * @param array<string, string> $support
+     * @param array<string, string> $funding
+     * @param array<string, string> $requires
+     * @param array<string, string> $devRequires
+     * @param array<string, mixed> $extras
+     * @param array<string, string> $suggests
+     * @param array<string, string> $conflicts
+     * @param array<string, string> $replaces
+     */
     public function __construct(
         string $namespace,
         string $name,
         string $description = '',
+        protected string $type = 'library',
+        protected array $keywords = [],
+        protected string $homepage = '',
+        protected array $authors = [],
+        protected array $licenses = [],
+        protected array $support = [],
+        protected array $funding = [],
+        protected array $requires = [],
+        protected array $devRequires = [],
+        protected array $extras = [],
+        protected array $suggests = [],
+        protected array $conflicts = [],
+        protected array $replaces = [],
+        protected string $readme = '',
         protected string $version = '',
         protected string $latestVersion = '',
         protected VersionStatus $updateStatus = VersionStatus::UP_TO_DATE,

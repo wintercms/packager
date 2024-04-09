@@ -34,7 +34,7 @@ class Constraint
      *
      * @throws \Winter\Packager\Exceptions\ConstraintException If package name is invalid
      */
-    final public function __construct(?string $package = null)
+    public function __construct(?string $package = null)
     {
         if (!is_null($package)) {
             $this->setPackage($package);

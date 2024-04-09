@@ -6,6 +6,9 @@ namespace Winter\Packager\Enums;
  * Show modes.
  *
  * This defines all the available modes for the `composer show` command that Packager supports.
+ *
+ * @author Ben Thomson
+ * @since 0.1.0
  */
 enum ShowMode: string
 {

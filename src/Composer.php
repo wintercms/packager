@@ -7,6 +7,7 @@ use Winter\Packager\Commands\Command;
 use Winter\Packager\Package\Collection;
 use Winter\Packager\Package\Constraint;
 use Winter\Packager\Package\DetailedPackage;
+use Winter\Packager\Package\DetailedVersionedPackage;
 use Winter\Packager\Package\Package;
 use Winter\Packager\Package\VersionedPackage;
 
@@ -81,6 +82,7 @@ class Composer
         'package' => \Winter\Packager\Package\Package::class,
         'versionedPackage' => \Winter\Packager\Package\VersionedPackage::class,
         'detailedPackage' => \Winter\Packager\Package\DetailedPackage::class,
+        'detailedVersionedPackage' => \Winter\Packager\Package\DetailedVersionedPackage::class,
         'collection' => \Winter\Packager\Package\Collection::class,
         'constraint' => \Winter\Packager\Package\Constraint::class,
     ];
@@ -426,6 +428,15 @@ class Composer
     public static function newDetailedPackage(mixed ...$arguments): DetailedPackage
     {
         $class = static::$packageClasses['detailedPackage'];
+        return new $class(...$arguments);
+    }
+
+    /**
+     * Create a new detailed versioned package instance.
+     */
+    public static function newDetailedVersionedPackage(mixed ...$arguments): DetailedVersionedPackage
+    {
+        $class = static::$packageClasses['detailedVersionedPackage'];
         return new $class(...$arguments);
     }
 
