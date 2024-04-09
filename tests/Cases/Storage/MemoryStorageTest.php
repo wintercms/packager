@@ -45,9 +45,9 @@ final class MemoryStorageTest extends ComposerTestCase
             'keywords' => ['winter', 'plugin'],
         ];
 
-        $this->memory->set('winter/test-package', 'v1.0.1', $packageData);
+        $this->memory->set('winter', 'test-package', 'v1.0.1', $packageData);
 
-        $this->assertEquals($packageData, $this->memory->get('winter/test-package', 'v1.0.1'));
+        $this->assertEquals($packageData, $this->memory->get('winter', 'test-package', 'v1.0.1'));
     }
 
     /**
@@ -66,9 +66,9 @@ final class MemoryStorageTest extends ComposerTestCase
             'keywords' => ['winter', 'plugin'],
         ];
 
-        $this->memory->set('winter/test-package', '1.0.1', $packageData);
+        $this->memory->set('winter', 'test-package', '1.0.1', $packageData);
 
-        $this->assertEquals($packageData, $this->memory->get('winter/test-package', 'v1.0.1.0'));
+        $this->assertEquals($packageData, $this->memory->get('winter', 'test-package', 'v1.0.1.0'));
     }
 
     /**
@@ -79,7 +79,7 @@ final class MemoryStorageTest extends ComposerTestCase
     {
         $this->memory = new Memory();
 
-        $this->assertNull($this->memory->get('winter/test-package', 'v1.0.1'));
+        $this->assertNull($this->memory->get('winter', 'test-package', 'v1.0.1'));
     }
 
     /**
@@ -112,24 +112,24 @@ final class MemoryStorageTest extends ComposerTestCase
             'keywords' => ['winter', 'plugin'],
         ];
 
-        $this->memory->set('winter/test-package', 'v1.0.1', $packageData101);
-        $this->memory->set('winter/test-package', 'v1.0.2', $packageData102);
-        $this->memory->set('winter/test-package-2', 'v1.0.1', $packageData103);
+        $this->memory->set('winter', 'test-package', 'v1.0.1', $packageData101);
+        $this->memory->set('winter', 'test-package', 'v1.0.2', $packageData102);
+        $this->memory->set('winter', 'test-package-2', 'v1.0.1', $packageData103);
 
-        $this->assertEquals($packageData101, $this->memory->get('winter/test-package', 'v1.0.1'));
-        $this->assertEquals($packageData102, $this->memory->get('winter/test-package', 'v1.0.2'));
-        $this->assertEquals($packageData103, $this->memory->get('winter/test-package-2', 'v1.0.1'));
+        $this->assertEquals($packageData101, $this->memory->get('winter', 'test-package', 'v1.0.1'));
+        $this->assertEquals($packageData102, $this->memory->get('winter', 'test-package', 'v1.0.2'));
+        $this->assertEquals($packageData103, $this->memory->get('winter', 'test-package-2', 'v1.0.1'));
 
-        $this->assertCount(2, $this->memory->get('winter/test-package'));
+        $this->assertCount(2, $this->memory->get('winter', 'test-package'));
         $this->assertEquals([
             '1.0.1.0' => $packageData101,
             '1.0.2.0' => $packageData102,
-        ], $this->memory->get('winter/test-package'));
+        ], $this->memory->get('winter', 'test-package'));
 
-        $this->assertCount(1, $this->memory->get('winter/test-package-2'));
+        $this->assertCount(1, $this->memory->get('winter', 'test-package-2'));
         $this->assertEquals([
             '1.0.1.0' => $packageData103,
-        ], $this->memory->get('winter/test-package-2'));
+        ], $this->memory->get('winter', 'test-package-2'));
     }
 
     /**
@@ -163,18 +163,18 @@ final class MemoryStorageTest extends ComposerTestCase
             'keywords' => ['winter', 'plugin'],
         ];
 
-        $this->memory->set('winter/test-package', 'v1.0.1', $packageData101);
-        $this->memory->set('winter/test-package', 'v1.0.2', $packageData102);
-        $this->memory->set('winter/test-package', 'v1.0.3', $packageData103);
+        $this->memory->set('winter', 'test-package', 'v1.0.1', $packageData101);
+        $this->memory->set('winter', 'test-package', 'v1.0.2', $packageData102);
+        $this->memory->set('winter', 'test-package', 'v1.0.3', $packageData103);
 
-        $this->assertTrue($this->memory->has('winter/test-package'));
-        $this->assertTrue($this->memory->has('winter/test-package', 'v1.0.1'));
-        $this->assertTrue($this->memory->has('winter/test-package', 'v1.0.2'));
-        $this->assertTrue($this->memory->has('winter/test-package', 'v1.0.3'));
-        $this->assertFalse($this->memory->has('winter/another-package'));
-        $this->assertFalse($this->memory->has('winter/test-package', 'v1.0.4'));
-        $this->assertFalse($this->memory->has('winter/test-package', '2'));
-        $this->assertFalse($this->memory->has('winter/test-package', 'v2.0.1.0'));
+        $this->assertTrue($this->memory->has('winter', 'test-package'));
+        $this->assertTrue($this->memory->has('winter', 'test-package', 'v1.0.1'));
+        $this->assertTrue($this->memory->has('winter', 'test-package', 'v1.0.2'));
+        $this->assertTrue($this->memory->has('winter', 'test-package', 'v1.0.3'));
+        $this->assertFalse($this->memory->has('winter', 'another-package'));
+        $this->assertFalse($this->memory->has('winter', 'test-package', 'v1.0.4'));
+        $this->assertFalse($this->memory->has('winter', 'test-package', '2'));
+        $this->assertFalse($this->memory->has('winter', 'test-package', 'v2.0.1.0'));
     }
 
     /**
@@ -208,20 +208,20 @@ final class MemoryStorageTest extends ComposerTestCase
             'keywords' => ['winter', 'plugin'],
         ];
 
-        $this->memory->set('winter/test-package', 'v1.0.1', $packageData101);
-        $this->memory->set('winter/test-package', 'v1.0.2', $packageData102);
-        $this->memory->set('winter/test-package-2', 'v1.0.1', $packageData103);
+        $this->memory->set('winter', 'test-package', 'v1.0.1', $packageData101);
+        $this->memory->set('winter', 'test-package', 'v1.0.2', $packageData102);
+        $this->memory->set('winter', 'test-package-2', 'v1.0.1', $packageData103);
 
-        $this->memory->forget('winter/test-package', '1.0.1');
+        $this->memory->forget('winter', 'test-package', '1.0.1');
 
-        $this->assertCount(1, $this->memory->get('winter/test-package'));
+        $this->assertCount(1, $this->memory->get('winter', 'test-package'));
         $this->assertEquals([
             '1.0.2.0' => $packageData102,
-        ], $this->memory->get('winter/test-package'));
+        ], $this->memory->get('winter', 'test-package'));
 
-        $this->memory->forget('winter/test-package-2');
+        $this->memory->forget('winter', 'test-package-2');
 
-        $this->assertNull($this->memory->get('winter/test-package-2'));
+        $this->assertNull($this->memory->get('winter', 'test-package-2'));
     }
 
     /**
@@ -255,14 +255,14 @@ final class MemoryStorageTest extends ComposerTestCase
             'keywords' => ['winter', 'plugin'],
         ];
 
-        $this->memory->set('winter/test-package', 'v1.0.1', $packageData101);
-        $this->memory->set('winter/test-package', 'v1.0.2', $packageData102);
-        $this->memory->set('winter/test-package-2', 'v1.0.1', $packageData103);
+        $this->memory->set('winter', 'test-package', 'v1.0.1', $packageData101);
+        $this->memory->set('winter', 'test-package', 'v1.0.2', $packageData102);
+        $this->memory->set('winter', 'test-package-2', 'v1.0.1', $packageData103);
 
         $this->memory->clear();
 
-        $this->assertNull($this->memory->get('winter/test-package'));
-        $this->assertNull($this->memory->get('winter/test-package', '1.0.2'));
-        $this->assertNull($this->memory->get('winter/test-package-2'));
+        $this->assertNull($this->memory->get('winter', 'test-package'));
+        $this->assertNull($this->memory->get('winter', 'test-package', '1.0.2'));
+        $this->assertNull($this->memory->get('winter', 'test-package-2'));
     }
 }

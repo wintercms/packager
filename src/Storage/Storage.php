@@ -22,14 +22,14 @@ interface Storage
      *
      * @return array<string|int, mixed>|null
      */
-    public function get(string $package, ?string $version = null): ?array;
+    public function get(string $namespace, string $name, ?string $version = null): ?array;
 
     /**
      * Sets the package metadata for the given package name and version.
      *
      * @param array<string, mixed> $packageData
      */
-    public function set(string $packageName, string $version, array $packageData): void;
+    public function set(string $namespace, string $name, string $version, array $packageData): void;
 
     /**
      * Forgets the package metadata for the given package name.
@@ -39,12 +39,12 @@ interface Storage
      *
      * This should be a no-op if the package metadata does not exist.
      */
-    public function forget(string $package, ?string $version = null): void;
+    public function forget(string $namespace, string $name, ?string $version = null): void;
 
     /**
      * Determines if the package metadata exists in storage, optionally with the specified version.
      */
-    public function has(string $package, ?string $version = null): bool;
+    public function has(string $namespace, string $name, ?string $version = null): bool;
 
     /**
      * Clears all package metadata.

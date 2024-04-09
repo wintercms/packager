@@ -37,58 +37,58 @@ class Memory implements Storage
     /**
      * {@inheritDoc}
      */
-    public function get(string $package, ?string $version = null): ?array
+    public function get(string $namespace, string $name, ?string $version = null): ?array
     {
         if (isset($version)) {
             $versionNormalized = $this->versionParser->normalize($version);
 
-            return $this->packages[$package][$versionNormalized] ?? null;
+            return $this->packages[$this->packageName($namespace, $name)][$versionNormalized] ?? null;
         }
 
-        return $this->packages[$package] ?? null;
+        return $this->packages[$this->packageName($namespace, $name)] ?? null;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function set(string $package, string $version, array $packageData): void
+    public function set(string $namespace, string $name, string $version, array $packageData): void
     {
-        if (!isset($this->packages[$package])) {
-            $this->packages[$package] = [];
+        if (!isset($this->packages[$this->packageName($namespace, $name)])) {
+            $this->packages[$this->packageName($namespace, $name)] = [];
         }
 
         $versionNormalized = $this->versionParser->normalize($version);
 
-        $this->packages[$package][$versionNormalized] = $packageData;
+        $this->packages[$this->packageName($namespace, $name)][$versionNormalized] = $packageData;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function forget(string $package, ?string $version = null): void
+    public function forget(string $namespace, string $name, ?string $version = null): void
     {
         if (isset($version)) {
             $versionNormalized = $this->versionParser->normalize($version);
 
-            unset($this->packages[$package][$versionNormalized]);
+            unset($this->packages[$this->packageName($namespace, $name)][$versionNormalized]);
             return;
         }
 
-        unset($this->packages[$package]);
+        unset($this->packages[$this->packageName($namespace, $name)]);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function has(string $package, ?string $version = null): bool
+    public function has(string $namespace, string $name, ?string $version = null): bool
     {
         if (isset($version)) {
             $versionNormalized = $this->versionParser->normalize($version);
 
-            return isset($this->packages[$package][$versionNormalized]);
+            return isset($this->packages[$this->packageName($namespace, $name)][$versionNormalized]);
         }
 
-        return isset($this->packages[$package]);
+        return isset($this->packages[$this->packageName($namespace, $name)]);
     }
 
     /**
@@ -97,5 +97,10 @@ class Memory implements Storage
     public function clear(): void
     {
         $this->packages = [];
+    }
+
+    protected function packageName(string $namespace, string $name): string
+    {
+        return $namespace . '/' . $name;
     }
 }

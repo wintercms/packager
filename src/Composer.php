@@ -11,6 +11,7 @@ use Winter\Packager\Package\DetailedVersionedPackage;
 use Winter\Packager\Package\Package;
 use Winter\Packager\Package\Packagist;
 use Winter\Packager\Package\VersionedPackage;
+use Winter\Packager\Storage\Storage;
 
 /**
  * Represents a Composer instance.
@@ -467,8 +468,18 @@ class Composer
      *
      * `Name or Reference <email@address.com>`
      */
-    public static function setAgent(string $agent): void
+    public function setAgent(string $agent): static
     {
         Packagist::setAgent($agent);
+        return $this;
+    }
+
+    /**
+     * Sets the metadata storage for Packagist requests.
+     */
+    public function setStorage(Storage $storage): static
+    {
+        Packagist::setStorage($storage);
+        return $this;
     }
 }

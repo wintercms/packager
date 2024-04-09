@@ -9,6 +9,7 @@ use Http\Discovery\Psr18ClientDiscovery;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestInterface;
 use Winter\Packager\Exceptions\PackagistException;
+use Winter\Packager\Storage\Storage;
 
 /**
  * Packagist class.
@@ -27,13 +28,22 @@ class Packagist
 
     protected static string $agent = 'Winter Packager <no-reply@example.com>';
 
+    protected static ?Storage $storage = null;
+
     /**
      * Get information on a package in the Packagist API.
      *
      * @return array<string, mixed>
      */
-    public static function getPackage(string $namespace, string $name, ?string $version = null): array
-    {
+    public static function getPackage(
+        string $namespace,
+        string $name,
+        ?string $version = null
+    ): array {
+        if (!is_null(static::$storage) && static::$storage->has($namespace, $name, $version)) {
+            return static::$storage->get($namespace, $name, $version);
+        }
+
         $client = static::getClient();
         $request = static::newRepoRequest($namespace . '/' . $name . '.json');
 
@@ -49,29 +59,32 @@ class Packagist
 
         $body = json_decode($response->getBody()->getContents(), true);
 
+        if (!isset($body['packages'][$namespace . '/' . $name])) {
+            throw new PackagistException('Package information not found');
+        }
+
+        $versions = [];
+        foreach (MetadataMinifier::expand($body['packages'][$namespace . '/' . $name]) as $packageVersion) {
+            $versions[$packageVersion['version_normalized']] = $packageVersion;
+
+            // Store metadata
+            if (!is_null(static::$storage)) {
+                static::$storage->set($namespace, $name, $packageVersion['version_normalized'], $packageVersion);
+            }
+        }
+
         if (is_null($version)) {
-            if (!isset($body['packages'][$namespace . '/' . $name][0])) {
-                throw new PackagistException('Package information not found');
-            }
-        } else {
-            if (!isset($body['packages'][$namespace . '/' . $name])) {
-                throw new PackagistException('Package information not found');
-            }
+            return reset($versions);
+        }
 
-            $versions = MetadataMinifier::expand($body['packages'][$namespace . '/' . $name]);
-            $parser = new VersionParser;
-            $packageVersionNormalized = $parser->normalize($version);
+        $parser = new VersionParser;
+        $versionNormalized = $parser->normalize($version);
 
-            foreach ($versions as $packageVersion) {
-                if ($packageVersion['version_normalized'] === $packageVersionNormalized) {
-                    return $packageVersion;
-                }
-            }
-
+        if (!array_key_exists($versionNormalized, $versions)) {
             throw new PackagistException('Package version not found');
         }
 
-        return $body['packages'][$namespace . '/' . $name][0];
+        return $versions[$versionNormalized];
     }
 
     public static function getClient(): ClientInterface
@@ -102,6 +115,14 @@ class Packagist
         }
 
         static::$agent = trim($name) . ' <' . trim($email) . '>';
+    }
+
+    /**
+     * Sets the storage for metadata.
+     */
+    public static function setStorage(?Storage $storage = null): void
+    {
+        static::$storage = $storage;
     }
 
     public static function newApiRequest(string $url = ''): RequestInterface
