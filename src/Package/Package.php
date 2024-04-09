@@ -11,8 +11,8 @@ namespace Winter\Packager\Package;
  * The package may have a description.
  *
  * This is generally returned by searches and lists, as we may or may not have the full package information available
- * in the output of these commands. You can convert this to a detailed package by using the
- * `Package::getDetailedPackage()` method.
+ * in the output of these commands. You can convert this to a detailed package by using the `Package::toDetailed()`
+ * method, which will extract information about the package direct from Packagist API.
  *
  * @author Ben Thomson <git@alfreido.com>
  * @since 0.3.0
@@ -59,5 +59,14 @@ class Package
     public function getDescription(): string
     {
         return $this->description;
+    }
+
+    public function toDetailed(): DetailedPackage
+    {
+        return new DetailedPackage(
+            $this->namespace,
+            $this->name,
+            $this->description
+        );
     }
 }

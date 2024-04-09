@@ -15,7 +15,7 @@ class Install extends Update
     /**
      * @inheritDoc
      */
-    public function getCommandName(): string
+    protected function getCommandName(): string
     {
         return 'install';
     }

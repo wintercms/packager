@@ -71,7 +71,7 @@ class ConstraintTest extends ComposerTestCase
         $constraint = Constraint::$method($packageName);
     }
 
-    public function invalidPackageNames(): array
+    public static function invalidPackageNames(): array
     {
         return [
             ['package', 'invalid-package-name'],

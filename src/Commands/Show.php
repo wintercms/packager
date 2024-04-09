@@ -3,6 +3,7 @@
 namespace Winter\Packager\Commands;
 
 use Winter\Packager\Composer;
+use Winter\Packager\Enums\ShowMode;
 use Winter\Packager\Enums\VersionStatus;
 use Winter\Packager\Exceptions\CommandException;
 
@@ -17,67 +18,21 @@ use Winter\Packager\Exceptions\CommandException;
 class Show extends BaseCommand
 {
     /**
-     * Mode to run the command against
-     */
-    public string $mode = 'installed';
-
-    /**
-     * Individual package to search
-     */
-    public ?string $package;
-
-    /**
-     * Exclude dev dependencies from search
-     */
-    public bool $noDev = false;
-
-    /**
-     * Command handler.
+     * Command constructor.
      *
-     * The mode can be one of the following:
-     *  - `installed`: Show installed packages
-     *  - `locked`: Show locked packages
-     *  - `platform`: Show platform requirements
-     *  - `available`: Show all available packages
-     *  - `self`: Show the current package
-     *  - `path`: Show the package path
-     *  - `tree`: Show packages in a dependency tree
-     *  - `outdated`: Show only outdated packages
-     *  - `direct`: Show only direct dependencies
-     *
-     * @param string|null $mode
-     * @param string|null $package
-     * @param boolean $noDev
+     * @param Composer $composer Composer instance
+     * @param ShowMode $mode Mode to run the command against
+     * @param string|null $package Individual package to search
+     * @param boolean $noDev Exclude dev dependencies from search
      * @return void
      */
-    public function handle(?string $mode = 'installed', string $package = null, bool $noDev = false): void
-    {
-        $mode = $mode ?? 'installed';
-
-        $validModes = [
-            'installed',
-            'locked',
-            'platform',
-            'available',
-            'self',
-            'path',
-            'tree',
-            'outdated',
-            'direct'
-        ];
-
-        if (!in_array(strtolower($mode), $validModes)) {
-            throw new CommandException(
-                sprintf(
-                    'Invalid mode, must be one of the following: %s',
-                    implode(', ', $validModes)
-                )
-            );
-        }
-
-        $this->mode = $mode;
-        $this->package = $package;
-        $this->noDev = $noDev;
+    final public function __construct(
+        Composer $composer,
+        public ShowMode $mode = ShowMode::INSTALLED,
+        public ?string $package = null,
+        public bool $noDev = false
+    ) {
+        parent::__construct($composer);
     }
 
     /**
@@ -103,10 +58,9 @@ class Show extends BaseCommand
         $results = json_decode(implode(PHP_EOL, $output['output']), true);
         $packages = [];
 
-        if (is_null($this->package) && in_array($this->mode, ['installed', 'locked', 'platform', 'path', 'outdated', 'direct'])) {
+        if (is_null($this->package) && $this->mode->isCollectible()) {
             // Convert packages in simple lists to a package collection
-            $key = (!in_array($this->mode, ['locked', 'platform'])) ? 'installed' : $this->mode;
-            $results = $results[$key];
+            $results = $results[$this->mode->getComposerArrayKeyName()];
 
             foreach ($results as $result) {
                 [$namespace, $name] = $this->nameSplit($result['name']);
@@ -130,9 +84,9 @@ class Show extends BaseCommand
             }
 
             return Composer::newCollection($packages);
-        } elseif (is_null($this->package) && $this->mode === 'available') {
+        } elseif (is_null($this->package) && $this->mode === ShowMode::AVAILABLE) {
             // Convert entire available package list into a package collection
-            foreach ($results['available'] as $result) {
+            foreach ($results[$this->mode->getComposerArrayKeyName()] as $result) {
                 [$namespace, $name] = $this->nameSplit($result['name']);
 
                 $packages[] = Composer::newPackage(
@@ -143,7 +97,7 @@ class Show extends BaseCommand
             }
 
             return Composer::newCollection($packages);
-        } elseif ($this->mode === 'self') {
+        } elseif ($this->mode === ShowMode::SELF) {
             $result = $results;
             [$namespace, $name] = $this->nameSplit($result['name']);
 
@@ -190,7 +144,7 @@ class Show extends BaseCommand
     /**
      * @inheritDoc
      */
-    public function getCommandName(): string
+    protected function getCommandName(): string
     {
         return 'show';
     }
@@ -198,7 +152,7 @@ class Show extends BaseCommand
     /**
      * @inheritDoc
      */
-    public function requiresWorkDir(): bool
+    protected function requiresWorkDir(): bool
     {
         return true;
     }
@@ -206,7 +160,7 @@ class Show extends BaseCommand
     /**
      * @inheritDoc
      */
-    public function arguments(): array
+    protected function arguments(): array
     {
         $arguments = [];
 
@@ -214,8 +168,8 @@ class Show extends BaseCommand
             $arguments['package'] = $this->package;
         }
 
-        if ($this->mode !== 'installed') {
-            $arguments['--' . $this->mode] = true;
+        if ($this->mode !== ShowMode::INSTALLED) {
+            $arguments['--' . $this->mode->value] = true;
         }
 
         if ($this->noDev) {

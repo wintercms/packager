@@ -2,8 +2,8 @@
 
 namespace Winter\Packager\Commands;
 
+use Winter\Packager\Composer;
 use Winter\Packager\Exceptions\ComposerExceptionHandler;
-use Winter\Packager\Exceptions\ComposerJsonException;
 use Winter\Packager\Parser\InstallOutputParser;
 
 /**
@@ -22,41 +22,6 @@ class Update extends BaseCommand
     const PREFER_NONE = 'none';
     const PREFER_DIST = 'dist';
     const PREFER_SOURCE = 'source';
-
-    /**
-     * Whether to do a lockfile-only update
-     */
-    protected bool $lockFileOnly = false;
-
-    /**
-     * Include "require-dev" dependencies in the update.
-     */
-    protected bool $includeDev = true;
-
-    /**
-     * Ignore platform requirements when updating.
-     */
-    protected bool $ignorePlatformReqs = false;
-
-    /**
-     * Prefer dist releases of packages
-     */
-    protected string $installPreference = 'none';
-
-    /**
-     * Ignore scripts that run after Composer events.
-     */
-    protected bool $ignoreScripts = false;
-
-    /**
-     * Use dry-run mode
-     */
-    protected bool $dryRun = false;
-
-    /**
-     * Whether this command has already been executed
-     */
-    protected bool $executed = false;
 
     /**
      * @var array<int, string> Raw output from Composer
@@ -93,7 +58,7 @@ class Update extends BaseCommand
     protected $problems = [];
 
     /**
-     * Handle options before execution.
+     * Command constructor.
      *
      * @param boolean $includeDev Include "require-dev" dependencies in the update.
      * @param boolean $lockFileOnly Do a lockfile update only, do not install dependencies.
@@ -102,17 +67,16 @@ class Update extends BaseCommand
      * @param boolean $ignoreScripts Ignores scripts that run after Composer events.
      * @return void
      */
-    public function handle(
-        bool $includeDev = true,
-        bool $lockFileOnly = false,
-        bool $ignorePlatformReqs = false,
-        string $installPreference = 'none',
-        bool $ignoreScripts = false,
-        bool $dryRun = false
+    final public function __construct(
+        Composer $composer,
+        protected bool $includeDev = true,
+        protected bool $lockFileOnly = false,
+        protected bool $ignorePlatformReqs = false,
+        protected string $installPreference = 'none',
+        protected bool $ignoreScripts = false,
+        protected bool $dryRun = false
     ) {
-        if ($this->executed) {
-            return;
-        }
+        parent::__construct($composer);
 
         $this->includeDev = $includeDev;
         $this->lockFileOnly = $lockFileOnly;
@@ -132,11 +96,6 @@ class Update extends BaseCommand
      */
     public function execute()
     {
-        if ($this->executed) {
-            return $this;
-        }
-
-        $this->executed = true;
         $output = $this->runComposerCommand();
 
         if ($output['code'] !== 0) {
@@ -332,7 +291,7 @@ class Update extends BaseCommand
     /**
      * @inheritDoc
      */
-    public function getCommandName(): string
+    protected function getCommandName(): string
     {
         return 'update';
     }
@@ -340,7 +299,7 @@ class Update extends BaseCommand
     /**
      * @inheritDoc
      */
-    public function requiresWorkDir(): bool
+    protected function requiresWorkDir(): bool
     {
         return true;
     }
@@ -348,7 +307,7 @@ class Update extends BaseCommand
     /**
      * @inheritDoc
      */
-    public function arguments(): array
+    protected function arguments(): array
     {
         $arguments = [];
 

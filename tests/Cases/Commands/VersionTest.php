@@ -43,7 +43,8 @@ final class VersionTest extends ComposerTestCase
             'version',
             Version::class,
             0,
-            'Composer version 2.0.12 2021-04-01 10:14:59'
+            'Composer version 2.0.12 2021-04-01 10:14:59',
+            'date',
         );
 
         $this->assertEquals('2021-04-01', $this->composer->version('date'));
@@ -61,7 +62,8 @@ final class VersionTest extends ComposerTestCase
             'version',
             Version::class,
             0,
-            'Composer version 2.0.12 2021-04-01 10:14:59'
+            'Composer version 2.0.12 2021-04-01 10:14:59',
+            'dateTime',
         );
 
         $this->assertEquals('2021-04-01 10:14:59', $this->composer->version('dateTime'));
@@ -79,7 +81,8 @@ final class VersionTest extends ComposerTestCase
             'version',
             Version::class,
             0,
-            'Composer version 2.0.12 2021-04-01 10:14:59'
+            'Composer version 2.0.12 2021-04-01 10:14:59',
+            'all',
         );
 
         $this->assertEquals([

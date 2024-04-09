@@ -18,25 +18,4 @@ interface Command
      * @return mixed The output of the command.
      */
     public function execute();
-
-    /**
-     * Provides the command name for Composer.
-     *
-     * @return string
-     */
-    public function getCommandName(): string;
-
-    /**
-     * Provides if the given command requires the working directory to be available.
-     *
-     * @return bool True if it does, false if it does not.
-     */
-    public function requiresWorkDir(): bool;
-
-    /**
-     * Provides the arguments for the wrapped Composer command.
-     *
-     * @return array<string|int,string|int|bool|null> An array of arguments to provide the Composer application.
-     */
-    public function arguments(): array;
 }

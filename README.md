@@ -23,10 +23,11 @@ composer require winter/packager
 
 This library currently provides support for the following Composer commands:
 
-- `version` **(--version)**
 - `install`
-- `update`
+- `search`
 - `show`
+- `update`
+- `version` **(--version)**
 
 You can create a `Composer` instance in your PHP script and run these commands like so, defining a working directory which contains a `composer.json` file, and a home directory in which cached packages are stored.
 
@@ -42,12 +43,18 @@ $composer
 // Get the Composer version
 $version = $composer->version();
 
-// Run an install or update
+// Run an install or update on the entire project, including dev dependencies
 $install = $composer->install();
 $update = $composer->update();
 
+// Install project without dev dependencies
+$install = $composer->install(false);
+
 // Show installed packages
 $show = $composer->show();
+
+// Search packages
+$results =
 ```
 
 Documentation on each command will be forthcoming soon.

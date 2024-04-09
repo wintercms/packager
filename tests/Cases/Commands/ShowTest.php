@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Winter\Packager\Tests\Cases;
 
+use Winter\Packager\Enums\ShowMode;
 use Winter\Packager\Enums\VersionStatus;
 use Winter\Packager\Exceptions\CommandException;
 use Winter\Packager\Tests\ComposerTestCase;
@@ -63,7 +64,7 @@ final class ShowTest extends ComposerTestCase
         $this->composer->update();
 
         /** @var \Winter\Packager\Package\DetailedPackage */
-        $result = $this->composer->show(null, 'composer/ca-bundle');
+        $result = $this->composer->show(ShowMode::INSTALLED, 'composer/ca-bundle');
 
         $this->assertInstanceOf(\Winter\Packager\Package\Package::class, $result);
         $this->assertEquals('composer', $result->getNamespace());
@@ -85,7 +86,7 @@ final class ShowTest extends ComposerTestCase
         $this->copyToWorkDir($this->testBasePath() . '/fixtures/valid/simple/composer.json');
 
         $this->composer->update();
-        $this->composer->show(null, 'missing/package');
+        $this->composer->show(ShowMode::INSTALLED, 'missing/package');
     }
 
     /**
@@ -99,7 +100,7 @@ final class ShowTest extends ComposerTestCase
         $this->copyToWorkDir($this->testBasePath() . '/fixtures/valid/simple/composer.json');
 
         $this->composer->update();
-        $results = $this->composer->show('outdated');
+        $results = $this->composer->show(ShowMode::OUTDATED);
 
         $this->assertCount(2, $results);
         $this->assertContainsOnlyInstancesOf(\Winter\Packager\Package\Package::class, $results);

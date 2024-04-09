@@ -38,11 +38,23 @@ abstract class BaseCommand implements Command
      *
      * Defines the Composer instance that will run the command.
      *
-     * @param Composer $composer
+     * @param Composer $composer Composer instance
      */
     public function __construct(Composer $composer)
     {
         $this->composer = $composer;
+    }
+
+    /**
+     * Make a new instance of the command.
+     *
+     * @param \Winter\Packager\Composer $composer
+     * @param mixed[] $args
+     */
+    public static function make(Composer $composer, mixed ...$args): static
+    {
+        /* @phpstan-ignore-next-line */
+        return new static($composer, ...$args);
     }
 
     /**
@@ -56,20 +68,25 @@ abstract class BaseCommand implements Command
     }
 
     /**
-     * @inheritDoc
+     * Provides the command name for Composer.
+     *
+     * @return string
      */
-    public function getCommandName(): string
-    {
-        return '';
-    }
+    abstract protected function getCommandName(): string;
 
     /**
-     * @inheritDoc
+     * Provides if the given command requires the working directory to be available.
+     *
+     * @return bool True if it does, false if it does not.
      */
-    public function requiresWorkDir(): bool
-    {
-        return false;
-    }
+    abstract protected function requiresWorkDir(): bool;
+
+    /**
+     * Provides the arguments for the wrapped Composer command.
+     *
+     * @return array<string|int,string|int|bool|null> An array of arguments to provide the Composer application.
+     */
+    abstract protected function arguments(): array;
 
     /**
      * Sets up the environment and creates the Composer application.
@@ -158,9 +175,6 @@ abstract class BaseCommand implements Command
                 'output' => preg_split('/(\n|\r\n)/', $e->getMessage()),
                 'exception' => $e,
             ];
-        } finally {
-            // Restores the error handler away from Composer's in-built error handler
-            restore_error_handler();
         }
 
         $this->tearDownComposerApp();

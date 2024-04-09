@@ -2,6 +2,7 @@
 
 namespace Winter\Packager\Commands;
 
+use Winter\Packager\Composer;
 use Winter\Packager\Exceptions\CommandException;
 use Winter\Packager\Parser\VersionOutputParser;
 
@@ -16,12 +17,7 @@ use Winter\Packager\Parser\VersionOutputParser;
 class Version extends BaseCommand
 {
     /**
-     * @var string The detail to return. Valid values: "version", "date", "dateTime", "all"
-     */
-    protected $detail = 'version';
-
-    /**
-     * Command handler.
+     * Command constructor.
      *
      * Prepares the details of the Composer version.
      *
@@ -31,11 +27,11 @@ class Version extends BaseCommand
      *  - `date`: Get the build date
      *  - `dateTime`: Get the build date and time
      */
-    public function handle(string $detail = 'version'): void
-    {
-        $this->detail = (in_array($detail, ['version', 'date', 'dateTime', 'all']))
-            ? $detail
-            : 'version';
+    final public function __construct(
+        Composer $composer,
+        protected string $detail = 'version'
+    ) {
+        parent::__construct($composer);
     }
 
     /**
@@ -73,7 +69,7 @@ class Version extends BaseCommand
     /**
      * @inheritDoc
      */
-    public function getCommandName(): string
+    protected function getCommandName(): string
     {
         return '';
     }
@@ -81,7 +77,7 @@ class Version extends BaseCommand
     /**
      * @inheritDoc
      */
-    public function requiresWorkDir(): bool
+    protected function requiresWorkDir(): bool
     {
         return false;
     }
@@ -89,7 +85,7 @@ class Version extends BaseCommand
     /**
      * @inheritDoc
      */
-    public function arguments(): array
+    protected function arguments(): array
     {
         return [
             '--version'

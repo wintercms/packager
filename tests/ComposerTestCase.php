@@ -57,12 +57,13 @@ class ComposerTestCase extends TestCase
      * @param string $output
      * @return void
      */
-    protected function mockCommandOutput(string $command, string $commandClass, int $code = 0, string $output = ''): void
+    protected function mockCommandOutput(string $command, string $commandClass, int $code = 0, string $output = '', mixed ...$constructorArgs): void
     {
         // Mock the command and replace the "runCommand" method
         $mockCommand = $this->getMockBuilder($commandClass)
             ->setConstructorArgs([
-                $this->composer
+                $this->composer,
+                ...$constructorArgs,
             ])
             ->onlyMethods(['runComposerCommand'])
             ->getMock();

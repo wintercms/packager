@@ -2,8 +2,8 @@
 
 namespace Winter\Packager;
 
-use Winter\Packager\Commands\Command;
 use Throwable;
+use Winter\Packager\Commands\Command;
 use Winter\Packager\Package\Collection;
 use Winter\Packager\Package\Constraint;
 use Winter\Packager\Package\DetailedPackage;
@@ -122,17 +122,9 @@ class Composer
 
         // Create a command instance.
         if (is_string($this->commands[$name])) {
-            $command = new $this->commands[$name]($this);
-        } elseif (is_object($this->commands[$name]) && $this->commands[$name] instanceof Command) {
+            $command = new $this->commands[$name]($this, ...$arguments);
+        } elseif ($this->commands[$name] instanceof Command) {
             $command = $this->commands[$name];
-        } else {
-            throw new \Winter\Packager\Exceptions\CommandException(
-                sprintf(
-                    'The handler for command "%s" is not an instance of "%s"',
-                    $name,
-                    Command::class
-                )
-            );
         }
 
         // Allow for command handling
@@ -331,8 +323,20 @@ class Composer
     /**
      * Sets a command.
      */
-    public function setCommand(string $command, Command $commandClass): static
+    public function setCommand(string $command, string|Command $commandClass): static
     {
+        // Check that command class is a valid Command class
+        $reflection = new \ReflectionClass($commandClass);
+        if (!$reflection->isSubclassOf(Command::class)) {
+            throw new \Exception(
+                sprintf(
+                    'Invalid command class "%s" - the class must extend "%s"',
+                    $commandClass,
+                    Command::class
+                )
+            );
+        }
+
         $this->commands[$command] = $commandClass;
         return $this;
     }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Winter\Packager\Tests\Cases;
 
-use DMS\PHPUnitExtensions\ArraySubset\ArraySubsetAsserts;
 use Winter\Packager\Commands\Search;
 use Winter\Packager\Tests\ComposerTestCase;
 
@@ -14,8 +13,6 @@ use Winter\Packager\Tests\ComposerTestCase;
  */
 final class SearchTest extends ComposerTestCase
 {
-    use ArraySubsetAsserts;
-
     /**
      * @test
      * @testdox can run a (mocked) search and show a few results.
@@ -49,7 +46,9 @@ final class SearchTest extends ComposerTestCase
                     'url' => 'https://packagist.org/packages/winter/wn-backend-module',
                     'repository' => 'https://github.com/wintercms/wn-backend-module',
                 ],
-            ], JSON_PRETTY_PRINT)
+            ], JSON_PRETTY_PRINT),
+            'winter',
+            'winter-module',
         );
 
         $results = $this->composer->search('winter', 'winter-module');

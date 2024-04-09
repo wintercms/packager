@@ -16,42 +16,22 @@ use Winter\Packager\Exceptions\CommandException;
 class Search extends BaseCommand
 {
     /**
-     * The search query to find packages.
-     */
-    public string $query;
-
-    /**
-     * The type of package to search for.
-     */
-    public ?string $type = null;
-
-    /**
-     * Limit the search parameters. This can be one of the following:
+     * Command constructor.
      *
-     *  - `name`: Search and return package names only
-     *  - `vendor`: Search and return vendors only
-     *
-     * @var string|null
+     * @param Composer $composer
+     * @param string $query The search query to find packages.
+     * @param string|null $type The type of package to search for.
+     * @param string|null $limitTo Limit the search parameters. This can be one of the following:
+     * - `name`: Search and return package names only
+     * - `vendor`: Search and return vendors only
      */
-    public ?string $limitTo = null;
-
-    /**
-     * Command handler.
-     */
-    public function handle(
-        string $query,
-        ?string $type = null,
-        bool $onlyNames = false,
-        bool $onlyVendors = false
-    ): void {
-        $this->query = $query;
-        $this->type = $type;
-
-        if ($onlyNames) {
-            $this->limitTo = 'name';
-        } elseif ($onlyVendors) {
-            $this->limitTo = 'vendor';
-        }
+    final public function __construct(
+        Composer $composer,
+        public string $query,
+        public ?string $type = null,
+        public ?string $limitTo = null
+    ) {
+        parent::__construct($composer);
     }
 
     /**
@@ -84,7 +64,7 @@ class Search extends BaseCommand
     /**
      * @inheritDoc
      */
-    public function getCommandName(): string
+    protected function getCommandName(): string
     {
         return 'search';
     }
@@ -92,7 +72,7 @@ class Search extends BaseCommand
     /**
      * @inheritDoc
      */
-    public function requiresWorkDir(): bool
+    protected function requiresWorkDir(): bool
     {
         return false;
     }
@@ -100,7 +80,7 @@ class Search extends BaseCommand
     /**
      * @inheritDoc
      */
-    public function arguments(): array
+    protected function arguments(): array
     {
         $arguments = [];
 
