@@ -27,13 +27,19 @@
         "ext-zip": "*",
         "ext-zlib": "*",
         "composer/composer": "^2.7.0",
+        "php-http/discovery": "^1.0",
+        "php-http/httplug": "^2.0",
+        "php-http/message-factory": "^1.0",
+        "psr/http-client-implementation": "^1.0",
+        "psr/http-message": "^1.0",
         "symfony/process": "^4.3.4 || ^5.0 || ^6.0"
     },
     "require-dev": {
-        "dms/phpunit-arraysubset-asserts": "^0.4.0",
+        "nyholm/psr7": "^1.8",
+        "symfony/http-client": "^7.0",
+        "php-http/message": "^1.0",
         "phpstan/phpstan": "^1.6",
-        "phpunit/phpunit": "^8.5.15 || ^9.5.4",
-        "symfony/phpunit-bridge": "^4.3.4 || ^5.0 || ^6.0"
+        "phpunit/phpunit": "^10.5"
     },
     "autoload": {
         "psr-4": {
@@ -51,6 +57,9 @@
     "prefer-stable": true,
     "minimum-stability": "dev",
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
     }
 }
