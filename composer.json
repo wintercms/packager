@@ -22,7 +22,7 @@
         "coverage": "XDEBUG_MODE=coverage phpunit --testdox --colors=\"auto\" --coverage-html=\"coverage\""
     },
     "require": {
-        "php": "^8.0",
+        "php": "^8.1",
         "ext-openssl": "*",
         "ext-zip": "*",
         "ext-zlib": "*",
