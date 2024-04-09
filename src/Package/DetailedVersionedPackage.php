@@ -9,7 +9,7 @@ use Winter\Packager\Enums\VersionStatus;
  * @author Ben Thomson <git@alfreido.com>
  * @since 0.3.0
  */
-class DetailedVersionedPackage extends Package
+class DetailedVersionedPackage extends DetailedPackage
 {
     protected string $versionNormalized;
     protected string $latestVersionNormalized;
@@ -51,7 +51,25 @@ class DetailedVersionedPackage extends Package
         protected string $latestVersion = '',
         protected VersionStatus $updateStatus = VersionStatus::UP_TO_DATE,
     ) {
-        parent::__construct($namespace, $name, $description);
+        parent::__construct(
+            $namespace,
+            $name,
+            $description,
+            $type,
+            $keywords,
+            $homepage,
+            $authors,
+            $licenses,
+            $support,
+            $funding,
+            $requires,
+            $devRequires,
+            $extras,
+            $suggests,
+            $conflicts,
+            $replaces,
+            $readme,
+        );
 
         $this->versionNormalized = $this->normalizeVersion($version);
     }

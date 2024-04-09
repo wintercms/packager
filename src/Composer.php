@@ -9,6 +9,7 @@ use Winter\Packager\Package\Constraint;
 use Winter\Packager\Package\DetailedPackage;
 use Winter\Packager\Package\DetailedVersionedPackage;
 use Winter\Packager\Package\Package;
+use Winter\Packager\Package\Packagist;
 use Winter\Packager\Package\VersionedPackage;
 
 /**
@@ -456,5 +457,18 @@ class Composer
     {
         $class = static::$packageClasses['constraint'];
         return new $class(...$arguments);
+    }
+
+    /**
+     * Set the user agent for the Packagist API requests.
+     *
+     * To comply with Packagist's requirements for use of their API, we require that agent names contain a name or
+     * reference to the system being used, and a contact email address in the format of:
+     *
+     * `Name or Reference <email@address.com>`
+     */
+    public static function setAgent(string $agent): void
+    {
+        Packagist::setAgent($agent);
     }
 }

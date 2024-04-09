@@ -3,6 +3,7 @@
 namespace Winter\Packager\Package;
 
 use Composer\Semver\VersionParser;
+use Winter\Packager\Composer;
 use Winter\Packager\Enums\VersionStatus;
 
 /**
@@ -24,7 +25,7 @@ class VersionedPackage extends Package
     ) {
         parent::__construct($namespace, $name, $description);
 
-        $this->versionNormalized = $this->normalizeVersion($version);
+        $this->versionNormalized = $this->normalizeVersion($this->version);
     }
 
     public function setVersion(string $version): void
@@ -73,5 +74,31 @@ class VersionedPackage extends Package
     {
         $parser = new VersionParser;
         return $parser->normalize($version);
+    }
+
+    public function toDetailed(): DetailedVersionedPackage
+    {
+        $details = Packagist::getPackage($this->namespace, $this->name, $this->version);
+
+        return Composer::newDetailedVersionedPackage(
+            namespace: $this->namespace,
+            name: $this->name,
+            description: $this->description ?? '',
+            keywords: $details['keywords'] ?? [],
+            type: $details['type'] ?? 'library',
+            homepage: $details['homepage'] ?? '',
+            authors: $details['authors'] ?? [],
+            licenses: $details['licenses'] ?? [],
+            support: $details['support'] ?? [],
+            funding: $details['funding'] ?? [],
+            requires: $details['require'] ?? [],
+            devRequires: $details['require-dev'] ?? [],
+            extras: $details['extra'] ?? [],
+            suggests: $details['suggest'] ?? [],
+            conflicts: $details['conflict'] ?? [],
+            replaces: $details['replace'] ?? [],
+            readme: $details['readme'] ?? '',
+            version: $details['version'],
+        );
     }
 }

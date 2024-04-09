@@ -2,6 +2,11 @@
 
 namespace Winter\Packager\Package;
 
+use Http\Discovery\Psr17FactoryDiscovery;
+use Http\Discovery\Psr18ClientDiscovery;
+use Winter\Packager\Composer;
+use Winter\Packager\Exceptions\PackagistException;
+
 /**
  * Base package class.
  *
@@ -63,10 +68,26 @@ class Package
 
     public function toDetailed(): DetailedPackage
     {
-        return new DetailedPackage(
-            $this->namespace,
-            $this->name,
-            $this->description
+        $details = Packagist::getPackage($this->namespace, $this->name);
+
+        return Composer::newDetailedPackage(
+            namespace: $this->namespace,
+            name: $this->name,
+            description: $this->description ?? '',
+            keywords: $details['keywords'] ?? [],
+            type: $details['type'] ?? 'library',
+            homepage: $details['homepage'] ?? '',
+            authors: $details['authors'] ?? [],
+            licenses: $details['licenses'] ?? [],
+            support: $details['support'] ?? [],
+            funding: $details['funding'] ?? [],
+            requires: $details['require'] ?? [],
+            devRequires: $details['require-dev'] ?? [],
+            extras: $details['extra'] ?? [],
+            suggests: $details['suggest'] ?? [],
+            conflicts: $details['conflict'] ?? [],
+            replaces: $details['replace'] ?? [],
+            readme: $details['readme'] ?? ''
         );
     }
 }
