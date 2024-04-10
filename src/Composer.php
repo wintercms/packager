@@ -79,6 +79,7 @@ class Composer
      * @var array<string, string|Command> A list of supported commands
      */
     protected array $commands = [
+        'list' => \Winter\Packager\Commands\ListCommand::class,
         'i' => \Winter\Packager\Commands\Install::class,
         'install' => \Winter\Packager\Commands\Install::class,
         'search' => \Winter\Packager\Commands\Search::class,

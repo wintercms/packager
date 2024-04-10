@@ -8,6 +8,7 @@ use Http\Discovery\Psr17FactoryDiscovery;
 use Http\Discovery\Psr18ClientDiscovery;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestInterface;
+use Winter\Packager\Enums\ListType;
 use Winter\Packager\Exceptions\PackagistException;
 use Winter\Packager\Storage\Storage;
 
@@ -85,6 +86,46 @@ class Packagist
         }
 
         return $versions[$versionNormalized];
+    }
+
+    /**
+     * Retrieves a list of package names (and types) from the Packagist API.
+     *
+     * @param \Winter\Packager\Enums\ListType $type
+     * @param null|string $query
+     * @return array<string, array<string, array<string, string>>>
+     */
+    public static function listPackages(
+        ListType $type = ListType::ALL,
+        ?string $query = null
+    ) {
+        $client = static::getClient();
+
+        switch ($type) {
+            case ListType::ALL:
+                $request = static::newApiRequest('packages/list.json?fields[]=type');
+                break;
+            case ListType::NAMESPACE:
+                if (empty($query)) {
+                    throw new PackagistException('Namespace query cannot be empty');
+                }
+                $request = static::newApiRequest('packages/list.json?fields[]=type&vendor=' . urlencode($query));
+                break;
+            case ListType::TYPE:
+                if (empty($query)) {
+                    throw new PackagistException('Type query cannot be empty');
+                }
+                $request = static::newApiRequest('packages/list.json?fields[]=type&type=' . urlencode($query));
+                break;
+        }
+
+        $response = $client->sendRequest($request);
+
+        if ($response->getStatusCode() !== 200) {
+            throw new PackagistException('Failed to retrieve package list');
+        }
+
+        return json_decode($response->getBody()->getContents(), true);
     }
 
     public static function getClient(): ClientInterface
