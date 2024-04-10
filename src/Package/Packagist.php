@@ -75,7 +75,7 @@ class Packagist
         }
 
         if (is_null($version)) {
-            return reset($versions);
+            return $versions[array_keys($versions)[0]];
         }
 
         $parser = new VersionParser;
