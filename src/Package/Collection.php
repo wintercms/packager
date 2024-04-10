@@ -29,7 +29,7 @@ class Collection implements \ArrayAccess, \Iterator, \Countable
      *
      * @param Package[]|Package $items
      */
-    public function __construct(...$items)
+    final public function __construct(...$items)
     {
         foreach ($items as $item) {
             if ($item instanceof Package) {
@@ -185,5 +185,37 @@ class Collection implements \ArrayAccess, \Iterator, \Countable
     public function toArray()
     {
         return $this->items;
+    }
+
+    /**
+     * Converts all packages within the collection to detailed packages.
+     */
+    public function toDetailed()
+    {
+        foreach ($this->items as &$package) {
+            if ($package instanceof DetailedPackage) {
+                continue;
+            }
+
+            $package = $package->toDetailed();
+        }
+
+        return $this;
+    }
+
+    /**
+     * Filters the collection by a given type, returning a new collection.
+     */
+    public function type(string $type): static
+    {
+        $filtered = array_filter($this->items, function (Package $package) use ($type) {
+            if ($package instanceof DetailedPackage === false) {
+                return false;
+            }
+
+            return $package->getType() === $type;
+        });
+
+        return new static($filtered);
     }
 }
