@@ -209,10 +209,6 @@ class Collection implements \ArrayAccess, \Iterator, \Countable
     public function type(string $type): static
     {
         $filtered = array_filter($this->items, function (Package $package) use ($type) {
-            if ($package instanceof DetailedPackage === false) {
-                return false;
-            }
-
             return $package->getType() === $type;
         });
 
