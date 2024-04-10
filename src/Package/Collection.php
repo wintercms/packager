@@ -2,6 +2,8 @@
 
 namespace Winter\Packager\Package;
 
+use Winter\Packager\Exceptions\PackagistException;
+
 /**
  * Package collection.
  *
@@ -197,7 +199,11 @@ class Collection implements \ArrayAccess, \Iterator, \Countable
                 continue;
             }
 
-            $package = $package->toDetailed();
+            try {
+                $package = $package->toDetailed();
+            } catch (PackagistException $e) {
+                // If we can't get detailed information, just leave it as-is.
+            }
         }
 
         return $this;

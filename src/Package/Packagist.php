@@ -74,6 +74,10 @@ class Packagist
             }
         }
 
+        if (!count($versions)) {
+            throw new PackagistException('Package has no versions');
+        }
+
         if (is_null($version)) {
             return $versions[array_keys($versions)[0]];
         }
