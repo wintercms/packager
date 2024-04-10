@@ -20,7 +20,7 @@ final class ComposerTest extends ComposerTestCase
      */
     public function itCanSetAndGetHomeDir(): void
     {
-        $this->assertNull($this->composer->getHomeDir());
+        $this->assertEquals('', $this->composer->getHomeDir());
 
         $this->assertSame($this->composer, $this->composer->setHomeDir($this->homeDir));
 
@@ -63,7 +63,7 @@ final class ComposerTest extends ComposerTestCase
      */
     public function itCanSetAndGetWorkDir(): void
     {
-        $this->assertNull($this->composer->getWorkDir());
+        $this->assertEquals('', $this->composer->getWorkDir());
 
         $this->assertSame($this->composer, $this->composer->setWorkDir($this->workDir));
 
@@ -83,6 +83,21 @@ final class ComposerTest extends ComposerTestCase
         $this->assertSame($this->composer, $this->composer->setConfigFile('packager.json'));
 
         $this->assertEquals('packager.json', $this->composer->getConfigFile());
+    }
+
+    /**
+     * @test
+     * @testdox can set and get a name for the lock file.
+     * @covers ::getLockFilename
+     * @covers ::setLockFile
+     */
+    public function itCanSetAndGetLockFile(): void
+    {
+        $this->assertEquals('composer.lock', $this->composer->getLockFilename());
+
+        $this->assertSame($this->composer, $this->composer->setLockFile('packager.lock'));
+
+        $this->assertEquals('packager.lock', $this->composer->getLockFilename());
     }
 
     /**

@@ -2,10 +2,7 @@
 
 namespace Winter\Packager\Package;
 
-use Http\Discovery\Psr17FactoryDiscovery;
-use Http\Discovery\Psr18ClientDiscovery;
 use Winter\Packager\Composer;
-use Winter\Packager\Exceptions\PackagistException;
 
 /**
  * Base package class.
@@ -13,7 +10,7 @@ use Winter\Packager\Exceptions\PackagistException;
  * At a bare minimum, a package has a namespace and a name. For example, for the package "wintercms/winter", the
  * namespace would be "wintercms" and the name would be "winter".
  *
- * The package may have a description.
+ * The package may have a description, and may have a type.
  *
  * This is generally returned by searches and lists, as we may or may not have the full package information available
  * in the output of these commands. You can convert this to a detailed package by using the `Package::toDetailed()`
@@ -27,7 +24,8 @@ class Package
     public function __construct(
         protected string $namespace,
         protected string $name,
-        protected string $description = ''
+        protected string $description = '',
+        protected string $type = '',
     ) {
     }
 
@@ -64,6 +62,16 @@ class Package
     public function getDescription(): string
     {
         return $this->description;
+    }
+
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): void
+    {
+        $this->type = $type;
     }
 
     public function toDetailed(): DetailedPackage

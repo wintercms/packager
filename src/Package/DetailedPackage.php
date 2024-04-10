@@ -42,17 +42,7 @@ class DetailedPackage extends Package
         protected array $replaces = [],
         protected string $readme = '',
     ) {
-        parent::__construct($namespace, $name, $description);
-    }
-
-    public function getType(): string
-    {
-        return $this->type;
-    }
-
-    public function setType(string $type): void
-    {
-        $this->type = $type;
+        parent::__construct($namespace, $name, $description, $type);
     }
 
     /**

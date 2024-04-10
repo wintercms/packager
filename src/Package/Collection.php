@@ -190,7 +190,7 @@ class Collection implements \ArrayAccess, \Iterator, \Countable
     /**
      * Converts all packages within the collection to detailed packages.
      */
-    public function toDetailed()
+    public function toDetailed(): static
     {
         foreach ($this->items as &$package) {
             if ($package instanceof DetailedPackage) {

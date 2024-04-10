@@ -65,11 +65,17 @@ class Show extends BaseCommand
             foreach ($results as $result) {
                 [$namespace, $name] = $this->nameSplit($result['name']);
 
+                if ($this->mode->isLocal() && $this->composer->getLockFile()->exists()) {
+                    $result['version'] = $this->composer->getLockFile()->getVersion($namespace, $name);
+                    $result['type'] = $this->composer->getLockFile()->getType($namespace, $name);
+                }
+
                 if (isset($result['version'])) {
                     $packages[] = Composer::newVersionedPackage(
                         $namespace,
                         $name,
                         $result['description'] ?? '',
+                        $result['type'] ?? '',
                         $result['version'],
                         $result['latest'] ?? '',
                         VersionStatus::tryFrom($result['latest-status'] ?? '') ?? VersionStatus::UP_TO_DATE
@@ -79,6 +85,7 @@ class Show extends BaseCommand
                         $namespace,
                         $name,
                         $result['description'] ?? '',
+                        $result['type'] ?? '',
                     );
                 }
             }
@@ -113,21 +120,77 @@ class Show extends BaseCommand
             $result = $results;
             [$namespace, $name] = $this->nameSplit($result['name']);
 
-            return Composer::newDetailedPackage(
-                $namespace,
-                $name,
-                $result['description'] ?? '',
-                $result['type'] ?? 'library',
-                $result['keywords'] ?? [],
-                $result['homepage'] ?? '',
-                $result['authors'] ?? [],
-                $result['licenses'] ?? [],
-                $result['support'] ?? [],
-                $result['funding'] ?? [],
-                $result['requires'] ?? [],
-                $result['devRequires'] ?? [],
-                $result['extras'] ?? [],
-            );
+            if ($this->mode->isLocal() && $this->composer->getLockFile()->exists()) {
+                $result['version'] = $this->composer->getLockFile()->getVersion($namespace, $name);
+                $result['type'] = $this->composer->getLockFile()->getType($namespace, $name);
+            }
+
+            if (
+                isset($result['licenses'])
+                || isset($result['authors'])
+                || isset($result['requires'])
+                || isset($result['require-dev'])
+            ) {
+                if (isset($result['version'])) {
+                    return Composer::newDetailedVersionedPackage(
+                        $namespace,
+                        $name,
+                        description: $result['description'] ?? '',
+                        keywords: $result['keywords'] ?? [],
+                        type: $result['type'] ?? 'library',
+                        homepage: $result['homepage'] ?? '',
+                        authors: $result['authors'] ?? [],
+                        licenses: $result['licenses'] ?? [],
+                        support: $result['support'] ?? [],
+                        funding: $result['funding'] ?? [],
+                        requires: $result['require'] ?? [],
+                        devRequires: $result['require-dev'] ?? [],
+                        extras: $result['extra'] ?? [],
+                        conflicts: $result['conflict'] ?? [],
+                        replaces: $result['replace'] ?? [],
+                        readme: $result['readme'] ?? '',
+                        version: $result['version'],
+                    );
+                } else {
+                    return Composer::newDetailedPackage(
+                        $namespace,
+                        $name,
+                        description: $result['description'] ?? '',
+                        keywords: $result['keywords'] ?? [],
+                        type: $result['type'] ?? 'library',
+                        homepage: $result['homepage'] ?? '',
+                        authors: $result['authors'] ?? [],
+                        licenses: $result['licenses'] ?? [],
+                        support: $result['support'] ?? [],
+                        funding: $result['funding'] ?? [],
+                        requires: $result['require'] ?? [],
+                        devRequires: $result['require-dev'] ?? [],
+                        extras: $result['extra'] ?? [],
+                        conflicts: $result['conflict'] ?? [],
+                        replaces: $result['replace'] ?? [],
+                        readme: $result['readme'] ?? '',
+                    );
+                }
+            } else {
+                if (isset($result['version'])) {
+                    return Composer::newVersionedPackage(
+                        $namespace,
+                        $name,
+                        $result['description'] ?? '',
+                        $result['type'] ?? '',
+                        $result['version'],
+                        $result['latest'] ?? '',
+                        VersionStatus::tryFrom($result['latest-status'] ?? '') ?? VersionStatus::UP_TO_DATE
+                    );
+                } else {
+                    return Composer::newPackage(
+                        $namespace,
+                        $name,
+                        $result['description'] ?? '',
+                        $result['type'] ?? '',
+                    );
+                }
+            }
         }
 
         return null;

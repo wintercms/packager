@@ -8,6 +8,7 @@ use Winter\Packager\Package\Collection;
 use Winter\Packager\Package\Constraint;
 use Winter\Packager\Package\DetailedPackage;
 use Winter\Packager\Package\DetailedVersionedPackage;
+use Winter\Packager\Package\LockFile;
 use Winter\Packager\Package\Package;
 use Winter\Packager\Package\Packagist;
 use Winter\Packager\Package\VersionedPackage;
@@ -30,34 +31,44 @@ use Winter\Packager\Storage\Storage;
 class Composer
 {
     /**
-     * @var string The path to the Composer home directory (where settings and cached dependencies are kept).
+     * The path to the Composer home directory (where settings and cached dependencies are kept).
      */
-    protected $homeDir;
+    protected string $homeDir;
 
     /**
-     * @var string The path to working directory where the project will be built.
+     * The path to working directory where the project will be built.
      */
-    protected $workDir;
+    protected string $workDir;
 
     /**
-     * @var string The name of the JSON configuration file.
+     * The name of the JSON configuration file.
      */
-    protected $configFile = 'composer.json';
+    protected string $configFile = 'composer.json';
 
     /**
-     * @var string The name of the dependency directory.
+     * The name of the Composer lock file.
      */
-    protected $vendorDir = 'vendor';
+    protected string $lockFile = 'composer.lock';
 
     /**
-     * @var int The process timeout, in seconds.
+     * An instance of the lock file class.
      */
-    protected $timeout = 300;
+    protected ?LockFile $lockFileInstance = null;
 
     /**
-     * @var int The memory limit, in MBytes.
+     * The name of the dependency directory.
      */
-    protected $memoryLimit = 1536;
+    protected string $vendorDir = 'vendor';
+
+    /**
+     * The process timeout, in seconds.
+     */
+    protected int $timeout = 300;
+
+    /**
+     * The memory limit, in MBytes.
+     */
+    protected int $memoryLimit = 1536;
 
     /**
      * The current behaviour for handling abandoned packages.
@@ -67,7 +78,7 @@ class Composer
     /**
      * @var array<string, string|Command> A list of supported commands
      */
-    protected $commands = [
+    protected array $commands = [
         'i' => \Winter\Packager\Commands\Install::class,
         'install' => \Winter\Packager\Commands\Install::class,
         'search' => \Winter\Packager\Commands\Search::class,
@@ -80,7 +91,7 @@ class Composer
      * @var array<string, string> Map of classes to use for packages, constraints and collections. This allows for
      * custom classes to be used for these objects, should a developer wish to extend the functionality.
      */
-    protected static $packageClasses = [
+    protected static array $packageClasses = [
         'package' => \Winter\Packager\Package\Package::class,
         'versionedPackage' => \Winter\Packager\Package\VersionedPackage::class,
         'detailedPackage' => \Winter\Packager\Package\DetailedPackage::class,
@@ -95,7 +106,7 @@ class Composer
      * @param string $workingDir The working directory where the "composer.json" file is located.
      * @param string $homeDir The Composer home directory.
      */
-    public function __construct(string $workingDir = null, string $homeDir = null)
+    public function __construct(string $workingDir = '', string $homeDir = '')
     {
         $this->workDir = $workingDir;
         $this->homeDir = $homeDir;
@@ -249,6 +260,39 @@ class Composer
     {
         $this->configFile = $configFile;
         return $this;
+    }
+
+    /**
+     * Gets the name for the lock file, where the Composer package dependencies are stored.
+     *
+     * By default, this is "composer.lock".
+     */
+    public function getLockFilename(): string
+    {
+        return $this->lockFile;
+    }
+
+    /**
+     * Sets the name for the lock file, where the Composer package dependencies are stored.
+     *
+     * @param string $lockFile Lock file name.
+     */
+    public function setLockFile(string $lockFile): static
+    {
+        $this->lockFile = $lockFile;
+        return $this;
+    }
+
+    /**
+     * Gets an instance of the LockFile class to read the Composer lock file.
+     */
+    public function getLockFile(): LockFile
+    {
+        if (!isset($this->lockFileInstance)) {
+            $this->lockFileInstance = new LockFile($this);
+        }
+
+        return $this->lockFileInstance;
     }
 
     /**

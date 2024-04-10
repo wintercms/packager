@@ -65,6 +65,19 @@ enum ShowMode: string
     }
 
     /**
+     * Determines if this mode queries only local packages, and can support querying of the lock file.
+     */
+    public function isLocal(): bool
+    {
+        return in_array($this, [
+            static::INSTALLED,
+            static::LOCKED,
+            static::OUTDATED,
+            static::DIRECT,
+        ]);
+    }
+
+    /**
      * Gets the array key we expect from the JSON output from the Composer `show` command.
      */
     public function getComposerArrayKeyName(): string

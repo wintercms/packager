@@ -19,11 +19,12 @@ class VersionedPackage extends Package
         string $namespace,
         string $name,
         string $description = '',
+        string $type = '',
         protected string $version = '',
         protected string $latestVersion = '',
         protected VersionStatus $updateStatus = VersionStatus::UP_TO_DATE,
     ) {
-        parent::__construct($namespace, $name, $description);
+        parent::__construct($namespace, $name, $description, $type);
 
         $this->versionNormalized = $this->normalizeVersion($this->version);
     }
@@ -84,8 +85,8 @@ class VersionedPackage extends Package
             namespace: $this->namespace,
             name: $this->name,
             description: $this->description ?? '',
-            keywords: $details['keywords'] ?? [],
             type: $details['type'] ?? 'library',
+            keywords: $details['keywords'] ?? [],
             homepage: $details['homepage'] ?? '',
             authors: $details['authors'] ?? [],
             licenses: $details['licenses'] ?? [],
