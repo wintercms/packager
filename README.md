@@ -1,6 +1,6 @@
 # Packager
 
-Run Composer commands within a PHP application. This library acts as a PHP wrapper for Composer commands, allowing package management through PHP.
+Run Composer commands and execute Composer searches and queries within a PHP application. This library acts as a PHP wrapper for Composer commands, allowing package management through PHP, and uses a combination of Composer, the Packagist API and your own project lockfile to derive information about the packages installed or available.
 
 You technically *do not* need Composer to be installed, as this library will bring in the Composer application as a dependency - however, you will need Composer to install this library itself.
 
