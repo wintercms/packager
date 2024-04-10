@@ -59,7 +59,6 @@ enum ShowMode: string
             static::LOCKED,
             static::PLATFORM,
             static::AVAILABLE,
-            static::SELF,
             static::OUTDATED,
             static::DIRECT,
         ]);

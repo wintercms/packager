@@ -84,38 +84,30 @@ class Show extends BaseCommand
             }
 
             return Composer::newCollection($packages);
-        } elseif (is_null($this->package) && $this->mode === ShowMode::AVAILABLE) {
-            // Convert entire available package list into a package collection
-            foreach ($results[$this->mode->getComposerArrayKeyName()] as $result) {
-                [$namespace, $name] = $this->nameSplit($result['name']);
-
-                $packages[] = Composer::newPackage(
-                    $namespace,
-                    $name,
-                    $result['description'] ?? '',
-                );
-            }
-
-            return Composer::newCollection($packages);
         } elseif ($this->mode === ShowMode::SELF) {
             $result = $results;
             [$namespace, $name] = $this->nameSplit($result['name']);
 
             // Return the current package
-            return Composer::newDetailedPackage(
-                $namespace,
-                $name,
-                $result['description'] ?? '',
-                $result['type'] ?? 'library',
-                $result['keywords'] ?? [],
-                $result['homepage'] ?? '',
-                $result['authors'] ?? [],
-                $result['licenses'] ?? [],
-                $result['support'] ?? [],
-                $result['funding'] ?? [],
-                $result['requires'] ?? [],
-                $result['devRequires'] ?? [],
-                $result['extras'] ?? [],
+            return Composer::newDetailedVersionedPackage(
+                namespace: $namespace,
+                name: $name,
+                description: $result['description'] ?? '',
+                keywords: $result['keywords'] ?? [],
+                type: $result['type'] ?? 'library',
+                homepage: $result['homepage'] ?? '',
+                authors: $result['authors'] ?? [],
+                licenses: $result['licenses'] ?? [],
+                support: $result['support'] ?? [],
+                funding: $result['funding'] ?? [],
+                requires: $result['require'] ?? [],
+                devRequires: $result['require-dev'] ?? [],
+                extras: $result['extra'] ?? [],
+                suggests: $result['suggest'] ?? [],
+                conflicts: $result['conflict'] ?? [],
+                replaces: $result['replace'] ?? [],
+                readme: $result['readme'] ?? '',
+                version: $result['versions'][0] ?? '',
             );
         } elseif (!is_null($this->package)) {
             $result = $results;
