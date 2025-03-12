@@ -26,6 +26,7 @@ class Package
         protected string $name,
         protected string $description = '',
         protected string $type = '',
+        protected ?string $path = null,
     ) {
     }
 
@@ -72,6 +73,16 @@ class Package
     public function setType(string $type): void
     {
         $this->type = $type;
+    }
+
+    public function getPath(): ?string
+    {
+        return $this->path;
+    }
+
+    public function setPath(string $path): void
+    {
+        $this->path = $path;
     }
 
     public function toDetailed(): DetailedPackage
