@@ -23,12 +23,14 @@ class Search extends BaseCommand
      * @param string $query The search query to find packages.
      * @param string|null $type The type of package to search for.
      * @param SearchLimitTo $limitTo Limit the returned results.
+     * @param bool $returnArray Return the search results as an array.
      */
     final public function __construct(
         Composer $composer,
         public string $query,
         public ?string $type = null,
-        public SearchLimitTo $limitTo = SearchLimitTo::ALL
+        public SearchLimitTo $limitTo = SearchLimitTo::ALL,
+        public bool $returnArray = false,
     ) {
         parent::__construct($composer);
     }
@@ -44,7 +46,12 @@ class Search extends BaseCommand
             throw new CommandException(implode(PHP_EOL, $output['output']));
         }
 
-        $results = json_decode(implode(PHP_EOL, $output['output']), true);
+        $results = json_decode(implode(PHP_EOL, $output['output']), JSON_OBJECT_AS_ARRAY) ?? [];
+
+        if ($this->returnArray) {
+            return $results;
+        }
+
         $packages = [];
 
         foreach ($results as $result) {

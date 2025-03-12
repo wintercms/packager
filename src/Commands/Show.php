@@ -138,6 +138,7 @@ class Show extends BaseCommand
                         description: $result['description'] ?? '',
                         keywords: $result['keywords'] ?? [],
                         type: $result['type'] ?? 'library',
+                        path: $result['path'] ?? null,
                         homepage: $result['homepage'] ?? '',
                         authors: $result['authors'] ?? [],
                         licenses: $result['licenses'] ?? [],
@@ -158,6 +159,7 @@ class Show extends BaseCommand
                         description: $result['description'] ?? '',
                         keywords: $result['keywords'] ?? [],
                         type: $result['type'] ?? 'library',
+                        path: $result['path'] ?? null,
                         homepage: $result['homepage'] ?? '',
                         authors: $result['authors'] ?? [],
                         licenses: $result['licenses'] ?? [],
@@ -178,9 +180,10 @@ class Show extends BaseCommand
                         $name,
                         $result['description'] ?? '',
                         $result['type'] ?? '',
+                        $result['path'] ?? null,
                         $result['version'],
                         $result['latest'] ?? '',
-                        VersionStatus::tryFrom($result['latest-status'] ?? '') ?? VersionStatus::UP_TO_DATE
+                        VersionStatus::tryFrom($result['latest-status'] ?? '') ?? VersionStatus::UP_TO_DATE,
                     );
                 } else {
                     return Composer::newPackage(
@@ -188,6 +191,7 @@ class Show extends BaseCommand
                         $name,
                         $result['description'] ?? '',
                         $result['type'] ?? '',
+                        $result['path'] ?? null
                     );
                 }
             }
