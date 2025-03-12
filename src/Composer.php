@@ -4,6 +4,8 @@ namespace Winter\Packager;
 
 use Throwable;
 use Winter\Packager\Commands\Command;
+use Winter\Packager\Enums\SearchLimitTo;
+use Winter\Packager\Enums\ShowMode;
 use Winter\Packager\Package\Collection;
 use Winter\Packager\Package\Constraint;
 use Winter\Packager\Package\DetailedPackage;
@@ -23,8 +25,10 @@ use Winter\Packager\Storage\Storage;
  * @since 0.1.0
  * @method \Winter\Packager\Commands\Install i(bool $includeDev = true, bool $lockFileOnly = false, bool $ignorePlatformReqs = false, string $installPreference = 'none', bool $ignoreScripts = false, bool $dryRun = false) Install command
  * @method \Winter\Packager\Commands\Install install(bool $includeDev = true, bool $lockFileOnly = false, bool $ignorePlatformReqs = false, string $installPreference = 'none', bool $ignoreScripts = false, bool $dryRun = false) Install command
- * @method \Winter\Packager\Package\Collection search() Search command
- * @method \Winter\Packager\Package\Collection|\Winter\Packager\Package\Package|null show() Show command
+ * @method \Winter\Packager\Commands\Remove remove(string $package, bool $dryRun = false, bool $dev = false) Remove command
+ * @method \Winter\Packager\Commands\RequireCommand require(string $package, bool $dryRun = false, bool $dev = false) Require command
+ * @method \Winter\Packager\Package\Collection search(string $query, ?string $type = null, SearchLimitTo $limitTo = SearchLimitTo::ALL, bool $returnArray = false) Search command
+ * @method \Winter\Packager\Package\Collection|\Winter\Packager\Package\Package|null show(ShowMode $mode = ShowMode::INSTALLED, ?string $package = null, bool $noDev = false) Show command
  * @method \Winter\Packager\Commands\Update update(bool $includeDev = true, bool $lockFileOnly = false, bool $ignorePlatformReqs = false, string $installPreference = 'none', bool $ignoreScripts = false, bool $dryRun = false) Update command
  * @method string version(string $detail = 'version') Version command
  */
@@ -79,9 +83,11 @@ class Composer
      * @var array<string, string|Command> A list of supported commands
      */
     protected array $commands = [
-        'list' => \Winter\Packager\Commands\ListCommand::class,
         'i' => \Winter\Packager\Commands\Install::class,
         'install' => \Winter\Packager\Commands\Install::class,
+        'list' => \Winter\Packager\Commands\ListCommand::class,
+        'require' => \Winter\Packager\Commands\RequireCommand::class,
+        'remove' => \Winter\Packager\Commands\Remove::class,
         'search' => \Winter\Packager\Commands\Search::class,
         'show' => \Winter\Packager\Commands\Show::class,
         'update' => \Winter\Packager\Commands\Update::class,
