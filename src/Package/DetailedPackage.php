@@ -28,6 +28,7 @@ class DetailedPackage extends Package
         string $name,
         string $description = '',
         protected string $type = 'library',
+        protected ?string $path = null,
         protected array $keywords = [],
         protected string $homepage = '',
         protected array $authors = [],
@@ -42,7 +43,7 @@ class DetailedPackage extends Package
         protected array $replaces = [],
         protected string $readme = '',
     ) {
-        parent::__construct($namespace, $name, $description, $type);
+        parent::__construct($namespace, $name, $description, $type, $path);
     }
 
     /**

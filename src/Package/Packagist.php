@@ -27,7 +27,7 @@ class Packagist
     protected const PACKAGIST_API_URL = 'https://packagist.org/';
     protected const PACKAGIST_REPO_URL = 'https://repo.packagist.org/p2/';
 
-    protected static string $agent = 'Winter Packager <no-reply@example.com>';
+    protected static string $agent = 'Winter Packager <hello@wintercms.com>';
 
     protected static ?Storage $storage = null;
 

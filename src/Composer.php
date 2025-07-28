@@ -4,6 +4,9 @@ namespace Winter\Packager;
 
 use Throwable;
 use Winter\Packager\Commands\Command;
+use Winter\Packager\Enums\SearchLimitTo;
+use Winter\Packager\Enums\ShowMode;
+use Winter\Packager\Enums\VersionStatus;
 use Winter\Packager\Package\Collection;
 use Winter\Packager\Package\Constraint;
 use Winter\Packager\Package\DetailedPackage;
@@ -23,8 +26,10 @@ use Winter\Packager\Storage\Storage;
  * @since 0.1.0
  * @method \Winter\Packager\Commands\Install i(bool $includeDev = true, bool $lockFileOnly = false, bool $ignorePlatformReqs = false, string $installPreference = 'none', bool $ignoreScripts = false, bool $dryRun = false) Install command
  * @method \Winter\Packager\Commands\Install install(bool $includeDev = true, bool $lockFileOnly = false, bool $ignorePlatformReqs = false, string $installPreference = 'none', bool $ignoreScripts = false, bool $dryRun = false) Install command
- * @method \Winter\Packager\Package\Collection search() Search command
- * @method \Winter\Packager\Package\Collection|\Winter\Packager\Package\Package|null show() Show command
+ * @method \Winter\Packager\Commands\Remove remove(string $package, bool $dryRun = false, bool $dev = false) Remove command
+ * @method \Winter\Packager\Commands\RequireCommand require(string $package, bool $dryRun = false, bool $dev = false) Require command
+ * @method \Winter\Packager\Package\Collection search(string $query, ?string $type = null, SearchLimitTo $limitTo = SearchLimitTo::ALL, bool $returnArray = false) Search command
+ * @method \Winter\Packager\Package\Collection|\Winter\Packager\Package\Package|null show(ShowMode $mode = ShowMode::INSTALLED, ?string $package = null, bool $noDev = false) Show command
  * @method \Winter\Packager\Commands\Update update(bool $includeDev = true, bool $lockFileOnly = false, bool $ignorePlatformReqs = false, string $installPreference = 'none', bool $ignoreScripts = false, bool $dryRun = false) Update command
  * @method string version(string $detail = 'version') Version command
  */
@@ -79,9 +84,11 @@ class Composer
      * @var array<string, string|Command> A list of supported commands
      */
     protected array $commands = [
-        'list' => \Winter\Packager\Commands\ListCommand::class,
         'i' => \Winter\Packager\Commands\Install::class,
         'install' => \Winter\Packager\Commands\Install::class,
+        'list' => \Winter\Packager\Commands\ListCommand::class,
+        'require' => \Winter\Packager\Commands\RequireCommand::class,
+        'remove' => \Winter\Packager\Commands\Remove::class,
         'search' => \Winter\Packager\Commands\Search::class,
         'show' => \Winter\Packager\Commands\Show::class,
         'update' => \Winter\Packager\Commands\Update::class,
@@ -454,37 +461,149 @@ class Composer
     /**
      * Create a new package instance.
      */
-    public static function newPackage(mixed ...$arguments): Package
+    public static function newPackage(
+        string $namespace,
+        string $name,
+        string $description = '',
+        string $type = '',
+        ?string $path = null
+    ): Package
     {
         $class = static::$packageClasses['package'];
-        return new $class(...$arguments);
+        return new $class(
+            namespace: $namespace,
+            name: $name,
+            description: $description,
+            type: $type,
+            path: $path
+        );
     }
 
     /**
      * Create a new versioned package instance.
      */
-    public static function newVersionedPackage(mixed ...$arguments): VersionedPackage
+    public static function newVersionedPackage(
+        string $namespace,
+        string $name,
+        string $description = '',
+        string $type = '',
+        ?string $path = null,
+        string $version = '',
+        string $latestVersion = '',
+        VersionStatus $updateStatus = VersionStatus::UP_TO_DATE,
+    ): VersionedPackage
     {
         $class = static::$packageClasses['versionedPackage'];
-        return new $class(...$arguments);
+        return new $class(
+            namespace: $namespace,
+            name: $name,
+            description: $description,
+            type: $type,
+            path: $path,
+            version: $version,
+            latestVersion: $latestVersion,
+            updateStatus: $updateStatus,
+        );
     }
 
     /**
      * Create a new detailed package instance.
      */
-    public static function newDetailedPackage(mixed ...$arguments): DetailedPackage
+    public static function newDetailedPackage(
+        string $namespace,
+        string $name,
+        string $description = '',
+        string $type = 'library',
+        ?string $path = null,
+        array $keywords = [],
+        string $homepage = '',
+        array $authors = [],
+        array $licenses = [],
+        array $support = [],
+        array $funding = [],
+        array $requires = [],
+        array $devRequires = [],
+        array $extras = [],
+        array $suggests = [],
+        array $conflicts = [],
+        array $replaces = [],
+        string $readme = '',
+    ): DetailedPackage
     {
         $class = static::$packageClasses['detailedPackage'];
-        return new $class(...$arguments);
+        return new $class(
+            namespace: $namespace,
+            name: $name,
+            description: $description,
+            type: $type,
+            path: $path,
+            keywords: $keywords,
+            homepage: $homepage,
+            authors: $authors,
+            licenses: $licenses,
+            support: $support,
+            funding: $funding,
+            requires: $requires,
+            devRequires: $devRequires,
+            extras: $extras,
+            suggests: $suggests,
+            conflicts: $conflicts,
+            replaces: $replaces,
+            readme: $readme,
+        );
     }
 
     /**
      * Create a new detailed versioned package instance.
      */
-    public static function newDetailedVersionedPackage(mixed ...$arguments): DetailedVersionedPackage
+    public static function newDetailedVersionedPackage(
+        string $namespace,
+        string $name,
+        string $description = '',
+        string $type = 'library',
+        ?string $path = null,
+        array $keywords = [],
+        string $homepage = '',
+        array $authors = [],
+        array $licenses = [],
+        array $support = [],
+        array $funding = [],
+        array $requires = [],
+        array $devRequires = [],
+        array $extras = [],
+        array $suggests = [],
+        array $conflicts = [],
+        array $replaces = [],
+        string $readme = '',
+        string $version = '',
+        string $latestVersion = '',
+        VersionStatus $updateStatus = VersionStatus::UP_TO_DATE,
+    ): DetailedVersionedPackage
     {
         $class = static::$packageClasses['detailedVersionedPackage'];
-        return new $class(...$arguments);
+        return new $class(
+            namespace: $namespace,
+            name: $name,
+            description: $description,
+            type: $type,
+            path: $path,
+            keywords: $keywords,
+            homepage: $homepage,
+            authors: $authors,
+            licenses: $licenses,
+            support: $support,
+            funding: $funding,
+            requires: $requires,
+            devRequires: $devRequires,
+            extras: $extras,
+            suggests: $suggests,
+            conflicts: $conflicts,
+            replaces: $replaces,
+            readme: $readme,
+            version: $version,
+            latestVersion: $latestVersion,
+            updateStatus: $updateStatus,
+        );
     }
 
     /**

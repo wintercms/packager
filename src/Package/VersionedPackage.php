@@ -20,11 +20,12 @@ class VersionedPackage extends Package
         string $name,
         string $description = '',
         string $type = '',
+        protected ?string $path = null,
         protected string $version = '',
         protected string $latestVersion = '',
         protected VersionStatus $updateStatus = VersionStatus::UP_TO_DATE,
     ) {
-        parent::__construct($namespace, $name, $description, $type);
+        parent::__construct($namespace, $name, $description, $type, $path);
 
         $this->versionNormalized = $this->normalizeVersion($this->version);
     }

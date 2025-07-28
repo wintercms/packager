@@ -41,7 +41,13 @@ class PackageTest extends ComposerTestCase
      */
     public function itCanConvertAVersionedPackageToADetailedPackage()
     {
-        $package = Composer::newVersionedPackage('winter', 'wn-pages-plugin', '', 'winter-plugin', 'v2.0.3');
+        $package = Composer::newVersionedPackage(
+            namespace: 'winter',
+            name: 'wn-pages-plugin',
+            description: '',
+            type: 'winter-plugin',
+            version: 'v2.0.3'
+        );
         $package = $package->toDetailed();
 
         $this->assertInstanceOf(\Winter\Packager\Package\DetailedVersionedPackage::class, $package);
@@ -74,7 +80,13 @@ class PackageTest extends ComposerTestCase
             ->method('set')
             ->with('winter', 'wn-pages-plugin', $this->anything(), $this->anything());
 
-        $package = Composer::newVersionedPackage('winter', 'wn-pages-plugin', '', 'winter-plugin', 'v2.0.3');
+        $package = Composer::newVersionedPackage(
+            namespace: 'winter',
+            name: 'wn-pages-plugin',
+            description: '',
+            type: 'winter-plugin',
+            version: 'v2.0.3'
+        );
         $package = $package->toDetailed();
 
         $storage->expects($this->once())
@@ -85,7 +97,13 @@ class PackageTest extends ComposerTestCase
             ->method('get')
             ->with('winter', 'wn-pages-plugin', 'v2.0.3');
 
-        $package = Composer::newVersionedPackage('winter', 'wn-pages-plugin', '', 'winter-plugin', 'v2.0.3');
+        $package = Composer::newVersionedPackage(
+            namespace: 'winter',
+            name: 'wn-pages-plugin',
+            description: '',
+            type: 'winter-plugin',
+            version: 'v2.0.3'
+        );
         $package = $package->toDetailed();
 
         $this->assertInstanceOf(\Winter\Packager\Package\DetailedVersionedPackage::class, $package);

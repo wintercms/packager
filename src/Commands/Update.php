@@ -65,6 +65,7 @@ class Update extends BaseCommand
      * @param boolean $ignorePlatformReqs Ignore platform reqs when running the update.
      * @param string $installPreference Set an install preference - must be one of "none", "dist", "source"
      * @param boolean $ignoreScripts Ignores scripts that run after Composer events.
+     * @param ?string $package Specify a specific package to update.
      * @return void
      */
     final public function __construct(
@@ -74,18 +75,15 @@ class Update extends BaseCommand
         protected bool $ignorePlatformReqs = false,
         protected string $installPreference = 'none',
         protected bool $ignoreScripts = false,
-        protected bool $dryRun = false
+        protected bool $dryRun = false,
+        protected ?string $package = null
     ) {
         parent::__construct($composer);
 
-        $this->includeDev = $includeDev;
-        $this->lockFileOnly = $lockFileOnly;
-        $this->ignorePlatformReqs = $ignorePlatformReqs;
-        $this->ignoreScripts = $ignoreScripts;
-        $this->dryRun = $dryRun;
-
-        if (in_array($installPreference, [self::PREFER_NONE, self::PREFER_DIST, self::PREFER_SOURCE])) {
-            $this->installPreference = $installPreference;
+        if (!in_array($this->installPreference, [self::PREFER_NONE, self::PREFER_DIST, self::PREFER_SOURCE])) {
+            throw new \InvalidArgumentException(
+                'installPreference is not an allowed value `' . $this->installPreference . '`. See: "none", "dist", "source"'
+            );
         }
     }
 
@@ -335,6 +333,10 @@ class Update extends BaseCommand
 
         if (in_array($this->installPreference, [self::PREFER_DIST, self::PREFER_SOURCE])) {
             $arguments['--prefer-' . $this->installPreference] = true;
+        }
+
+        if ($this->package) {
+            $arguments['packages'] = [$this->package];
         }
 
         return $arguments;
