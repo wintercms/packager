@@ -27,6 +27,8 @@ This library currently provides support for the following Composer commands:
 - `search`
 - `show`
 - `update`
+- `require`
+- `remove`
 - `version` **(--version)**
 
 You can create a `Composer` instance in your PHP script and run these commands like so, defining a working directory which contains a `composer.json` file, and a home directory in which cached packages are stored.
