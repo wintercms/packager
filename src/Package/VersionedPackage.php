@@ -20,7 +20,7 @@ class VersionedPackage extends Package
         string $name,
         string $description = '',
         string $type = '',
-        string $path = '',
+        protected ?string $path = null,
         protected string $version = '',
         protected string $latestVersion = '',
         protected VersionStatus $updateStatus = VersionStatus::UP_TO_DATE,

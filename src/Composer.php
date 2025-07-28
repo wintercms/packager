@@ -6,6 +6,7 @@ use Throwable;
 use Winter\Packager\Commands\Command;
 use Winter\Packager\Enums\SearchLimitTo;
 use Winter\Packager\Enums\ShowMode;
+use Winter\Packager\Enums\VersionStatus;
 use Winter\Packager\Package\Collection;
 use Winter\Packager\Package\Constraint;
 use Winter\Packager\Package\DetailedPackage;
@@ -460,37 +461,149 @@ class Composer
     /**
      * Create a new package instance.
      */
-    public static function newPackage(mixed ...$arguments): Package
+    public static function newPackage(
+        string $namespace,
+        string $name,
+        string $description = '',
+        string $type = '',
+        ?string $path = null
+    ): Package
     {
         $class = static::$packageClasses['package'];
-        return new $class(...$arguments);
+        return new $class(
+            namespace: $namespace,
+            name: $name,
+            description: $description,
+            type: $type,
+            path: $path
+        );
     }
 
     /**
      * Create a new versioned package instance.
      */
-    public static function newVersionedPackage(mixed ...$arguments): VersionedPackage
+    public static function newVersionedPackage(
+        string $namespace,
+        string $name,
+        string $description = '',
+        string $type = '',
+        ?string $path = null,
+        string $version = '',
+        string $latestVersion = '',
+        VersionStatus $updateStatus = VersionStatus::UP_TO_DATE,
+    ): VersionedPackage
     {
         $class = static::$packageClasses['versionedPackage'];
-        return new $class(...$arguments);
+        return new $class(
+            namespace: $namespace,
+            name: $name,
+            description: $description,
+            type: $type,
+            path: $path,
+            version: $version,
+            latestVersion: $latestVersion,
+            updateStatus: $updateStatus,
+        );
     }
 
     /**
      * Create a new detailed package instance.
      */
-    public static function newDetailedPackage(mixed ...$arguments): DetailedPackage
+    public static function newDetailedPackage(
+        string $namespace,
+        string $name,
+        string $description = '',
+        string $type = 'library',
+        ?string $path = null,
+        array $keywords = [],
+        string $homepage = '',
+        array $authors = [],
+        array $licenses = [],
+        array $support = [],
+        array $funding = [],
+        array $requires = [],
+        array $devRequires = [],
+        array $extras = [],
+        array $suggests = [],
+        array $conflicts = [],
+        array $replaces = [],
+        string $readme = '',
+    ): DetailedPackage
     {
         $class = static::$packageClasses['detailedPackage'];
-        return new $class(...$arguments);
+        return new $class(
+            namespace: $namespace,
+            name: $name,
+            description: $description,
+            type: $type,
+            path: $path,
+            keywords: $keywords,
+            homepage: $homepage,
+            authors: $authors,
+            licenses: $licenses,
+            support: $support,
+            funding: $funding,
+            requires: $requires,
+            devRequires: $devRequires,
+            extras: $extras,
+            suggests: $suggests,
+            conflicts: $conflicts,
+            replaces: $replaces,
+            readme: $readme,
+        );
     }
 
     /**
      * Create a new detailed versioned package instance.
      */
-    public static function newDetailedVersionedPackage(mixed ...$arguments): DetailedVersionedPackage
+    public static function newDetailedVersionedPackage(
+        string $namespace,
+        string $name,
+        string $description = '',
+        string $type = 'library',
+        ?string $path = null,
+        array $keywords = [],
+        string $homepage = '',
+        array $authors = [],
+        array $licenses = [],
+        array $support = [],
+        array $funding = [],
+        array $requires = [],
+        array $devRequires = [],
+        array $extras = [],
+        array $suggests = [],
+        array $conflicts = [],
+        array $replaces = [],
+        string $readme = '',
+        string $version = '',
+        string $latestVersion = '',
+        VersionStatus $updateStatus = VersionStatus::UP_TO_DATE,
+    ): DetailedVersionedPackage
     {
         $class = static::$packageClasses['detailedVersionedPackage'];
-        return new $class(...$arguments);
+        return new $class(
+            namespace: $namespace,
+            name: $name,
+            description: $description,
+            type: $type,
+            path: $path,
+            keywords: $keywords,
+            homepage: $homepage,
+            authors: $authors,
+            licenses: $licenses,
+            support: $support,
+            funding: $funding,
+            requires: $requires,
+            devRequires: $devRequires,
+            extras: $extras,
+            suggests: $suggests,
+            conflicts: $conflicts,
+            replaces: $replaces,
+            readme: $readme,
+            version: $version,
+            latestVersion: $latestVersion,
+            updateStatus: $updateStatus,
+        );
     }
 
     /**

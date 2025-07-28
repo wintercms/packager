@@ -46,7 +46,7 @@ class Search extends BaseCommand
             throw new CommandException(implode(PHP_EOL, $output['output']));
         }
 
-        $results = json_decode(implode(PHP_EOL, $output['output']), JSON_OBJECT_AS_ARRAY) ?? [];
+        $results = json_decode(implode(PHP_EOL, $output['output']), flags: JSON_OBJECT_AS_ARRAY) ?? [];
 
         if ($this->returnArray) {
             return $results;

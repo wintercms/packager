@@ -76,6 +76,7 @@ class Show extends BaseCommand
                         $name,
                         $result['description'] ?? '',
                         $result['type'] ?? '',
+                        null,
                         $result['version'],
                         $result['latest'] ?? '',
                         VersionStatus::tryFrom($result['latest-status'] ?? '') ?? VersionStatus::UP_TO_DATE
