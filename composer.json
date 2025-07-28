@@ -19,6 +19,7 @@
     "scripts": {
         "test": "phpunit --testdox --colors=\"auto\"",
         "tests": "phpunit --testdox --colors=\"auto\"",
+        "analyze": "./vendor/bin/phpstan analyse",
         "coverage": "XDEBUG_MODE=coverage phpunit --testdox --colors=\"auto\" --coverage-html=\"coverage\""
     },
     "require": {

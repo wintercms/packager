@@ -5,3 +5,5 @@ parameters:
     ignoreErrors:
         - message: '#message has no type specified#'
           path: src/Exceptions/*.php
+        - message: '#has parameter .+ with no value type specified in iterable type array#'
+          path: src/Composer.php
