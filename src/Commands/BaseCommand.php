@@ -168,12 +168,14 @@ abstract class BaseCommand implements Command
             $return = [
                 'code' => $code,
                 'output' => preg_split('/(\n|\r\n)/', trim($output->fetch())),
+                'arguments' => $arguments,
             ];
         } catch (\Exception $e) {
             $return = [
                 'code' => 1,
                 'output' => preg_split('/(\n|\r\n)/', $e->getMessage()),
                 'exception' => $e,
+                'arguments' => $arguments,
             ];
         }
 
