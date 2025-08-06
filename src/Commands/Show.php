@@ -9,6 +9,7 @@ use Winter\Packager\Exceptions\CommandException;
 use Winter\Packager\Package\Collection;
 use Winter\Packager\Package\DetailedPackage;
 use Winter\Packager\Package\DetailedVersionedPackage;
+use Winter\Packager\Package\Package;
 use Winter\Packager\Package\VersionedPackage;
 
 /**
