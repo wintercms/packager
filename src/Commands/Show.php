@@ -24,13 +24,17 @@ class Show extends BaseCommand
      * @param ShowMode $mode Mode to run the command against
      * @param string|null $package Individual package to search
      * @param boolean $noDev Exclude dev dependencies from search
+     * @param boolean $latest Include the latest key (might only be present when returnArray = true)
+     * @param boolean $returnArray Return the results as an array.
      * @return void
      */
     final public function __construct(
         Composer $composer,
         public ShowMode $mode = ShowMode::INSTALLED,
         public ?string $package = null,
-        public bool $noDev = false
+        public bool $noDev = false,
+        public bool $latest = false,
+        public bool $returnArray = false,
     ) {
         parent::__construct($composer);
     }
@@ -56,6 +60,11 @@ class Show extends BaseCommand
         }
 
         $results = json_decode(implode(PHP_EOL, $output['output']), true);
+
+        if ($this->returnArray) {
+            return $results;
+        }
+
         $packages = [];
 
         if (is_null($this->package) && $this->mode->isCollectible()) {
@@ -234,6 +243,10 @@ class Show extends BaseCommand
 
         if ($this->noDev) {
             $arguments['--no-dev'] = true;
+        }
+
+        if ($this->latest) {
+            $arguments['--latest'] = true;
         }
 
         $arguments['--format'] = 'json';
