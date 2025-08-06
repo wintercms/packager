@@ -6,6 +6,10 @@ use Winter\Packager\Composer;
 use Winter\Packager\Enums\ShowMode;
 use Winter\Packager\Enums\VersionStatus;
 use Winter\Packager\Exceptions\CommandException;
+use Winter\Packager\Package\Collection;
+use Winter\Packager\Package\DetailedPackage;
+use Winter\Packager\Package\DetailedVersionedPackage;
+use Winter\Packager\Package\VersionedPackage;
 
 /**
  * Show command.
@@ -42,7 +46,7 @@ class Show extends BaseCommand
     /**
      * @inheritDoc
      */
-    public function execute()
+    public function execute(): Collection|DetailedVersionedPackage|DetailedPackage|VersionedPackage|Package|array|null
     {
         $output = $this->runComposerCommand();
 
