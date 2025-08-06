@@ -62,7 +62,9 @@ class Show extends BaseCommand
         $results = json_decode(implode(PHP_EOL, $output['output']), true);
 
         if ($this->returnArray) {
-            return $results;
+            return $this->package
+                ? $results ?? []
+                : $results['installed'] ?? [];
         }
 
         $packages = [];
