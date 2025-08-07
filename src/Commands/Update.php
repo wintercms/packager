@@ -76,7 +76,8 @@ class Update extends BaseCommand
         protected string $installPreference = 'none',
         protected bool $ignoreScripts = false,
         protected bool $dryRun = false,
-        protected ?string $package = null
+        protected ?string $package = null,
+        protected bool $withAllDependencies = false
     ) {
         parent::__construct($composer);
 
@@ -329,6 +330,10 @@ class Update extends BaseCommand
 
         if ($this->ignoreScripts) {
             $arguments['--no-scripts'] = true;
+        }
+
+        if ($this->withAllDependencies) {
+            $arguments['--with-all-dependencies'] = true;
         }
 
         if (in_array($this->installPreference, [self::PREFER_DIST, self::PREFER_SOURCE])) {
