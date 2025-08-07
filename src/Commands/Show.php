@@ -45,6 +45,7 @@ class Show extends BaseCommand
     }
 
     /**
+     * @phpstan-ignore-return-type
      * @return Collection|DetailedVersionedPackage|DetailedPackage|VersionedPackage|Package|array<string, string|array|bool>|array<int, array<string, string|array|bool>>|null
      */
     public function execute(): Collection|DetailedVersionedPackage|DetailedPackage|VersionedPackage|Package|array|null
