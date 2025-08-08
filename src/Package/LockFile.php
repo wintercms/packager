@@ -29,7 +29,7 @@ class LockFile
         protected Composer $composer,
     ) {
         if (file_exists(
-            rtrim($this->composer->getworkDir(), DIRECTORY_SEPARATOR)
+            rtrim($this->composer->getWorkDir(), DIRECTORY_SEPARATOR)
             . DIRECTORY_SEPARATOR
             . $this->composer->getLockFilename()
         )) {
