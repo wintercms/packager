@@ -347,7 +347,9 @@ class Composer
      */
     public function getComposerVendorDir(): string
     {
-        return rtrim($this->getVendorDir(), DIRECTORY_SEPARATOR)
+        return rtrim($this->getWorkDir(), DIRECTORY_SEPARATOR)
+            . DIRECTORY_SEPARATOR
+            . rtrim($this->getVendorDir(), DIRECTORY_SEPARATOR)
             . DIRECTORY_SEPARATOR
             . 'composer';
     }
