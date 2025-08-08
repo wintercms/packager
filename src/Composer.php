@@ -11,6 +11,7 @@ use Winter\Packager\Package\Collection;
 use Winter\Packager\Package\Constraint;
 use Winter\Packager\Package\DetailedPackage;
 use Winter\Packager\Package\DetailedVersionedPackage;
+use Winter\Packager\Package\InstalledFile;
 use Winter\Packager\Package\LockFile;
 use Winter\Packager\Package\Package;
 use Winter\Packager\Package\Packagist;
@@ -27,7 +28,7 @@ use Winter\Packager\Storage\Storage;
  * @method \Winter\Packager\Commands\Install i(bool $includeDev = true, bool $lockFileOnly = false, bool $ignorePlatformReqs = false, string $installPreference = 'none', bool $ignoreScripts = false, bool $dryRun = false) Install command
  * @method \Winter\Packager\Commands\Install install(bool $includeDev = true, bool $lockFileOnly = false, bool $ignorePlatformReqs = false, string $installPreference = 'none', bool $ignoreScripts = false, bool $dryRun = false) Install command
  * @method \Winter\Packager\Commands\Remove remove(string $package, bool $dryRun = false, bool $dev = false) Remove command
- * @method \Winter\Packager\Commands\RequireCommand require(string $package, bool $dryRun = false, bool $dev = false) Require command
+ * @method \Winter\Packager\Commands\RequireCommand require(string $package, bool $dryRun = false, bool $dev = false, bool $noUpdate = false, bool $noScripts = false) Require command
  * @method \Winter\Packager\Package\Collection search(string $query, ?string $type = null, SearchLimitTo $limitTo = SearchLimitTo::ALL, bool $returnArray = false) Search command
  * @method \Winter\Packager\Package\Collection|\Winter\Packager\Package\Package|null show(ShowMode $mode = ShowMode::INSTALLED, ?string $package = null, bool $noDev = false) Show command
  * @method \Winter\Packager\Commands\Update update(bool $includeDev = true, bool $lockFileOnly = false, bool $ignorePlatformReqs = false, string $installPreference = 'none', bool $ignoreScripts = false, bool $dryRun = false) Update command
@@ -59,6 +60,11 @@ class Composer
      * An instance of the lock file class.
      */
     protected ?LockFile $lockFileInstance = null;
+
+    /**
+     * An instance of the installed file class.
+     */
+    protected ?InstalledFile $installedFileInstance = null;
 
     /**
      * The name of the dependency directory.
@@ -304,6 +310,18 @@ class Composer
     }
 
     /**
+     * Gets an instance of the InstalledFile class to read the Composer lock file.
+     */
+    public function getInstalledFile(): InstalledFile
+    {
+        if (!isset($this->installedFileInstance)) {
+            $this->installedFileInstance = new InstalledFile($this);
+        }
+
+        return $this->installedFileInstance;
+    }
+
+    /**
      * Gets the name for the vendor package directory.
      *
      * By default, this is "vendor".
@@ -322,6 +340,16 @@ class Composer
     {
         $this->vendorDir = $vendorDir;
         return $this;
+    }
+
+    /**
+     * Gets the directory for the composer vendor directory
+     */
+    public function getComposerVendorDir(): string
+    {
+        return rtrim($this->getVendorDir(), DIRECTORY_SEPARATOR)
+            . DIRECTORY_SEPARATOR
+            . 'composer';
     }
 
     /**
