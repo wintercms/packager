@@ -15,7 +15,9 @@ class RequireCommand extends BaseCommand
         protected Composer $composer,
         protected string $package,
         protected bool $dryRun = false,
-        protected bool $dev = false
+        protected bool $dev = false,
+        protected bool $noUpdate = false,
+        protected bool $noScripts = false,
     ) {
         parent::__construct($composer);
     }
@@ -33,6 +35,14 @@ class RequireCommand extends BaseCommand
 
         if ($this->dev) {
             $arguments['--dev'] = true;
+        }
+
+        if ($this->noUpdate) {
+            $arguments['--no-update'] = true;
+        }
+
+        if ($this->noScripts) {
+            $arguments['--no-scripts'] = true;
         }
 
         $arguments['packages'] = [$this->package];
